@@ -1,6 +1,9 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import PetView from "@/views/PetView.vue";
 
 
 const routes = [
@@ -10,6 +13,24 @@ const routes = [
         component: Login,
 
     },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register,
+    },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: Dashboard,
+        children: [
+            {
+                path: 'pets',
+                name: 'PetView',
+                component: PetView,
+            }
+        ]
+    }
+
 ];
 
 const router = createRouter({

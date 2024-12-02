@@ -1,6 +1,6 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from "@/component/Login.vue";
+import Login from "@/views/Login.vue";
 
 
 const routes = [
@@ -12,9 +12,8 @@ const routes = [
     },
 ];
 
-// Create the router instance and pass the `routes` configuration
 const router = createRouter({
-    history: createWebHistory(), // This creates history mode (URL without hash #)
+    history: createWebHistory(),
     routes
 });
 

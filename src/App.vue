@@ -11,11 +11,17 @@ export default {
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+:root {
+  --main-color: #03426B;
+  --secondary-color: #02A0C7;
+}
 *, *::before, *::after{
   box-sizing: border-box;
 }
 
 *{
+  font-family: 'Instrument Sans', sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -61,5 +67,8 @@ input, button, textarea, select{
 body, html{
   height: 100%;
   scroll-behavior: smooth;
+}
+body {
+  background-color: lightgray;
 }
 </style>

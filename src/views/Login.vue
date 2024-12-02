@@ -41,6 +41,7 @@ main {
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
+  text-align: center;
 }
 
 .img-fluid {

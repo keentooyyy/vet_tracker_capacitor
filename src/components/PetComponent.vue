@@ -11,7 +11,7 @@
       <p class="date">{{ formattedAppointmentDate }}</p> <!-- Display birthdate or other details -->
 
       <div class="buttons-group">
-        <button class="edit">Edit Details</button>
+        <button @click='editButton' class="edit">Edit Details</button>
         <button class="records">View Records</button>
       </div>
     </div>
@@ -31,6 +31,13 @@ export default {
     return {
       isDog: false,
       isCat: false,
+    }
+  },
+  methods: {
+    editButton(){
+
+      // console.log('Edit Clicked', this.pet.id)
+      this.$router.push(`pets/${this.pet.id}`)
     }
   },
   computed: {

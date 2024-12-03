@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
-import PetView from "@/views/PetView.vue";
+import PetsView from "@/views/PetsView.vue";
 
 
 const routes = [
@@ -25,8 +25,8 @@ const routes = [
         children: [
             {
                 path: 'pets',
-                name: 'PetView',
-                component: PetView,
+                name: 'PetsView',
+                component: PetsView,
             }
         ]
     }

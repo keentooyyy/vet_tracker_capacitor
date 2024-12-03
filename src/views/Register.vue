@@ -29,6 +29,7 @@ export default {
       // console.log(url);
       try {
         const response = await axios.post(`${url}/api/user/register`, {
+
           first_name: this.first_name,
           last_name: this.last_name,
           email: this.email,
@@ -37,6 +38,8 @@ export default {
           street: this.street,
           brgy: this.brgy,
           city: this.city,
+
+
 
         })
         // console.log(response.data.token);
@@ -56,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <main>
+  <section>
 
 
     <div>
@@ -88,11 +91,11 @@ export default {
 
 
 
-  </main>
+  </section>
 </template>
 
 <style scoped>
-main {
+section {
   display: flex;
   flex-direction: column;
   align-items: center;

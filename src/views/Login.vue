@@ -16,7 +16,6 @@ export default {
         const response = await axios.post(`${url}/api/user/login`, {
           email: this.email,
           password: this.password,
-
         })
         localStorage.setItem('bearer_token', response.data.token);
         localStorage.setItem('user_id', response.data.id);
@@ -36,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <main>
+  <section>
 
 
     <div>
@@ -60,11 +59,11 @@ export default {
 
 
 
-  </main>
+  </section>
 </template>
 
 <style scoped>
-main {
+section {
   display: flex;
   flex-direction: column;
   align-items: center;

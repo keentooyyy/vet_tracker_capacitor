@@ -52,7 +52,7 @@ export default {
       return "";
     },
   },
-  beforeMount() {
+  created() {
     if (this.pet.pet_type_id === 1) {
       this.isDog = true;
     }

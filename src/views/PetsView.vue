@@ -1,7 +1,6 @@
 <template>
   <section>
     <h1 class="title">Your Pets</h1>
-
     <div class="pet-groups">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet"/>
     </div>
@@ -9,8 +8,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import PetComponent from "@/components/PetComponent.vue";
+import {petStore} from "@/stores/petStore";
+import {watch} from "vue";
 
 export default {
   name: "PetsView",
@@ -22,26 +22,25 @@ export default {
       pets: [],
     };
   },
-  beforeMount() {
+  async created() {
+
     this.getUserPets();
+
+
   },
   methods: {
-    async getUserPets() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
-      try {
-        const response = await axios.get(`${url}/api/user/${id}/pets`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-        this.pets = response.data.pets; // Save the pets data in the `pets` array
-      } catch (err) {
-        console.log('API request Failed', err);
-      }
+    getUserPets() {
+      const usePetStore = petStore()
+      this.pets = usePetStore.getPets
+      console.log(this.pets)
+      watch(
+          () => usePetStore.pets,
+          (newPets) => {
+            this.pets = newPets
+          }
+      )
     }
-  }
+  },
 };
 </script>
 <style scoped>

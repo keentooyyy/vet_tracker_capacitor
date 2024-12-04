@@ -1,31 +1,44 @@
+<template>
+  <MobileHeader :name="first_name"/>
+  <main class="container">
+    <!--    <router-view></router-view>-->
+    <router-view>
+    </router-view>
+    <button @click="logoutUser"> Logout</button>
+  </main>
+</template>
+
+
 <script>
 import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
-import {apiStore} from "@/stores/userStore";
+import {apiStore} from "@/stores/apiStore";
+import {petTypeStore} from "@/stores/petTypeStore";
+import {petStore} from "@/stores/petStore";
 
 export default {
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
   components: {MobileHeader},
-  setup() {
-  },
   beforeMount() {
     this.getUserData()
+    this.getPetTypes()
+
+  },
+  async created() {
+    await this.getUserPets()
   },
   data() {
     return {
       dashboardApiData: '',
       first_name: null,
-      error: false,
-
     }
   },
   methods: {
     async getUserData() {
 
       const useApiStore = apiStore();
-
 
       const url = process.env.VUE_APP_API_URL;
 
@@ -69,22 +82,54 @@ export default {
         this.$router.push('/')
       }
     },
+    async getPetTypes(){
+
+      const usePetTypeStore = petTypeStore()
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token')
+
+      try{
+        const response = await axios.get(`${url}/api/get_pet_type`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        })
+        usePetTypeStore.setPetTypes(response.data.types)
+      }catch (err){
+        console.log('API Request Error', err)
+      }
+    },
+    async getUserPets() {
+
+      const usePetStore = petStore()
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const id = localStorage.getItem('user_id');
+      try {
+        const response = await axios.get(`${url}/api/user/${id}/pets`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          },
+        });
+
+
+        usePetStore.setPets(response.data.pets)
+        // console.log(usePetStore.getPets)
+
+        // this.pets = response.data.pets; // Save the pets data in the `pets` array
+      } catch (err) {
+        console.log('API request Failed', err);
+      }
+    },
     logoutUser() {
       this.logout()
     }
   }
 }
-</script>
 
-<template>
-  <MobileHeader :name="first_name"/>
-  <main class="container">
-    <!--    <router-view></router-view>-->
-    <router-view>
-    </router-view>
-    <button @click="logoutUser"> Logout</button>
-  </main>
-</template>
+
+</script>
 
 <style scoped>
 .container {

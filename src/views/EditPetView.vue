@@ -7,7 +7,7 @@
       <div class="form-grouped">
 
         <select v-model="selectedOption">
-          <option v-for="pet_type in pet_types" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
+          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
         </select>
         <input v-model="pet_birthdate " type="date" placeholder="Enter Your Pet Birthdate" />
 
@@ -24,38 +24,33 @@
 
 <script>
 import axios from "axios";
+import {petTypeStore} from "@/stores/petTypeStore";
 
 export default {
   name: "EditPetView",
-  mounted() {
-    this.getPetTypes()
+  created() {
+
     this.getPetDetails()
+
+
+  },
+  updated() {
+    this.getPetTypes()
   },
   data(){
     return {
       selectedOption: '',
-      pet_types: '',
+      pet_types_array: '',
+
+
+
       pet_name: '',
       pet_breed: '',
-      pet_birthdate: ''
+      pet_birthdate: '',
+      pet_type: ''
     }
   },
   methods:{
-    async getPetTypes(){
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-
-      try{
-        const response = await axios.get(`${url}/api/user/get_pet_types`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-        this.pet_types = response.data.types
-      }catch (err){
-        console.log('API Request Error', err)
-      }
-    },
     goBack(){
       this.$router.back()
     },
@@ -63,7 +58,7 @@ export default {
       const url = process.env.VUE_APP_API_URL
       const bearer = localStorage.getItem('bearer_token')
       const pet_id = this.$route.params.id
-      console.log(pet_id)
+      // console.log(pet_id)
 
       try {
         const response = await axios.get(`${url}/api/user/get_pet/${pet_id}`, {
@@ -74,17 +69,26 @@ export default {
 
         this.pet_name = response.data.current_pet.name
         this.pet_breed = response.data.current_pet.breed
-        for (let i = 0; i < this.pet_types.length - 1; i++) {
-          if (response.data.current_pet.pet_type_id === this.pet_types[i].id){
-            this.selectedOption = this.pet_types[i].type
-          }
-        }
         this.pet_birthdate = response.data.current_pet.birthdate
+        this.pet_type = response.data.current_pet.id
 
-        console.log(response.data.current_pet)
+        // console.log(response.data.current_pet)
       }catch (err){
         console.log('API Request Error', err)
       }
+    },
+    getPetTypes(){
+      const usePetTypeStore = petTypeStore()
+      this.pet_types_array = usePetTypeStore.getPetTypes
+      console.log('pet type id ',this.pet_type)
+      for (let i = 0; i < this.pet_types_array.length - 1; i++) {
+
+        if (this.pet_type === this.pet_types_array[i].id){
+          this.selectedOption = this.pet_types_array[i].type
+        }
+      }
+      console.log('selected option',this.selectedOption)
+
     }
   }
 }

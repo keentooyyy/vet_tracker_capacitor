@@ -9,9 +9,9 @@
         <select v-model="selectedOption">
           <option v-for="pet_type in pet_types" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
         </select>
-
-
         <input v-model="pet_birthdate " type="date" placeholder="Enter Your Pet Birthdate" />
+
+
       </div>
       <input v-model="pet_breed" type="text" placeholder="Enter Your Pet Breed" />
       <button class="button">Submit</button>
@@ -52,10 +52,6 @@ export default {
           }
         })
         this.pet_types = response.data.types
-        // if (this.pet_types.length > 0){
-        //   this.selectedOption = this.pet_types[0].type;
-        // }
-
       }catch (err){
         console.log('API Request Error', err)
       }
@@ -111,12 +107,12 @@ export default {
   justify-content: space-between;
 }
 .forms .form-grouped select {
-  width: 16rem;
+  width: 50%;
   background-color: white;
 }
 
 .forms .form-grouped input[type='date'] {
-  width: 12rem;
+  width: 40%;
 }
 
 .forms input[type='text'], select, input[type='date'] {

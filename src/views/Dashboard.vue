@@ -88,7 +88,9 @@ export default {
 
 <style scoped>
 .container {
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
   width: 90%;
-  margin: auto;
 }
 </style>

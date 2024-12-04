@@ -46,7 +46,7 @@ export default {
 </script>
 <style scoped>
 .title {
-  margin-top: 2rem;
+
   margin-bottom: 2rem;
 }
 

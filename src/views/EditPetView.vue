@@ -1,13 +1,22 @@
 <template>
   <section>
-    <h1 class="title">Your Pets</h1>
+    <h1 class="title">Edit the Details of your Pet</h1>
 
-    <input type="text" placeholder="Enter Your Pet Name" />
-    <input type="text" placeholder="Enter Your Pet Breed" />
-    <input type="date" placeholder="Enter Your Pet Birthdate" />
-    <select v-model="selectedOption">
-      <option v-for="pet_type in pet_types" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
-    </select>
+    <div class="forms">
+      <input type="text" placeholder="Enter Your Pet Name" />
+      <div class="form-grouped">
+
+        <select v-model="selectedOption">
+          <option v-for="pet_type in pet_types" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
+        </select>
+
+
+        <input type="date" placeholder="Enter Your Pet Birthdate" />
+      </div>
+      <input type="text" placeholder="Enter Your Pet Breed" />
+    </div>
+
+
   </section>
 </template>
 
@@ -50,5 +59,48 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 2rem;
+}
 
+.forms {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.forms .form-grouped{
+  display: flex;
+  outline: solid 1px red;
+  justify-content: space-between;
+}
+.forms .form-grouped select {
+  width: 16rem;
+}
+
+.forms .form-grouped input[type='date'] {
+  width: 12rem;
+}
+
+.forms input[type='text'], select, input[type='date'] {
+  padding: 1rem;
+  color: var(--main-color);
+  font-size: 1.2rem;
+  outline: solid 2px var(--secondary-color);
+  border-radius: .5rem;
+  border: none;
+}
+
+
+
+
+
+
+
+
+
+.forms input:focus {
+  outline-color: var(--main-color);
+}
 </style>

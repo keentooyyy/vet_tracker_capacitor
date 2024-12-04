@@ -33,12 +33,20 @@ export default {
     this.getPetDetails()
 
 
+
   },
   updated() {
-    this.getPetTypes()
+    if (!this.isGetPetUpdated){
+      this.getPetTypes()
+      this.isGetPetUpdated = true
+    }
+
   },
   data(){
     return {
+      isGetPetUpdated: false,
+
+
       selectedOption: '',
       pet_types_array: '',
 
@@ -70,19 +78,28 @@ export default {
         this.pet_name = response.data.current_pet.name
         this.pet_breed = response.data.current_pet.breed
         this.pet_birthdate = response.data.current_pet.birthdate
-        this.pet_type = response.data.current_pet.id
+        this.pet_type = response.data.current_pet.pet_type_id
+
 
         // console.log(response.data.current_pet)
       }catch (err){
         console.log('API Request Error', err)
       }
     },
-    getPetTypes(){
-      const usePetTypeStore = petTypeStore()
-      this.pet_types_array = usePetTypeStore.getPetTypes
-      // console.log('pet type id ',this.pet_type)
-      // console.log('selected option',this.selectedOption)
-    },
+      getPetTypes(){
+        const usePetTypeStore = petTypeStore()
+        this.pet_types_array = usePetTypeStore.getPetTypes
+        // console.log(this.pet_type)
+
+        for (let i = 0; i <this.pet_types_array.length - 1; i++){
+          if (this.pet_type === this.pet_types_array[i].id){
+            // console.log(this.pet_types_array[i].id)
+            this.selectedOption = this.pet_types_array[i].type
+          }
+        }
+        // console.log('pet type id ',this.pet_type)
+        // console.log('selected option',this.selectedOption)
+      },
     async editPet(){
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token')

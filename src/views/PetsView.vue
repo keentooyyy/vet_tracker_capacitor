@@ -32,7 +32,7 @@ export default {
     getUserPets() {
       const usePetStore = petStore()
       this.pets = usePetStore.getPets
-      console.log(this.pets)
+      // console.log(this.pets)
       watch(
           () => usePetStore.pets,
           (newPets) => {

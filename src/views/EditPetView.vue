@@ -14,7 +14,7 @@
 
       </div>
       <input v-model="pet_breed" type="text" placeholder="Enter Your Pet Breed" />
-      <button class="button">Submit</button>
+      <button @click="editPet" class="button">Submit</button>
       <button @click="goBack" class="secondary-button">Back</button>
     </div>
 
@@ -80,15 +80,47 @@ export default {
     getPetTypes(){
       const usePetTypeStore = petTypeStore()
       this.pet_types_array = usePetTypeStore.getPetTypes
-      console.log('pet type id ',this.pet_type)
-      for (let i = 0; i < this.pet_types_array.length - 1; i++) {
+      // console.log('pet type id ',this.pet_type)
+      // console.log('selected option',this.selectedOption)
+    },
+    async editPet(){
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token')
+      const pet_id = this.$route.params.id
+      const user_id = localStorage.getItem('user_id')
 
-        if (this.pet_type === this.pet_types_array[i].id){
-          this.selectedOption = this.pet_types_array[i].type
-        }
+
+
+      /*
+      * end point api/user/{user_id}/edit_pet/{pet_id}
+      * 'pet_type_id',
+        'user_id',
+        'name',
+        'breed',
+        'birthdate',
+      *
+      * */
+
+      const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption)
+
+
+      try {
+        const response = await axios.patch(`${url}/api/user/${user_id}/edit_pet/${pet_id}`, {
+          pet_type_id: selectedPet.id,
+          user_id: user_id,
+          name: this.pet_name,
+          breed: this.pet_breed,
+          birthdate: this.pet_birthdate
+        },{
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        })
+        console.log(response.data)
+        this.$router.push('/dashboard/pets')
+      }catch (err){
+        console.log('API Request Error', err)
       }
-      console.log('selected option',this.selectedOption)
-
     }
   }
 }

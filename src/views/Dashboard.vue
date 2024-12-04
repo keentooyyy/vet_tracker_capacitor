@@ -25,7 +25,9 @@ export default {
     this.getUserData()
     this.getPetTypes()
 
+
   },
+
   async created() {
     await this.getUserPets()
   },
@@ -125,6 +127,9 @@ export default {
     logoutUser() {
       this.logout()
     }
+  },
+  beforeRouteUpdate() {
+    this.getUserPets(); // Call the function every time the route updates
   }
 }
 

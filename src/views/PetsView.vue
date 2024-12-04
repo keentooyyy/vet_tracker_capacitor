@@ -9,8 +9,8 @@
 
 <script>
 import PetComponent from "@/components/PetComponent.vue";
-import {petStore} from "@/stores/petStore";
-import {watch} from "vue";
+import axios from "axios";
+
 
 export default {
   name: "PetsView",
@@ -22,24 +22,33 @@ export default {
       pets: [],
     };
   },
-  async created() {
+  created() {
 
     this.getUserPets();
 
 
   },
   methods: {
-    getUserPets() {
-      const usePetStore = petStore()
-      this.pets = usePetStore.getPets
-      // console.log(this.pets)
-      watch(
-          () => usePetStore.pets,
-          (newPets) => {
-            this.pets = newPets
-          }
-      )
-    }
+    async getUserPets() {
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const id = localStorage.getItem('user_id');
+      try {
+        const response = await axios.get(`${url}/api/user/${id}/pets`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          },
+        });
+
+
+        // console.log(usePetStore.getPets)
+
+        this.pets = response.data.pets; // Save the pets data in the `pets` array
+      } catch (err) {
+        console.log('API request Failed', err);
+      }
+    },
   },
 };
 </script>

@@ -55,11 +55,14 @@ export default {
   created() {
     if (this.pet.pet_type_id === 1) {
       this.isDog = true;
+      this.isCat = false;
     }
     else {
       this.isCat = true;
+      this.isDog = false;
     }
-  }
+  },
+
 
 };
 </script>

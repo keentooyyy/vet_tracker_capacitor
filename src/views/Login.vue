@@ -27,6 +27,9 @@ export default {
     },
     loginUser(){
       this.login()
+    },
+    handleEnter(){
+      this.loginUser();
     }
   }
 
@@ -49,8 +52,8 @@ export default {
 
 
     <div class="forms">
-      <input v-model="email" placeholder="Email" type="email"/>
-      <input v-model="password" placeholder="Password" type="password"/>
+      <input @keyup.enter="handleEnter" v-model="email" placeholder="Email" type="email"/>
+      <input @keyup.enter="handleEnter" v-model="password" placeholder="Password" type="password"/>
       <button @click="loginUser" class="button">Login</button>
       <router-link to="/register">Create Account</router-link>
     </div>

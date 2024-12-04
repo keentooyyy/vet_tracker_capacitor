@@ -35,8 +35,6 @@ export default {
   },
   methods: {
     editButton(){
-
-      // console.log('Edit Clicked', this.pet.id)
       this.$router.push(`pets/${this.pet.id}`)
     }
   },
@@ -51,7 +49,7 @@ export default {
           year: "numeric", // Full year
         }).format(appointmentDate);
       }
-      return ""; // Return empty string if no appointment exists
+      return "";
     },
   },
   beforeMount() {
@@ -132,11 +130,13 @@ section .details .edit {
   color: var(--main-color);
   border-radius: 500px;
   outline: solid 2px var(--main-color);
+  cursor: pointer;
 }
 
 section .details .records {
   border-radius: 500px;
   background-color: var(--main-color);
   color: white;
+  cursor: pointer;
 }
 </style>

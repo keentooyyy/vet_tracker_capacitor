@@ -108,6 +108,7 @@ section {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 a {

@@ -39,16 +39,12 @@ export default {
   },
   methods: {
     async getUserData() {
-
-
       const url = process.env.VUE_APP_API_URL;
-
       const id = localStorage.getItem('user_id')
       const bearer = localStorage.getItem('bearer_token')
 
 
       try {
-
         const response = await axios.get(`${url}/api/user/${id}`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,

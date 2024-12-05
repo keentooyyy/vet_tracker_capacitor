@@ -16,6 +16,9 @@ export default {
     sendRegisterEmitter(){
       this.$emit('registerEmit')
     },
+    sendAppointmentEmitter(){
+      this.$emit('apointmentEmit')
+    },
   }
 }
 </script>
@@ -30,7 +33,7 @@ export default {
         <p>{{ message }}</p>
       </div>
       <div class="card-footer">
-        <button class="button">Create Appointment</button>
+        <button @click="sendAppointmentEmitter" class="button">Create Appointment</button>
         <button @click="sendRegisterEmitter" class="secondary-button">Register Pet</button>
 
       </div>

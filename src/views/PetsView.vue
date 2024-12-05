@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     async getUserPets() {
-
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
       const id = localStorage.getItem('user_id');

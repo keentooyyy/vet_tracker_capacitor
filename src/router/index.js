@@ -6,6 +6,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import PetsView from "@/views/PetsView.vue";
 import EditPetView from "@/views/EditPetView.vue";
 import RegisterPetView from "@/views/RegisterPetView.vue";
+import AppointmentView from "@/views/AppointmentView.vue";
 
 
 const routes = [
@@ -39,6 +40,11 @@ const routes = [
                 path: 'pets/register',
                 name: 'RegisterPetView',
                 component: RegisterPetView,
+            },
+            {
+                path: 'appointment',
+                name: 'AppointmentView',
+                component: AppointmentView,
             },
         ]
     }

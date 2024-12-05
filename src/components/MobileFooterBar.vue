@@ -12,7 +12,12 @@
   </section>
 
   <teleport to="body" v-if="isModelOpen">
-    <Modal :is-open="isModelOpen" :message="message" @closeModal="handeCloseEmit" @registerEmit="handleRegisterEmit"/>
+    <Modal :is-open="isModelOpen" :message="message"
+           @closeModal="handleCloseEmit"
+           @registerEmit="handleRegisterEmit"
+           @apointmentEmit="handleAppointmentEmit"
+
+    />
   </teleport>
 
 
@@ -43,16 +48,21 @@ export default {
     toNotifications(){
       this.$router.push('/dashboard/pets')
     },
-    handeCloseEmit() {
-      this.isModelOpen = false;
-    },
     plusClick() {
       this.message = 'Create an appointment or register new pet ?'
       this.isModelOpen = true
     },
-    handleRegisterEmit(){
-      this.$router.push('pets/register')
+    handleAppointmentEmit(){
       this.isModelOpen = false
+      this.$router.push('appointment')
+
+    },
+    handleCloseEmit() {
+      this.isModelOpen = false;
+    },
+    handleRegisterEmit(){
+      this.isModelOpen = false
+      this.$router.push('pets/register')
     }
   }
 }
@@ -72,7 +82,7 @@ export default {
   place-self: center;
   width: 100%;
   display: flex;
-  height: 2.5rem;
+  //height: 2.5rem;
   justify-content: space-between;
   padding-left: 2rem;
   padding-right: 2rem;

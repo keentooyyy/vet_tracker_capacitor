@@ -101,7 +101,7 @@ export default {
           })
 
           this.pet_types_array = response.data.types
-          console.log(this.pet_types_array)
+          // console.log(this.pet_types_array)
 
         }catch (err){
           console.log('API Request Error', err)
@@ -156,12 +156,12 @@ export default {
   justify-content: space-between;
 }
 .forms .form-grouped select {
-  width: 50%;
+  width: 45%;
   background-color: white;
 }
 
 .forms .form-grouped input[type='date'] {
-  width: 40%;
+  width: 50%;
 }
 
 .forms input[type='text'], select, input[type='date'] {

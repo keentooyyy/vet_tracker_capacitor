@@ -4,7 +4,7 @@
     <div class="details">
 
       <h1>{{ pet.name }}</h1>
-      <p>{{ pet.breed }}</p> <!-- Display breed -->
+      <p>Breed: {{pet.breed}}</p> <!-- Display breed -->
       <p class="appointments">Appointments:</p>
       <p class="date">{{ formattedAppointmentDate }}</p> <!-- Display birthdate or other details -->
 
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+
 export default {
   name: "PetComponent",
   props: {
@@ -27,15 +28,40 @@ export default {
   },
   data(){
     return {
-
+      pet_types_array: '',
+      pet_type: ''
     }
   },
-  created() {
+  beforeMount() {
+
+  },
+  updated() {
+
+
   },
   methods: {
     editButton(){
       this.$router.push(`pets/${this.pet.id}`)
-    }
+    },
+   /* async getPetTypes(){
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token')
+
+      try{
+        const response = await axios.get(`${url}/api/get_pet_type`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        })
+
+        this.pet_types_array = response.data.types
+        // console.log(this.pet_types_array)
+
+      }catch (err){
+        console.log('API Request Error', err)
+      }
+    },*/
   },
   computed: {
     // Format the first appointment's start_time or return an empty string
@@ -80,7 +106,7 @@ section .details h1 {
 }
 
 section .details p {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   opacity: .5;
 }
 

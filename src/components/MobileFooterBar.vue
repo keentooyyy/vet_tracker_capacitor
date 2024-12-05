@@ -1,18 +1,18 @@
 <template>
   <section class="mobile-footer-container">
     <div class="svg-container">
-      <img alt="Home Icon" src="/images/svgs/home.svg">
-      <img alt="Profile Icon" src="/images/svgs/profile.svg">
+      <img @click="toHome" alt="Home Icon" src="/images/svgs/home.svg">
+      <img @click="toProfile" alt="Profile Icon" src="/images/svgs/profile.svg">
       <img id="plus-icon" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
-      <img alt="Search Icon" src="/images/svgs/search.svg">
-      <img alt="Notification Icon" src="/images/svgs/notification.svg">
+      <img @click="toSearch" alt="Search Icon" src="/images/svgs/search.svg">
+      <img @click="toNotifications" alt="Notification Icon" src="/images/svgs/notification.svg">
     </div>
 
 
   </section>
 
   <teleport to="body" v-if="isModelOpen">
-    <Modal :is-open="isModelOpen" :message="message" @closeModal="handeCloseEmit"/>
+    <Modal :is-open="isModelOpen" :message="message" @closeModal="handeCloseEmit" @registerEmit="handleRegisterEmit"/>
   </teleport>
 
 
@@ -30,12 +30,29 @@ export default {
     }
   },
   methods: {
+
+    toHome(){
+      this.$router.push('/dashboard/pets')
+    },
+    toProfile(){
+      // this.$router.push('/dashboard/pets')
+    },
+    toSearch(){
+      // this.$router.push('/dashboard/pets')
+    },
+    toNotifications(){
+      this.$router.push('/dashboard/pets')
+    },
     handeCloseEmit() {
       this.isModelOpen = false;
     },
     plusClick() {
       this.message = 'Create an appointment or register new pet ?'
       this.isModelOpen = true
+    },
+    handleRegisterEmit(){
+      this.$router.push('pets/register')
+      this.isModelOpen = false
     }
   }
 }

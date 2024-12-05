@@ -11,13 +11,14 @@
   </div>
 
 
+
 </template>
 
 
 <script>
 import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
-import {petTypeStore} from "@/stores/petTypeStore";
+
 import MobileFooterBar from "@/components/MobileFooterBar.vue";
 
 
@@ -28,9 +29,6 @@ export default {
   components: {MobileFooterBar, MobileHeader},
   created() {
     this.getUserData()
-    this.getPetTypes()
-
-
   },
 
   data() {
@@ -84,25 +82,6 @@ export default {
         this.$router.push('/')
       }
     },
-    async getPetTypes(){
-
-      const usePetTypeStore = petTypeStore()
-
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-
-      try{
-        const response = await axios.get(`${url}/api/get_pet_type`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-        usePetTypeStore.setPetTypes(response.data.types)
-      }catch (err){
-        console.log('API Request Error', err)
-      }
-    },
-
     logoutUser() {
       this.logout()
     }
@@ -120,7 +99,7 @@ export default {
   width: 90%;
 }
 #footer {
-  position: sticky;
+  position: fixed;
   width: 100%;
   bottom: 0;
   filter: drop-shadow(0px -2px 50px #000000);

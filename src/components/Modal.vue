@@ -12,7 +12,10 @@ export default {
   methods:{
     sendCloseEmitter(){
       this.$emit('closeModal')
-    }
+    },
+    sendRegisterEmitter(){
+      this.$emit('registerEmit')
+    },
   }
 }
 </script>
@@ -28,7 +31,7 @@ export default {
       </div>
       <div class="card-footer">
         <button class="button">Create Appointment</button>
-        <button class="secondary-button">Register Pet</button>
+        <button @click="sendRegisterEmitter" class="secondary-button">Register Pet</button>
 
       </div>
     </div>

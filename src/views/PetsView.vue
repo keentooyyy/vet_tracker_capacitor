@@ -62,5 +62,6 @@ export default {
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+  padding-bottom: 10rem;
 }
 </style>

@@ -1,21 +1,24 @@
 <template>
   <section>
-    <h1 class="title">Edit the Details of your Pet</h1>
+    <h1 class="title">Register a Pet</h1>
 
     <div class="forms">
-      <input v-model="pet_name" type="text" placeholder="Enter Your Pet Name" />
+      <input v-model="pet_name" placeholder="Enter Your Pet Name" type="text"/>
       <div class="form-grouped">
 
         <select v-model="selectedOption">
-          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
+          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{
+              pet_type.type
+            }}
+          </option>
         </select>
-        <input v-model="pet_birthdate " type="date" placeholder="Enter Your Pet Birthdate" />
+        <input v-model="pet_birthdate " placeholder="Enter Your Pet Birthdate" type="date"/>
 
 
       </div>
-      <input v-model="pet_breed" type="text" placeholder="Enter Your Pet Breed" />
-      <button @click="editPet" class="button">Submit</button>
-      <button @click="goBack" class="secondary-button">Back</button>
+      <input v-model="pet_breed" placeholder="Enter Your Pet Breed" type="text"/>
+      <button class="button" @click="createPet">Submit</button>
+      <button class="secondary-button" @click="goBack">Back</button>
     </div>
 
 
@@ -28,25 +31,21 @@ import axios from "axios";
 
 export default {
   name: "EditPetView",
-  props: {
-  },
+
   created() {
     this.getPetTypes()
-    this.getPetDetails()
-
-
-
 
   },
-  updated() {
-    // this.getPetTypes()
+  updated(){
+    // console.log(this.pet_types_array)
+
     if (!this.isGetPetUpdated){
       this.selectedOption = this.pet_types_array[0].type
       this.isGetPetUpdated = true
     }
 
   },
-  data(){
+  data() {
     return {
       isGetPetUpdated: false,
 
@@ -55,84 +54,67 @@ export default {
       pet_types_array: '',
 
 
-
       pet_name: '',
       pet_breed: '',
       pet_birthdate: '',
       pet_type: ''
     }
   },
-  methods:{
-    goBack(){
+  methods: {
+    goBack() {
       this.$router.back()
     },
-    async getPetDetails(){
-      const url = process.env.VUE_APP_API_URL
+    async getPetTypes() {
+      const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token')
-      const pet_id = this.$route.params.id
 
-      try {
-        const response = await axios.get(`${url}/api/user/get_pet/${pet_id}`, {
+      try{
+        const response = await axios.get(`${url}/api/get_pet_type`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
         })
-
-        this.pet_name = response.data.current_pet.name
-        this.pet_breed = response.data.current_pet.breed
-        this.pet_birthdate = response.data.current_pet.birthdate
-        this.pet_type = response.data.current_pet.pet_type_id
-
+        this.pet_types_array = response.data.types
 
       }catch (err){
         console.log('API Request Error', err)
       }
     },
-     async getPetTypes(){
-
-        const url = process.env.VUE_APP_API_URL;
-        const bearer = localStorage.getItem('bearer_token')
-
-        try{
-          const response = await axios.get(`${url}/api/get_pet_type`, {
-            headers: {
-              'Authorization': `Bearer ${bearer}`,
-            }
-          })
-
-          this.pet_types_array = response.data.types
-          console.log(this.pet_types_array)
-
-        }catch (err){
-          console.log('API Request Error', err)
-        }
-      },
-    async editPet(){
+    async createPet() {
       const url = process.env.VUE_APP_API_URL;
+
+      const id = localStorage.getItem('user_id')
       const bearer = localStorage.getItem('bearer_token')
-      const pet_id = this.$route.params.id
-      const user_id = localStorage.getItem('user_id')
-
-
       const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption)
 
 
       try {
-        const response = await axios.patch(`${url}/api/user/${user_id}/edit_pet/${pet_id}`, {
-          pet_type_id: selectedPet.id,
-          user_id: user_id,
+        /*
+        * api/user/create_pet
+        * 'pet_type_id',
+        'user_id',
+        'name',
+        'breed',
+        'birthdate',
+        *
+        * */
+
+        const response = await axios.post(`${url}/api/user/create_pet`, {
+          user_id: id,
           name: this.pet_name,
           breed: this.pet_breed,
-          birthdate: this.pet_birthdate
+          birthdate: this.pet_birthdate,
+          pet_type_id: selectedPet.id,
         },{
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
-        })
-        console.log(response.data)
+        });
+        response.data
         this.$router.push('/dashboard/pets')
-      }catch (err){
-        console.log('API Request Error', err)
+      } catch (err) {
+        this.error = err;
+        console.log('API request Failed', err)
       }
     }
   }
@@ -151,10 +133,11 @@ export default {
   row-gap: 2rem;
 }
 
-.forms .form-grouped{
+.forms .form-grouped {
   display: flex;
   justify-content: space-between;
 }
+
 .forms .form-grouped select {
   width: 50%;
   background-color: white;
@@ -184,7 +167,7 @@ export default {
   cursor: pointer;
 }
 
-.forms .secondary-button{
+.forms .secondary-button {
   border: none;
   background-color: transparent;
   color: var(--main-color);
@@ -195,11 +178,6 @@ export default {
   cursor: pointer;
   outline: solid 1px var(--main-color);
 }
-
-
-
-
-
 
 
 .forms input:focus {

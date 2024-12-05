@@ -1,11 +1,16 @@
 <template>
   <MobileHeader :name="first_name"/>
   <main class="container">
-    <!--    <router-view></router-view>-->
     <router-view>
     </router-view>
-    <button @click="logoutUser"> Logout</button>
+
+<!--    <button @click="logoutUser"> Logout</button>-->
   </main>
+  <div id="footer">
+    <MobileFooterBar />
+  </div>
+
+
 </template>
 
 
@@ -13,13 +18,14 @@
 import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
 import {petTypeStore} from "@/stores/petTypeStore";
+import MobileFooterBar from "@/components/MobileFooterBar.vue";
 
 
 export default {
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
-  components: {MobileHeader},
+  components: {MobileFooterBar, MobileHeader},
   created() {
     this.getUserData()
     this.getPetTypes()
@@ -112,5 +118,11 @@ export default {
   margin-left: auto;
   margin-right: auto;
   width: 90%;
+}
+#footer {
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+  filter: drop-shadow(0px -2px 50px #000000);
 }
 </style>

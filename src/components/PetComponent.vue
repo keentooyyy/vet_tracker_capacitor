@@ -1,10 +1,8 @@
 <template>
   <section>
-
-    <img alt="Dog Picture" class="img-fluid" src="/images/dog.png" v-if="isDog">
-    <img alt="Dog Picture" class="img-fluid" src="/images/cat.jpg" v-if="isCat">
-
+    <img src="/images/svgs/pet-icon.svg" alt="Pet Icon" class="img-fluid">
     <div class="details">
+
       <h1>{{ pet.name }}</h1>
       <p>{{ pet.breed }}</p> <!-- Display breed -->
       <p class="appointments">Appointments:</p>
@@ -29,9 +27,10 @@ export default {
   },
   data(){
     return {
-      isDog: false,
-      isCat: false,
+
     }
+  },
+  created() {
   },
   methods: {
     editButton(){
@@ -51,16 +50,6 @@ export default {
       }
       return "";
     },
-  },
-  created() {
-    if (this.pet.pet_type_id === 1) {
-      this.isDog = true;
-      this.isCat = false;
-    }
-    else {
-      this.isCat = true;
-      this.isDog = false;
-    }
   },
 
 

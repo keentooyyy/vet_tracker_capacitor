@@ -1,21 +1,21 @@
 <template>
   <section class="mobile-footer-container">
     <div class="svg-container">
-      <img @click="toHome" alt="Home Icon" src="/images/svgs/home.svg">
-      <img @click="toProfile" alt="Profile Icon" src="/images/svgs/profile.svg">
+      <img alt="Home Icon" src="/images/svgs/home.svg" @click="toHome">
+      <img alt="Profile Icon" src="/images/svgs/profile.svg" @click="toProfile">
       <img id="plus-icon" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
-      <img @click="toSearch" alt="Search Icon" src="/images/svgs/search.svg">
-      <img @click="toNotifications" alt="Notification Icon" src="/images/svgs/notification.svg">
+      <img alt="Search Icon" src="/images/svgs/search.svg" @click="toSearch">
+      <img alt="Notification Icon" src="/images/svgs/notification.svg" @click="toNotifications">
     </div>
 
 
   </section>
 
-  <teleport to="body" v-if="isModelOpen">
+  <teleport v-if="isModelOpen" to="body">
     <Modal :is-open="isModelOpen" :message="message"
+           @apointmentEmit="handleAppointmentEmit"
            @closeModal="handleCloseEmit"
            @registerEmit="handleRegisterEmit"
-           @apointmentEmit="handleAppointmentEmit"
 
     />
   </teleport>
@@ -36,23 +36,23 @@ export default {
   },
   methods: {
 
-    toHome(){
+    toHome() {
       this.$router.push('/dashboard/pets')
     },
-    toProfile(){
+    toProfile() {
       // this.$router.push('/dashboard/pets')
     },
-    toSearch(){
+    toSearch() {
       // this.$router.push('/dashboard/pets')
     },
-    toNotifications(){
-      this.$router.push('/dashboard/pets')
+    toNotifications() {
+      // this.$router.push('/dashboard/pets')
     },
     plusClick() {
       this.message = 'Create an appointment or register new pet ?'
       this.isModelOpen = true
     },
-    handleAppointmentEmit(){
+    handleAppointmentEmit() {
       this.isModelOpen = false
       this.$router.push('appointment')
 
@@ -60,7 +60,7 @@ export default {
     handleCloseEmit() {
       this.isModelOpen = false;
     },
-    handleRegisterEmit(){
+    handleRegisterEmit() {
       this.isModelOpen = false
       this.$router.push('pets/register')
     }

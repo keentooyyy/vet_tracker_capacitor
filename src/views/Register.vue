@@ -41,11 +41,20 @@ export default {
 
 
 
+        },{
+          withCredentials: true
         })
         // console.log(response.data.token);
-        localStorage.setItem('bearer_token', response.data.token);
-        localStorage.setItem('user_id', response.data.id);
-        this.$router.push('/dashboard/pets')
+        if (response.data.token && response.data.id) {
+          localStorage.setItem('bearer_token', response.data.token);
+          localStorage.setItem('user_id', response.data.id);
+
+          // Redirect only after successful login
+          this.$router.push('/dashboard/pets');
+        } else {
+          // Handle case if the response does not contain expected data
+          throw new Error('Invalid response data');
+        }
       } catch (err){
         this.error = err;
         console.log('API request Failed', err)

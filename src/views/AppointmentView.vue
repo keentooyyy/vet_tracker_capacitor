@@ -9,8 +9,13 @@
         <input type="time"/>
       </div>
 
-      <select v-model="selectedOption">
+      <select v-model="selectedOption" v-if="!hasNoPets">
         <option v-for="pet in pets" :key="pet.id" :value="pet.name">{{ pet.name }}</option>
+      </select>
+
+
+      <select v-if="hasNoPets" value="no_pets">
+        <option value="no_pets">No pets registered.</option>
       </select>
 
       <input type="text" placeholder="Enter Purpose"/>
@@ -30,6 +35,7 @@ export default {
   data() {
     return {
       isPetAlreadyUpdated: false,
+      hasNoPets: false,
 
       pets: [],
       selectedOption: "",
@@ -37,9 +43,17 @@ export default {
   },
   updated() {
     if(!this.isPetAlreadyUpdated){
-      this.selectedOption = this.pets[0].name
+
+      if (this.pets.length > 0) {
+        this.selectedOption = this.pets[0].name
+      }
+      else {
+        this.hasNoPets = true;
+      }
       this.isPetAlreadyUpdated = true;
     }
+
+
   },
   created() {
     this.getUserPets();
@@ -62,8 +76,9 @@ export default {
 
 
         // console.log(usePetStore.getPets)
-
-        this.pets = response.data.pets; // Save the pets data in the `pets` array
+        if (response.data.pets){
+          this.selectedOption = 'No Pets'
+        }
       } catch (err) {
         console.log('API request Failed', err);
       }
@@ -74,57 +89,5 @@ export default {
 
 
 <style scoped>
-.title {
-  margin-bottom: 2rem;
-}
 
-.forms {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  row-gap: 2rem;
-}
-
-.forms .form-grouped {
-  display: flex;
-  justify-content: space-between;
-}
-
-
-.forms input[type='text'], select, input[type='date'], input[type='time'] {
-  padding: 1rem;
-  color: var(--main-color);
-  font-size: 1.2rem;
-  outline: solid 2px var(--secondary-color);
-  border-radius: .5rem;
-  border: none;
-}
-
-.forms .button {
-  border: none;
-  background-color: var(--main-color);
-  color: white;
-  font-size: 1.2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-
-.forms .secondary-button {
-  border: none;
-  background-color: transparent;
-  color: var(--main-color);
-  font-size: 1.2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  outline: solid 1px var(--main-color);
-}
-
-
-.forms input:focus {
-  outline-color: var(--main-color);
-}
 </style>

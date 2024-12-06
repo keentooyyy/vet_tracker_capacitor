@@ -4,8 +4,10 @@
     <router-view>
     </router-view>
 
-<!--    <button @click="logoutUser"> Logout</button>-->
+
   </main>
+
+  <button @click="logoutUser"> Logout</button>
   <div id="footer">
     <MobileFooterBar />
   </div>
@@ -88,16 +90,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-top: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
-}
-#footer {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  filter: drop-shadow(0px -2px 50px #000000);
-}
+
 </style>

@@ -70,32 +70,5 @@ export default {
 
 
 <style scoped>
-.mobile-footer-container {
-  background-color: white;
-  bottom: 0;
-  height: 6rem;
-  display: grid;
 
-}
-
-.svg-container {
-  place-self: center;
-  width: 100%;
-  display: flex;
-  //height: 2.5rem;
-  justify-content: space-between;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.svg-container > img {
-  cursor: pointer;
-}
-
-.svg-container #plus-icon {
-  height: 5rem;
-  margin-top: -2.5rem;
-  border: solid 5px white;
-  border-radius: 60%;
-}
 </style>

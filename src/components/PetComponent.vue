@@ -1,16 +1,18 @@
 <template>
-  <div class="bg-white rounded-md p-5 flex gap-x-5">
-    <img class="w-1/4" src="/images/svgs/pet-icon.svg" alt="Pet Icon">
+  <div class="bg-white rounded-md p-5 flex w-full flex-wrap">
+    <img class="w-1/4 mr-5" src="/images/svgs/pet-icon.svg" alt="Pet Icon">
     <div>
       <h1 class="font-bold text-2xl uppercase">{{ pet.name }}</h1>
       <p class="opacity-50 text-md uppercase">{{pet.breed}}</p> <!-- Display breed -->
-      <p class="opacity-50">Appointments:</p>
-      <p class="date">{{ formattedAppointmentDate }}</p> <!-- Display birthdate or other details -->
-      <div class="buttons-group">
-        <button @click='editButton' class="edit">Edit Details</button>
-        <button class="records">View Records</button>
-      </div>
+      <p class="opacity-50 mt-3">Appointments:</p>
+      <p class="bg-[var(--main-color)] text-white text-center w-10/12">{{ formattedAppointmentDate }}</p>
+      <!-- Display birthdate or other details -->
     </div>
+    <div class="mt-5 flex justify-around w-full">
+      <button class="outline outline-1 outline-[var(--main-color)] px-4 rounded-full text-xs text-[--main-color] py-1" @click='editButton'>Edit Details</button>
+      <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-xs">View Records</button>
+    </div>
+
   </div>
 </template>
 

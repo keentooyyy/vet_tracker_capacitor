@@ -9,9 +9,10 @@
 
     <button @click="logoutUser"> Logout</button>
 
-    <div id="footer">
+    <div id="footer-shadow" class="fixed bottom-0 w-full">
       <MobileFooterBar />
     </div>
+
   </div>
 
 
@@ -91,5 +92,7 @@ export default {
 </script>
 
 <style scoped>
-
+#footer-shadow{
+  filter: drop-shadow(0px 0px 77px #000000);
+}
 </style>

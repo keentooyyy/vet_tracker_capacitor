@@ -1,15 +1,15 @@
 <template>
-  <section class="mobile-footer-container">
-    <div class="svg-container">
+  <div class="bg-white p-5">
+    <div class="flex w-full gap-x-5 mx-auto justify-center">
       <img alt="Home Icon" src="/images/svgs/home.svg" @click="toHome">
       <img alt="Profile Icon" src="/images/svgs/profile.svg" @click="toProfile">
-      <img id="plus-icon" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
+      <img class="mt-[-2rem]" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
       <img alt="Search Icon" src="/images/svgs/search.svg" @click="toSearch">
       <img alt="Notification Icon" src="/images/svgs/notification.svg" @click="toNotifications">
     </div>
 
 
-  </section>
+  </div>
 
   <teleport v-if="isModelOpen" to="body">
     <Modal :is-open="isModelOpen" :message="message"

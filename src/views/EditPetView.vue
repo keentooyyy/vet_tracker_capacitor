@@ -1,21 +1,36 @@
 <template>
   <section>
-    <h1 class="title">Edit the Details of your Pet</h1>
+    <h1 class="text-2xl font-bold my-5">Edit the Details of your Pet</h1>
 
-    <div class="forms">
-      <input v-model="pet_name" type="text" placeholder="Enter Your Pet Name" />
-      <div class="form-grouped">
+    <div class="flex flex-col gap-y-4">
+      <input
+          v-model="pet_name"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Name" type="text"/>
+      <div class="flex gap-x-3">
 
-        <select v-model="selectedOption">
-          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{ pet_type.type }}</option>
+        <select v-model="selectedOption"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
+          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{
+              pet_type.type
+            }}
+          </option>
         </select>
-        <input v-model="pet_birthdate " type="date" placeholder="Enter Your Pet Birthdate" />
-
+        <input
+            v-model="pet_birthdate "
+            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
+            placeholder="Enter Your Pet Birthdate" type="date"/>
 
       </div>
-      <input v-model="pet_breed" type="text" placeholder="Enter Your Pet Breed" />
-      <button @click="editPet" class="button">Submit</button>
-      <button @click="goBack" class="secondary-button">Back</button>
+      <input
+          v-model="pet_breed"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Enter Your Pet Breed" type="text"/>
+      <div class="w-full flex flex-col gap-y-4 mt-5">
+        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl" @click="editPet">Submit</button>
+        <button class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-5 rounded-md"
+                @click="goBack">Back
+        </button>
+      </div>
     </div>
 
 
@@ -28,25 +43,22 @@ import axios from "axios";
 
 export default {
   name: "EditPetView",
-  props: {
-  },
+  props: {},
   created() {
     this.getPetTypes()
     this.getPetDetails()
 
 
-
-
   },
   updated() {
     // this.getPetTypes()
-    if (!this.isGetPetUpdated){
+    if (!this.isGetPetUpdated) {
       this.selectedOption = this.pet_types_array[0].type
       this.isGetPetUpdated = true
     }
 
   },
-  data(){
+  data() {
     return {
       isGetPetUpdated: false,
 
@@ -55,18 +67,17 @@ export default {
       pet_types_array: '',
 
 
-
       pet_name: '',
       pet_breed: '',
       pet_birthdate: '',
       pet_type: ''
     }
   },
-  methods:{
-    goBack(){
+  methods: {
+    goBack() {
       this.$router.back()
     },
-    async getPetDetails(){
+    async getPetDetails() {
       const url = process.env.VUE_APP_API_URL
       const bearer = localStorage.getItem('bearer_token')
       const pet_id = this.$route.params.id
@@ -84,30 +95,30 @@ export default {
         this.pet_type = response.data.current_pet.pet_type_id
 
 
-      }catch (err){
+      } catch (err) {
         console.log('API Request Error', err)
       }
     },
-     async getPetTypes(){
+    async getPetTypes() {
 
-        const url = process.env.VUE_APP_API_URL;
-        const bearer = localStorage.getItem('bearer_token')
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token')
 
-        try{
-          const response = await axios.get(`${url}/api/get_pet_type`, {
-            headers: {
-              'Authorization': `Bearer ${bearer}`,
-            }
-          })
+      try {
+        const response = await axios.get(`${url}/api/get_pet_type`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        })
 
-          this.pet_types_array = response.data.types
-          // console.log(this.pet_types_array)
+        this.pet_types_array = response.data.types
+        // console.log(this.pet_types_array)
 
-        }catch (err){
-          console.log('API Request Error', err)
-        }
-      },
-    async editPet(){
+      } catch (err) {
+        console.log('API Request Error', err)
+      }
+    },
+    async editPet() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token')
       const pet_id = this.$route.params.id
@@ -124,14 +135,14 @@ export default {
           name: this.pet_name,
           breed: this.pet_breed,
           birthdate: this.pet_birthdate
-        },{
+        }, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
         })
         console.log(response.data)
         this.$router.push('/dashboard/pets')
-      }catch (err){
+      } catch (err) {
         console.log('API Request Error', err)
       }
     }

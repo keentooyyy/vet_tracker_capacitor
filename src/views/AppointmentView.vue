@@ -1,10 +1,10 @@
 <template>
   <section>
-    <h1 class="title">Create an Appointment</h1>
+    <h1>Create an Appointment</h1>
 
-    <div class="forms">
+    <div>
 
-      <div class="form-grouped">
+      <div>
         <input type="date"/>
         <input type="time"/>
       </div>
@@ -19,7 +19,7 @@
       </select>
 
       <input type="text" placeholder="Enter Purpose"/>
-      <button class="button">Submit</button>
+      <button>Submit</button>
       <button @click="goBack" class="secondary-button">Back</button>
     </div>
 

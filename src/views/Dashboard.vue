@@ -1,17 +1,18 @@
 <template>
-  <MobileHeader :name="first_name"/>
-  <main class="container">
-    <router-view>
-    </router-view>
+  <div>
+    <MobileHeader :name="first_name" class="bg-[var(--main-color)] w-full"/>
 
+    <div class="w-11/12 mx-auto">
+      <router-view>
+      </router-view>
+    </div>
 
-  </main>
+    <button @click="logoutUser"> Logout</button>
 
-  <button @click="logoutUser"> Logout</button>
-  <div id="footer">
-    <MobileFooterBar />
+    <div id="footer">
+      <MobileFooterBar />
+    </div>
   </div>
-
 
 
 </template>

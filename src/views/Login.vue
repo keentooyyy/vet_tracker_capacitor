@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
 
 
     <div class="flex justify-center">
@@ -22,7 +22,7 @@
     </div>
 
 
-  </section>
+  </div>
 </template>
 
 <script>

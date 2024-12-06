@@ -8,14 +8,11 @@ export default {
 </script>
 
 <template>
-<section>
-  <div class="header">
+  <div class="flex gap-x-3 items-center w-11/12 mx-auto">
+    <img alt="Vet Logo" class="m-2 w-1/4" src="/images/Logo.png">
 
-      <img src="/images/Logo.png" alt="Vet Logo" class="image-container">
-
-    <div>Hello, {{name}}</div>
+    <div class="text-white text-2xl font-bold">Hello, {{ name }}</div>
   </div>
-</section>
 </template>
 
 <style scoped>

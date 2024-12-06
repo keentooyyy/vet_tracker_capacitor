@@ -68,7 +68,7 @@ export default {
 </script>
 
 <template>
-  <section>
+  <div>
 
 
     <div class="flex justify-center">
@@ -103,7 +103,7 @@ export default {
 
 
 
-  </section>
+  </div>
 </template>
 
 <style scoped>

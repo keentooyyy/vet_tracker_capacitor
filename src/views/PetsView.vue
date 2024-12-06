@@ -1,10 +1,8 @@
 <template>
-  <section>
-    <h1 class="title">Your Pets</h1>
-    <div class="pet-groups">
-      <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet"/>
-    </div>
-  </section>
+  <h1 class="text-3xl font-bold my-5">Your Pets</h1>
+  <div class="flex flex-col">
+    <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet"/>
+  </div>
 </template>
 
 <script>

@@ -16,8 +16,8 @@
       <input class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" v-model="password" placeholder="Password" type="password" @keyup.enter="handleEnter"/>
 
       <div class="flex flex-col">
-        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl" @click="loginUser">Login</button>
-        <router-link class="text-center text-[var(--main-color)] underline text-xl mt-3" to="/register">Create Account</router-link>
+        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl cursor-pointer" @click="loginUser">Login</button>
+        <router-link class="text-center text-[var(--main-color)] underline text-xl mt-3 cursor-pointer" to="/register">Create Account</router-link>
       </div>
     </div>
 

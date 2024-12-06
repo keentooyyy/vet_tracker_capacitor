@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-md p-5 flex w-full flex-wrap">
+  <div class="bg-white rounded-md p-5 flex w-full flex-wrap relative">
     <img class="w-1/4 mr-5" src="/images/svgs/pet-icon.svg" alt="Pet Icon">
     <div>
       <h1 class="font-bold text-2xl uppercase">{{ pet.name }}</h1>
@@ -8,6 +8,7 @@
       <p class="bg-[var(--main-color)] text-white text-center w-10/12">{{ formattedAppointmentDate }}</p>
       <!-- Display birthdate or other details -->
     </div>
+    <div @click="deleteEmit" class="font-bold text-[var(--main-color)] absolute right-0 top-0 mt-3 mr-3 cursor-pointer">X</div>
     <div class="mt-5 flex justify-around w-full">
       <button class="outline outline-1 outline-[var(--main-color)] px-4 rounded-full text-xs text-[--main-color] py-1" @click='editButton'>Edit Details</button>
       <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-xs">View Records</button>
@@ -43,6 +44,10 @@ export default {
     editButton(){
       this.$router.push(`pets/${this.pet.id}`)
     },
+    deleteEmit(){
+      this.$emit('deleteEmit')
+    }
+
 
   },
   computed: {

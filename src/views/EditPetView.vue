@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
     <h1 class="text-2xl font-bold my-5">Edit the Details of your Pet</h1>
 
     <div class="flex flex-col gap-y-4">
@@ -26,15 +26,15 @@
           v-model="pet_breed"
           class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Enter Your Pet Breed" type="text"/>
       <div class="w-full flex flex-col gap-y-4 mt-5">
-        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl" @click="editPet">Submit</button>
-        <button class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-5 rounded-md"
+        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl cursor-pointer" @click="editPet">Submit</button>
+        <button class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-5 rounded-md cursor-pointer"
                 @click="goBack">Back
         </button>
       </div>
     </div>
 
 
-  </section>
+  </div>
 </template>
 
 <script>

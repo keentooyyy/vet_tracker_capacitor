@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-2xl font-bold my-5">Your Pets</h1>
   <div class="flex flex-col">
-    <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet"/>
+    <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
   </div>
 </template>
 
@@ -46,7 +46,11 @@ export default {
         console.log('API request Failed', err);
       }
     },
+    handleDeleteEmit(){
+
+    }
   },
+
 };
 </script>
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lg:hidden">
 
 
     <div class="flex justify-center">

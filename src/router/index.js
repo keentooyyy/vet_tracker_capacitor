@@ -8,6 +8,7 @@ import EditPetView from "@/views/EditPetView.vue";
 import RegisterPetView from "@/views/RegisterPetView.vue";
 import CreateAppointmentView from "@/views/CreateAppointmentView.vue";
 import PetMedicalRecordsView from "@/views/PetMedicalRecordsView.vue";
+import ProfileView from "@/views/ProfileView.vue";
 
 
 const routes = [
@@ -31,6 +32,9 @@ const routes = [
                 path: 'pets',
                 name: 'PetsView',
                 component: PetsView,
+                props: route => ({
+                    searchQuery: route.params.searchQuery || '',
+                }),
             },
             {
                 path: 'pets/:id',
@@ -51,6 +55,11 @@ const routes = [
                 path: 'pet_records/:id',
                 name: 'PetMedicalRecordsView',
                 component: PetMedicalRecordsView,
+            },
+            {
+                path: 'profile',
+                name: 'ProfileView',
+                component: ProfileView,
             }
         ]
     }

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <MobileHeader :name="first_name" class="bg-[var(--main-color)] w-full"/>
+    <MobileHeader :name="first_name" :isSearchable="isSearch"/>
 
-    <div class="w-11/12 mx-auto">
-      <router-view>
+    <div class="w-11/12 mx-auto md:max-w-screen-sm">
+      <router-view :searchQuery="searchQuery">
       </router-view>
     </div>
 
-    <button @click="logoutUser"> Logout</button>
+
 
     <div id="footer-shadow" class="fixed bottom-0 w-full">
-      <MobileFooterBar />
+      <MobileFooterBar @isSearch="handleSearch" />
     </div>
 
   </div>
@@ -38,8 +38,9 @@ export default {
   data() {
     return {
       token: '',
-      dashboardApiData: '',
       first_name: null,
+      isSearch: false,
+      searchQuery: ''
     }
   },
   methods: {
@@ -63,30 +64,7 @@ export default {
         this.$router.push('/')
       }
     },
-    async logout() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-      // console.log(bearer)
-      try {
-        const response = await axios.post(`${url}/api/user/logout`, {}, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-        console.log(response.data)
-        localStorage.clear()
-        this.$router.push('/')
-      } catch (err) {
-        this.error = err;
-        console.log('API request Failed', err)
-        localStorage.clear()
-        this.$router.push('/')
-      }
-    },
 
-    logoutUser() {
-      this.logout()
-    }
   },
 }
 

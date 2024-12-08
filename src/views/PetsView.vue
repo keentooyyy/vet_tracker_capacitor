@@ -1,6 +1,6 @@
 <template>
   <h1 class="text-2xl font-bold my-5">Your Pets</h1>
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-5">
     <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
   </div>
 </template>
@@ -14,6 +14,10 @@ export default {
   name: "PetsView",
   components: {
     PetComponent,
+  },
+
+  computed: {
+
   },
   data() {
     return {

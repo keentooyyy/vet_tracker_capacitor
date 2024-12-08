@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white p-5">
-    <div class="flex w-full gap-x-5 mx-auto justify-center">
+    <div class="flex w-full gap-x-5 mx-auto justify-around md:max-w-screen-md">
       <img class="cursor-pointer" alt="Home Icon" src="/images/svgs/home.svg" @click="toHome">
       <img class="cursor-pointer" alt="Profile Icon" src="/images/svgs/profile.svg" @click="toProfile">
       <img class="mt-[-2rem] cursor-pointer" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
@@ -40,10 +40,10 @@ export default {
       this.$router.push('/dashboard/pets')
     },
     toProfile() {
-      // this.$router.push('/dashboard/pets')
+      this.$router.push('/dashboard/profile')
     },
     toSearch() {
-      // this.$router.push('/dashboard/pets')
+      this.$emit('isSearch')
     },
     toNotifications() {
       // this.$router.push('/dashboard/pets')

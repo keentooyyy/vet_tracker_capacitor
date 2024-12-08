@@ -9,6 +9,7 @@ import RegisterPetView from "@/views/RegisterPetView.vue";
 import CreateAppointmentView from "@/views/CreateAppointmentView.vue";
 import PetMedicalRecordsView from "@/views/PetMedicalRecordsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import SearchView from "@/views/SearchView.vue";
 
 
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
                 path: 'profile',
                 name: 'ProfileView',
                 component: ProfileView,
+            },
+            {
+                path: 'search',
+                name: 'SearchView',
+                component: SearchView,
             }
         ]
     }

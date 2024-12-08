@@ -43,7 +43,7 @@ export default {
       this.$router.push('/dashboard/profile')
     },
     toSearch() {
-      this.$emit('isSearch')
+      this.$router.push('/dashboard/search')
     },
     toNotifications() {
       // this.$router.push('/dashboard/pets')

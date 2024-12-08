@@ -1,11 +1,11 @@
 <template>
   <div class="bg-white p-5">
     <div class="flex w-full gap-x-5 mx-auto justify-center">
-      <img alt="Home Icon" src="/images/svgs/home.svg" @click="toHome">
-      <img alt="Profile Icon" src="/images/svgs/profile.svg" @click="toProfile">
-      <img class="mt-[-2rem]" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
-      <img alt="Search Icon" src="/images/svgs/search.svg" @click="toSearch">
-      <img alt="Notification Icon" src="/images/svgs/notification.svg" @click="toNotifications">
+      <img class="cursor-pointer" alt="Home Icon" src="/images/svgs/home.svg" @click="toHome">
+      <img class="cursor-pointer" alt="Profile Icon" src="/images/svgs/profile.svg" @click="toProfile">
+      <img class="mt-[-2rem] cursor-pointer" alt="Plus Icon" src="/images/svgs/plus.svg" @click="plusClick">
+      <img class="cursor-pointer" alt="Search Icon" src="/images/svgs/search.svg" @click="toSearch">
+      <img class="cursor-pointer" alt="Notification Icon" src="/images/svgs/notification.svg" @click="toNotifications">
     </div>
 
 
@@ -54,7 +54,7 @@ export default {
     },
     handleAppointmentEmit() {
       this.isModelOpen = false
-      this.$router.push('appointment')
+      this.$router.push('/dashboard/create_appointment')
 
     },
     handleCloseEmit() {
@@ -62,7 +62,7 @@ export default {
     },
     handleRegisterEmit() {
       this.isModelOpen = false
-      this.$router.push('pets/register')
+      this.$router.push('/dashboard/pets/register')
     }
   }
 }

@@ -1,28 +1,49 @@
 <template>
-  <section>
-    <h1 class="title">Register a Pet</h1>
+  <div>
+    <h1 class="text-2xl font-bold my-5">Register Pet</h1>
 
-    <div class="forms">
-      <input v-model="pet_name" placeholder="Enter Your Pet Name" type="text"/>
-      <div class="form-grouped">
+    <div class="flex flex-col gap-y-4">
+      <input
+          v-model="pet_name"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Name" type="text"/>
+      <div class="flex gap-x-3">
 
-        <select v-model="selectedOption">
+        <select v-model="selectedOption"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
           <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{
               pet_type.type
             }}
           </option>
         </select>
-        <input v-model="pet_birthdate " placeholder="Enter Your Pet Birthdate" type="date"/>
 
+        <input
+            v-model="pet_birthdate "
+            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
+            placeholder="Enter Your Pet Birthdate" type="date"/>
 
       </div>
-      <input v-model="pet_breed" placeholder="Enter Your Pet Breed" type="text"/>
-      <button class="button" @click="createPet">Submit</button>
-      <button class="secondary-button" @click="goBack">Back</button>
+
+      <input
+          v-model="pet_breed"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Breed" type="text"/>
+
+      <div class="w-full flex flex-col gap-y-4 mt-5">
+        <button class="bg-[var(--main-color)] py-3 rounded-md text-white text-xl cursor-pointer" @click="createPet">
+          Submit
+        </button>
+
+        <button
+            class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-3 rounded-md cursor-pointer"
+            @click="goBack">Back
+        </button>
+
+      </div>
     </div>
 
 
-  </section>
+  </div>
 </template>
 
 <script>

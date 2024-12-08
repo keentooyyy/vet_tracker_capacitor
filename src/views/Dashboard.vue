@@ -37,6 +37,7 @@ export default {
 
   data() {
     return {
+      token: '',
       dashboardApiData: '',
       first_name: null,
     }
@@ -82,6 +83,7 @@ export default {
         this.$router.push('/')
       }
     },
+
     logoutUser() {
       this.logout()
     }

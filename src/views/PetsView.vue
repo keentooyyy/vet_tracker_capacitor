@@ -18,6 +18,8 @@ export default {
   data() {
     return {
       pets: [],
+      pet_id: ''
+
     };
   },
   created() {
@@ -46,9 +48,34 @@ export default {
         console.log('API request Failed', err);
       }
     },
-    handleDeleteEmit(){
+    async handleDeleteEmit(payload) {
 
-    }
+      /*
+      * api/user/{user_id}/pet/delete_pet/{pet_id}
+      *
+      *
+      * */
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const id = localStorage.getItem('user_id');
+
+
+      try {
+        const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          },
+        });
+        console.log(response)
+        this.$router.push('/refresh').then(() => {
+          this.$router.push('/dashboard/pets'); // Navigate back to the same route
+        });
+      } catch (err) {
+        console.log('API request Failed', err);
+      }
+
+    },
+
   },
 
 };

@@ -16,20 +16,29 @@
             }}
           </option>
         </select>
+
         <input
             v-model="pet_birthdate "
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
             placeholder="Enter Your Pet Birthdate" type="date"/>
 
       </div>
+
       <input
           v-model="pet_breed"
-          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Enter Your Pet Breed" type="text"/>
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Breed" type="text"/>
+
       <div class="w-full flex flex-col gap-y-4 mt-5">
-        <button class="bg-[var(--main-color)] py-5 rounded-md text-white text-xl cursor-pointer" @click="editPet">Submit</button>
-        <button class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-5 rounded-md cursor-pointer"
-                @click="goBack">Back
+        <button class="bg-[var(--main-color)] py-3 rounded-md text-white text-xl cursor-pointer" @click="editPet">
+          Submit
         </button>
+
+        <button
+            class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-3 rounded-md cursor-pointer"
+            @click="goBack">Back
+        </button>
+
       </div>
     </div>
 

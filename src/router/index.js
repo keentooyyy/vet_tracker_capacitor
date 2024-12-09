@@ -1,4 +1,3 @@
-// src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
@@ -10,14 +9,13 @@ import CreateAppointmentView from "@/views/CreateAppointmentView.vue";
 import PetMedicalRecordsView from "@/views/PetMedicalRecordsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import SearchView from "@/views/SearchView.vue";
-
+import VetHome from "@/views/VetHome.vue";
 
 const routes = [
     {
         path: '/',
         name: 'Log-in',
         component: Login,
-
     },
     {
         path: '/register',
@@ -30,12 +28,18 @@ const routes = [
         component: Dashboard,
         children: [
             {
-                path: 'pets',
-                name: 'PetsView',
+                path: 'pets',  // No dynamic userId here
+                name: 'PetsViewDefault',
                 component: PetsView,
             },
             {
-                path: 'pets/:id',
+                path: 'pets/:userId',  // Remove the leading `/`, making this a relative path
+                name: 'PetsView',
+                component: PetsView,
+                props: true,
+            },
+            {
+                path: 'pets/edit/:id',  // Adjust path for editing pet
                 name: 'EditPetView',
                 component: EditPetView,
             },
@@ -63,15 +67,19 @@ const routes = [
                 path: 'search',
                 name: 'SearchView',
                 component: SearchView,
-            }
-        ]
-    }
-
+            },
+            {
+                path: 'vet',
+                name: 'VetHome',
+                component: VetHome,
+            },
+        ],
+    },
 ];
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
 });
 
 export default router;

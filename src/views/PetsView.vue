@@ -27,10 +27,12 @@ export default {
     PetComponent,
   },
 
+  props: ['userId'],
+
   data() {
     return {
       pets: [],
-      pet_id: ''
+      currentUserId: localStorage.getItem('user_id')
 
     };
   },
@@ -44,9 +46,10 @@ export default {
     async getUserPets() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
+
+      const userId = this.userId || this.currentUserId;
       try {
-        const response = await axios.get(`${url}/api/user/${id}/pets`, {
+        const response = await axios.get(`${url}/api/user/${userId}/pets`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           },
@@ -80,7 +83,7 @@ export default {
         });
         console.log(response)
         this.$router.push('/refresh').then(() => {
-          this.$router.push('/dashboard/pets'); // Navigate back to the same route
+          this.$router.push('/dashboard'); // Navigate back to the same route
         });
       } catch (err) {
         console.log('API request Failed', err);

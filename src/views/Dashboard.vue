@@ -15,26 +15,31 @@
 
   </div>
 
-  <div class="hidden lg:flex">
-    <div class="w-1/6 bg-[var(--main-color)] h-svh p-5">
+  <div class="hidden lg:flex h-screen">
+
+    <div class="w-1/6 bg-[var(--main-color)] h-full p-5">
       <img alt="Vet Logo" class="mt-10 px-3" src="/images/Logo.png">
       <MobileFooterBar/>
     </div>
-    <div class="w-full">
+
+
+    <div class="w-full flex flex-col h-full">
       <MobileHeader :name="first_name"/>
-      <div class="flex justify-between">
-        <div class="pl-8">
-          <router-view>
-          </router-view>
+
+      <div class="flex flex-1 justify-between overflow-hidden">
+
+        <div class="pl-8 flex-1 overflow-y-auto">
+          <router-view />
         </div>
 
+        <div class="bg-white w-4/12 h-full overflow-y-auto">
+          <p>Appointments</p>
+        </div>
 
-        <div class="bg-white w-4/12 overflow-y-scroll">Appointments</div>
       </div>
     </div>
-
-
   </div>
+
 
 
 </template>
@@ -52,10 +57,11 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
   components: {MobileFooterBar, MobileHeader},
+
+
   created() {
     this.getUserData()
   },
-
   data() {
     return {
       token: '',
@@ -78,6 +84,13 @@ export default {
           }
         });
         this.first_name = response.data.user.first_name.charAt(0).toUpperCase() + response.data.user.first_name.slice(1);
+
+        if (response.data.user.account_type === 'vets'){
+          this.$router.push('/dashboard/vet')
+        }
+        else {
+          this.$router.push('/dashboard/pets')
+        }
       } catch (err) {
         this.error = err;
         console.log('API request Failed', err)
@@ -85,6 +98,7 @@ export default {
         this.$router.push('/')
       }
     },
+
 
   },
 }

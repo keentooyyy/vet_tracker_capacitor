@@ -87,7 +87,7 @@ export default {
           localStorage.setItem('bearer_token', response.data.token);
           localStorage.setItem('user_id', response.data.id);
 
-          this.$router.push('/dashboard/pets');
+          this.$router.push('/dashboard');
         } else {
           throw new Error('Invalid response data');
         }

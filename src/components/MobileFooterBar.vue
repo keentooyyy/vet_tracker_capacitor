@@ -80,7 +80,9 @@ export default {
     },
 
     toHome() {
-      this.$router.push('/dashboard/pets')
+      this.$router.push('/refresh').then(() => {
+        this.$router.push('/dashboard'); // Navigate back to the same route
+      });
     },
     toProfile() {
       this.$router.push('/dashboard/profile')

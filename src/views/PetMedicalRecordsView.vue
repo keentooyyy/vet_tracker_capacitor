@@ -26,6 +26,8 @@
         </tr>
         </tbody>
       </table>
+
+<!--      Show only on users side but on vet side it is a -->
       <p class="mt-5">Fully Vaccinated?</p>
       <p class="font-bold">Yes</p>
     </div>

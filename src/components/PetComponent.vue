@@ -73,15 +73,16 @@ export default {
 
 
   },
+  emits: ['deleteEmit'],
   methods: {
     editButton() {
-      this.$router.push(`pets/${this.pet.id}`)
+      this.$router.push(`/dashboard/pets/edit/${this.pet.id}`)
     },
     deleteEmit() {
       this.$emit('deleteEmit', this.pet.id)
     },
     viewRecords() {
-      this.$router.push(`pet_records/${this.pet.id}`);
+      this.$router.push(`/dashboard/pet_records/${this.pet.id}`);
     }
 
 

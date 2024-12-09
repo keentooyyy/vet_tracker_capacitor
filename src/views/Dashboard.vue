@@ -10,7 +10,7 @@
 
 
     <div id="footer-shadow" class="fixed bottom-0 w-full">
-      <MobileFooterBar @isSearch="handleSearch" />
+      <MobileFooterBar/>
     </div>
 
   </div>

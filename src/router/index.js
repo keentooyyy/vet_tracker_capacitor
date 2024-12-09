@@ -33,9 +33,6 @@ const routes = [
                 path: 'pets',
                 name: 'PetsView',
                 component: PetsView,
-                props: route => ({
-                    searchQuery: route.params.searchQuery || '',
-                }),
             },
             {
                 path: 'pets/:id',

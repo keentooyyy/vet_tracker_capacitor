@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-md p-5 flex w-full flex-wrap relative">
+  <div class="bg-white rounded-md p-5 flex w-full flex-wrap relative lg:hidden">
     <img alt="Pet Icon" class="w-1/4 mr-5 md:mr-10" src="/images/svgs/pet-icon.svg">
     <div>
       <h1 class="font-bold text-2xl uppercase">{{ pet.name }}</h1>
@@ -12,10 +12,39 @@
       X
     </div>
     <div class="mt-5 flex justify-around w-full">
-      <button class="outline outline-1 outline-[var(--main-color)] px-4 rounded-full text-xs md:text-xl text-[--main-color] py-1 cursor-pointer"
-              @click='editButton'>Edit Details
+      <button
+          class="outline outline-1 outline-[var(--main-color)] px-4 rounded-full text-xs md:text-xl text-[--main-color] py-1 cursor-pointer"
+          @click='editButton'>Edit Details
       </button>
-      <button @click="viewRecords" class="bg-[var(--main-color)] text-white px-4 rounded-full text-xs md:text-xl cursor-pointer">View Records</button>
+      <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-xs md:text-xl cursor-pointer"
+              @click="viewRecords">View Records
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="bg-white w-full p-5 rounded-md relative hidden lg:flex gap-7">
+    <img alt="Pet Icon" class="w-4/12" src="/images/svgs/pet-icon.svg">
+    <div>
+      <h1 class="font-bold uppercase">{{ pet.name }}</h1>
+      <p class="opacity-50 uppercase">{{ pet.breed }}</p> <!-- Display breed -->
+      <p class="opacity-50">Appointments:</p>
+      <p class="bg-[var(--main-color)] px-4 text-white text-center">{{ formattedAppointmentDate }}</p>
+
+      <div class="absolute top-0 right-0 pt-2 pr-7 font-bold w-0 h-0" @click="deleteEmit">
+        X
+      </div>
+      <!-- Display birthdate or other details -->
+      <div class="mt-3 flex gap-5">
+        <button
+            class="outline outline-1 outline-[var(--main-color)] px-2 rounded-full text-xs  text-[--main-color] py-1 cursor-pointer"
+            @click='editButton'>Edit Details
+        </button>
+        <button class="bg-[var(--main-color)] text-white px-2 rounded-full text-xs cursor-pointer"
+                @click="viewRecords">View Records
+        </button>
+      </div>
     </div>
 
   </div>
@@ -51,7 +80,7 @@ export default {
     deleteEmit() {
       this.$emit('deleteEmit', this.pet.id)
     },
-    viewRecords(){
+    viewRecords() {
       this.$router.push(`pet_records/${this.pet.id}`);
     }
 

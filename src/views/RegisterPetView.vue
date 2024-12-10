@@ -53,18 +53,24 @@ import axios from "axios";
 export default {
   name: "EditPetView",
 
-  created() {
+  mounted() {
     // this.getPetTypes()
+
+// console.log(this.pet_types_array)
+    this.populatePetTypes()
+
 
   },
   updated(){
-    // console.log(this.pet_types_array)
+
 
     if (!this.isGetPetUpdated){
-      this.selectedOption = this.pet_types_array[0].type
-      this.isGetPetUpdated = true
-    }
 
+      this.selectedOption = this.pet_types_array[0].type
+
+      this.isGetPetUpdated = true
+
+    }
   },
   data() {
     return {
@@ -72,7 +78,7 @@ export default {
 
 
       selectedOption: '',
-      pet_types_array: localStorage.getItem(''),
+      pet_types_array: [],
 
 
       pet_name: '',
@@ -85,42 +91,41 @@ export default {
     goBack() {
       this.$router.back()
     },
+
+    populatePetTypes(){
+      this.pet_types_array = JSON.parse(localStorage.getItem('pet_types'))
+    },
+
+
+
     async createPet() {
       const url = process.env.VUE_APP_API_URL;
-
       const id = localStorage.getItem('user_id')
       const bearer = localStorage.getItem('bearer_token')
       const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption)
 
-
       try {
-        /*
-        * api/user/create_pet
-        * 'pet_type_id',
-        'user_id',
-        'name',
-        'breed',
-        'birthdate',
-        *
-        * */
-
         const response = await axios.post(`${url}/api/user/create_pet`, {
           user_id: id,
           name: this.pet_name,
           breed: this.pet_breed,
           birthdate: this.pet_birthdate,
           pet_type_id: selectedPet.id,
-        },{
+        }, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
         });
-        response.data
-        this.$router.push('/dashboard/pets')
+        if (response){
+          this.$router.push('/refresh').then(() => {
+            this.$router.push('/dashboard'); // Navigate back to the same route
+          });
+        }
       } catch (err) {
         this.error = err;
-        console.log('API request Failed', err)
+        console.log('API request Failed', err);
       }
+
     }
   }
 }

@@ -9,7 +9,7 @@ import CreateAppointmentView from "@/views/CreateAppointmentView.vue";
 import PetMedicalRecordsView from "@/views/PetMedicalRecordsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import SearchView from "@/views/SearchView.vue";
-import VetHome from "@/views/VetHome.vue";
+import VetHome from "@/views/vets/VetHome.vue";
 
 const routes = [
     {
@@ -73,8 +73,10 @@ const routes = [
                 name: 'VetHome',
                 component: VetHome,
             },
+
         ],
     },
+
 ];
 
 const router = createRouter({

@@ -114,60 +114,60 @@ export default {
     };
   },
   created() {
-    // this.getAllPetsAndUsers();
-    // this.getVaccineTypes();
-    // this.getPetTypes();
+    this.getAllPetsAndUsers();
+    this.getVaccineTypes();
+    this.getPetTypes();
   },
   methods: {
-    // async getAllPetsAndUsers() {
-    //   const url = process.env.VUE_APP_API_URL;
-    //   const bearer = localStorage.getItem("bearer_token");
-    //
-    //   try {
-    //     const response = await axios.get(`${url}/api/vets/get_all_pet_user`, {
-    //       headers: {
-    //         Authorization: `Bearer ${bearer}`,
-    //       },
-    //     });
-    //     this.users = response.data.users;
-    //   } catch (err) {
-    //     console.log("API request Failed", err);
-    //     localStorage.clear();
-    //     this.$router.push("/");
-    //   }
-    // },
-    // async getVaccineTypes() {
-    //   const url = process.env.VUE_APP_API_URL;
-    //   const bearer = localStorage.getItem("bearer_token");
-    //
-    //   try {
-    //     const response = await axios.get(`${url}/api/get_vaccines`, {
-    //       headers: {
-    //         Authorization: `Bearer ${bearer}`,
-    //       },
-    //     });
-    //
-    //     this.vaccine_types_array = response.data.vaccines;
-    //   } catch (err) {
-    //     console.log("API Request Error", err);
-    //   }
-    // },
-    // async getPetTypes() {
-    //   const url = process.env.VUE_APP_API_URL;
-    //   const bearer = localStorage.getItem("bearer_token");
-    //
-    //   try {
-    //     const response = await axios.get(`${url}/api/get_pet_type`, {
-    //       headers: {
-    //         Authorization: `Bearer ${bearer}`,
-    //       },
-    //     });
-    //
-    //     this.pet_types_array = response.data.types;
-    //   } catch (err) {
-    //     console.log("API Request Error", err);
-    //   }
-    // },
+    async getAllPetsAndUsers() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem("bearer_token");
+
+      try {
+        const response = await axios.get(`${url}/api/vets/get_all_pet_user`, {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        });
+        this.users = response.data.users;
+      } catch (err) {
+        console.log("API request Failed", err);
+        localStorage.clear();
+        this.$router.push("/");
+      }
+    },
+    async getVaccineTypes() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem("bearer_token");
+
+      try {
+        const response = await axios.get(`${url}/api/get_vaccines`, {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        });
+
+        this.vaccine_types_array = response.data.vaccines;
+      } catch (err) {
+        console.log("API Request Error", err);
+      }
+    },
+    async getPetTypes() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem("bearer_token");
+
+      try {
+        const response = await axios.get(`${url}/api/get_pet_type`, {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        });
+
+        this.pet_types_array = response.data.types;
+      } catch (err) {
+        console.log("API Request Error", err);
+      }
+    },
     openTreatmentModal() {
       this.isTreatmentModalOpen = true;
     },

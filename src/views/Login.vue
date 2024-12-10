@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -73,34 +73,34 @@ export default {
     }
   },
   methods: {
-    async login() {
-      const url = process.env.VUE_APP_API_URL;
-      try {
-        const response = await axios.post(`${url}/api/user/login`, {
-          email: this.email,
-          password: this.password,
-        }, {
-          withCredentials: true
-        })
-
-        if (response.data.token && response.data.id) {
-          localStorage.setItem('bearer_token', response.data.token);
-          localStorage.setItem('user_id', response.data.id);
-
-          this.$router.push('/dashboard');
-        } else {
-          throw new Error('Invalid response data');
-        }
-      } catch (err) {
-        console.log('API request Failed', err)
-      }
-    },
-    loginUser() {
-      this.login()
-    },
-    handleEnter() {
-      this.loginUser();
-    }
+    // async login() {
+    //   const url = process.env.VUE_APP_API_URL;
+    //   try {
+    //     const response = await axios.post(`${url}/api/user/login`, {
+    //       email: this.email,
+    //       password: this.password,
+    //     }, {
+    //       withCredentials: true
+    //     })
+    //
+    //     if (response.data.token && response.data.id) {
+    //       localStorage.setItem('bearer_token', response.data.token);
+    //       localStorage.setItem('user_id', response.data.id);
+    //
+    //       this.$router.push('/dashboard');
+    //     } else {
+    //       throw new Error('Invalid response data');
+    //     }
+    //   } catch (err) {
+    //     console.log('API request Failed', err)
+    //   }
+    // },
+    // loginUser() {
+    //   this.login()
+    // },
+    // handleEnter() {
+    //   this.loginUser();
+    // }
   }
 
 

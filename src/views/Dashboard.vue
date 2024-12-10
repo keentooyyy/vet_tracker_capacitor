@@ -46,7 +46,7 @@
 
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
 
 import MobileFooterBar from "@/components/MobileFooterBar.vue";
@@ -60,7 +60,7 @@ export default {
 
 
   created() {
-    this.getUserData()
+    // this.getUserData()
   },
   data() {
     return {
@@ -71,33 +71,35 @@ export default {
     }
   },
   methods: {
-    async getUserData() {
-      const url = process.env.VUE_APP_API_URL;
-      const id = localStorage.getItem('user_id')
-      const bearer = localStorage.getItem('bearer_token')
-
-
-      try {
-        const response = await axios.get(`${url}/api/user/${id}`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        });
-        this.first_name = response.data.user.first_name.charAt(0).toUpperCase() + response.data.user.first_name.slice(1);
-
-        if (response.data.user.account_type === 'vets'){
-          this.$router.push('/dashboard/vet')
-        }
-        else {
-          this.$router.push('/dashboard/pets')
-        }
-      } catch (err) {
-        this.error = err;
-        console.log('API request Failed', err)
-        localStorage.clear()
-        this.$router.push('/')
-      }
-    },
+    // async getUserData() {
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const id = localStorage.getItem('user_id')
+    //   const bearer = localStorage.getItem('bearer_token')
+    //
+    //
+    //   try {
+    //     const response = await axios.get(`${url}/api/user/${id}`, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       }
+    //     });
+    //     this.first_name = response.data.user.first_name.charAt(0).toUpperCase() + response.data.user.first_name.slice(1);
+    //
+    //     if (response.data.user.account_type === 'vets'){
+    //       this.$router.push('/dashboard/vet')
+    //       localStorage.setItem('account_type', response.data.user.account_type);
+    //     }
+    //     else {
+    //       this.$router.push('/dashboard/pets')
+    //       localStorage.setItem('account_type', response.data.user.account_type);
+    //     }
+    //   } catch (err) {
+    //     this.error = err;
+    //     console.log('API request Failed', err)
+    //     localStorage.clear()
+    //     this.$router.push('/')
+    //   }
+    // },
 
 
   },

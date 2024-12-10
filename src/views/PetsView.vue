@@ -18,7 +18,7 @@
 
 <script>
 import PetComponent from "@/components/PetComponent.vue";
-import axios from "axios";
+// import axios from "axios";
 
 
 export default {
@@ -38,58 +38,58 @@ export default {
   },
   created() {
 
-    this.getUserPets();
+    // this.getUserPets();
 
 
   },
   methods: {
-    async getUserPets() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-
-      const userId = this.userId || this.currentUserId;
-      try {
-        const response = await axios.get(`${url}/api/user/${userId}/pets`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-
-
-        // console.log(usePetStore.getPets)
-
-        this.pets = response.data.pets; // Save the pets data in the `pets` array
-      } catch (err) {
-        console.log('API request Failed', err);
-      }
-    },
-    async handleDeleteEmit(payload) {
-
-      /*
-      * api/user/{user_id}/pet/delete_pet/{pet_id}
-      *
-      *
-      * */
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
-
-
-      try {
-        const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-        console.log(response)
-        this.$router.push('/refresh').then(() => {
-          this.$router.push('/dashboard'); // Navigate back to the same route
-        });
-      } catch (err) {
-        console.log('API request Failed', err);
-      }
-
-    },
+    // async getUserPets() {
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const bearer = localStorage.getItem('bearer_token');
+    //
+    //   const userId = this.userId || this.currentUserId;
+    //   try {
+    //     const response = await axios.get(`${url}/api/user/${userId}/pets`, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       },
+    //     });
+    //
+    //
+    //     // console.log(usePetStore.getPets)
+    //
+    //     this.pets = response.data.pets; // Save the pets data in the `pets` array
+    //   } catch (err) {
+    //     console.log('API request Failed', err);
+    //   }
+    // },
+    // async handleDeleteEmit(payload) {
+    //
+    //   /*
+    //   * api/user/{user_id}/pet/delete_pet/{pet_id}
+    //   *
+    //   *
+    //   * */
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const bearer = localStorage.getItem('bearer_token');
+    //   const id = localStorage.getItem('user_id');
+    //
+    //
+    //   try {
+    //     const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       },
+    //     });
+    //     console.log(response)
+    //     this.$router.push('/refresh').then(() => {
+    //       this.$router.push('/dashboard'); // Navigate back to the same route
+    //     });
+    //   } catch (err) {
+    //     console.log('API request Failed', err);
+    //   }
+    //
+    // },
 
   },
 

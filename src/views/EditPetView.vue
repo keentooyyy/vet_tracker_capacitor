@@ -54,8 +54,8 @@ export default {
   name: "EditPetView",
   props: {},
   created() {
-    this.getPetTypes()
-    this.getPetDetails()
+    // this.getPetTypes()
+    // this.getPetDetails()
 
 
   },
@@ -86,47 +86,47 @@ export default {
     goBack() {
       this.$router.back()
     },
-    async getPetDetails() {
-      const url = process.env.VUE_APP_API_URL
-      const bearer = localStorage.getItem('bearer_token')
-      const pet_id = this.$route.params.id
-
-      try {
-        const response = await axios.get(`${url}/api/user/get_pet/${pet_id}`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-
-        this.pet_name = response.data.current_pet.name
-        this.pet_breed = response.data.current_pet.breed
-        this.pet_birthdate = response.data.current_pet.birthdate
-        this.pet_type = response.data.current_pet.pet_type_id
-
-
-      } catch (err) {
-        console.log('API Request Error', err)
-      }
-    },
-    async getPetTypes() {
-
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-
-      try {
-        const response = await axios.get(`${url}/api/get_pet_type`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-
-        this.pet_types_array = response.data.types
-        // console.log(this.pet_types_array)
-
-      } catch (err) {
-        console.log('API Request Error', err)
-      }
-    },
+    // async getPetDetails() {
+    //   const url = process.env.VUE_APP_API_URL
+    //   const bearer = localStorage.getItem('bearer_token')
+    //   const pet_id = this.$route.params.id
+    //
+    //   try {
+    //     const response = await axios.get(`${url}/api/user/get_pet/${pet_id}`, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       }
+    //     })
+    //
+    //     this.pet_name = response.data.current_pet.name
+    //     this.pet_breed = response.data.current_pet.breed
+    //     this.pet_birthdate = response.data.current_pet.birthdate
+    //     this.pet_type = response.data.current_pet.pet_type_id
+    //
+    //
+    //   } catch (err) {
+    //     console.log('API Request Error', err)
+    //   }
+    // },
+    // async getPetTypes() {
+    //
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const bearer = localStorage.getItem('bearer_token')
+    //
+    //   try {
+    //     const response = await axios.get(`${url}/api/get_pet_type`, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       }
+    //     })
+    //
+    //     this.pet_types_array = response.data.types
+    //     // console.log(this.pet_types_array)
+    //
+    //   } catch (err) {
+    //     console.log('API Request Error', err)
+    //   }
+    // },
     async editPet() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token')

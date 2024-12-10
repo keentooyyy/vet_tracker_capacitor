@@ -54,30 +54,30 @@ export default {
     }
   },
   methods: {
-    async logout() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-      // console.log(bearer)
-      try {
-        const response = await axios.post(`${url}/api/user/logout`, {}, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-        console.log(response.data)
-        localStorage.clear()
-        this.$router.push('/')
-      } catch (err) {
-        this.error = err;
-        console.log('API request Failed', err)
-        localStorage.clear()
-        this.$router.push('/')
-      }
-    },
-
-    logoutUser() {
-      this.logout()
-    },
+    // async logout() {
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const bearer = localStorage.getItem('bearer_token')
+    //   // console.log(bearer)
+    //   try {
+    //     const response = await axios.post(`${url}/api/user/logout`, {}, {
+    //       headers: {
+    //         'Authorization': `Bearer ${bearer}`,
+    //       },
+    //     });
+    //     console.log(response.data)
+    //     localStorage.clear()
+    //     this.$router.push('/')
+    //   } catch (err) {
+    //     this.error = err;
+    //     console.log('API request Failed', err)
+    //     localStorage.clear()
+    //     this.$router.push('/')
+    //   }
+    // },
+    //
+    // logoutUser() {
+    //   this.logout()
+    // },
 
     toHome() {
       this.$router.push('/refresh').then(() => {

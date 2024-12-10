@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    this.getUserPets();
+    // this.getUserPets();
   },
   methods: {
     // Fetch pets from the API

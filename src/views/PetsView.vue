@@ -27,7 +27,6 @@ export default {
     PetComponent,
   },
 
-  props: ['userId'],
 
   data() {
     return {
@@ -36,83 +35,78 @@ export default {
 
     };
   },
-  created() {
-
-    this.getUserPets();
-
-
+  mounted() {
+    this.getPets();
+    const user_id = this.currentUserId
+    this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
+    // console.log(this.pets);
   },
   methods: {
-    async getUserPets() {
+    async getPets() {
+
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
-
-      const userId = this.userId || this.currentUserId;
-
-      // Check if the pets data is already in localStorage
-      const storedPets = localStorage.getItem(`pets_${userId}`);
-
-      if (storedPets) {
-        // If the pets data exists in localStorage, parse and use it
-        this.pets = JSON.parse(storedPets);
-      } else {
-        try {
-          const response = await axios.get(`${url}/api/user/${userId}/pets`, {
-            headers: {
-              'Authorization': `Bearer ${bearer}`,
-            },
-          });
-
-          // Save the fetched pets data to localStorage
-          localStorage.setItem(`pets_${userId}`, JSON.stringify(response.data.pets));
-
-          // Update the pets data in the component
-          this.pets = response.data.pets;
-
-          console.log('Fetched pets data from API:', this.pets);
-        } catch (err) {
-          console.log('API request Failed', err);
-        }
-      }
-    },
-    async handleDeleteEmit(payload) {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
+      const user_id = this.currentUserId
 
       try {
-        const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
+        const response = await axios.get(`${url}/api/user/${user_id}/pets`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           },
         });
-        console.log(response);
 
-        // Get pets from localStorage, ensuring it's a valid string before parsing
-        const storedPets = localStorage.getItem('pets_1');
-        let pets = [];
-        if (storedPets) {
-          try {
-            pets = JSON.parse(storedPets);  // Only parse if the value exists
-          } catch (error) {
-            console.error('Error parsing pets data from localStorage', error);
-          }
-        }
 
-        // Filter out the pet with the matching id
-        const updatedPets = pets.filter(pet => pet.id !== payload); // Remove the pet with the matching id
+        const pets_name = `pets_${user_id}`
+        localStorage.setItem(pets_name, JSON.stringify(response.data.pets))
 
-        // Update localStorage with the new pets array
-        localStorage.setItem('pets_1', JSON.stringify(updatedPets));
 
-        // Refresh the route to reflect changes
-        this.$router.push('/refresh').then(() => {
-          this.$router.push('/dashboard'); // Navigate back to the dashboard
-        });
       } catch (err) {
-        console.log('API request Failed', err);
+        console.log('API Request Error', err);
+      }
+
+    },
+    async handleDeleteEmit(payload) {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const userid = localStorage.getItem('user_id');
+
+      // Retrieve and parse local storage data
+      const pets_local_store = JSON.parse(localStorage.getItem(`pets_${userid}`)) || [];
+
+      // Find the index of the pet to delete
+      const petIndex = pets_local_store.findIndex(pet => pet.id === payload);
+
+      if (petIndex !== -1) {
+        // Remove the pet from the array
+        pets_local_store.splice(petIndex, 1);
+
+        // Update local storage
+        localStorage.setItem(`pets_${userid}`, JSON.stringify(pets_local_store));
+
+        console.log(`Pet with ID ${payload} removed from local storage.`);
+      } else {
+        console.log(`Pet with ID ${payload} not found in local storage.`);
+        return;
+      }
+
+      try {
+        // Delete pet from API
+        const response = await axios.delete(`${url}/api/user/${userid}/pet/delete_pet/${payload}`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          },
+        });
+
+        if (response.data){
+          this.$router.push('/refresh').then(() => {
+            this.$router.push('/dashboard'); // Navigate back to the same route
+          });
+        }
+      } catch (error) {
+        console.error(`Error deleting pet with ID ${payload} from the API:`, error);
       }
     }
+
 
 
 

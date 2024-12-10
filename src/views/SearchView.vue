@@ -49,38 +49,50 @@ export default {
   methods: {
     // Fetch pets from the API
     async getUserPets() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
-      try {
-        const response = await axios.get(`${url}/api/user/${id}/pets`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-        this.pets = response.data.pets;
-      } catch (err) {
-        console.log('API request Failed', err);
-      }
+      const userid = localStorage.getItem('user_id');
+      this.pets = JSON.parse(localStorage.getItem(`pets_${userid}`));
     },
 
     // Handle pet deletion
     async handleDeleteEmit(payload) {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
+      const userid = localStorage.getItem('user_id');
+
+      // Retrieve and parse local storage data
+      const pets_local_store = JSON.parse(localStorage.getItem(`pets_${userid}`)) || [];
+
+      // Find the index of the pet to delete
+      const petIndex = pets_local_store.findIndex(pet => pet.id === payload);
+
+      if (petIndex !== -1) {
+        // Remove the pet from the array
+        pets_local_store.splice(petIndex, 1);
+
+        // Update local storage
+        localStorage.setItem(`pets_${userid}`, JSON.stringify(pets_local_store));
+
+        console.log(`Pet with ID ${payload} removed from local storage.`);
+      } else {
+        console.log(`Pet with ID ${payload} not found in local storage.`);
+        return;
+      }
+
       try {
-        const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
+        // Delete pet from API
+        const response = await axios.delete(`${url}/api/user/${userid}/pet/delete_pet/${payload}`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           },
         });
-        console.log(response);
-        this.$router.push('/refresh').then(() => {
-          this.$router.push('/dashboard/pets');
-        });
-      } catch (err) {
-        console.log('API request Failed', err);
+
+        if (response.data){
+          this.$router.push('/refresh').then(() => {
+            this.$router.push('/dashboard'); // Navigate back to the same route
+          });
+        }
+      } catch (error) {
+        console.error(`Error deleting pet with ID ${payload} from the API:`, error);
       }
     },
   },

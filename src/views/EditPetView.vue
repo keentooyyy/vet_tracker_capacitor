@@ -114,7 +114,7 @@ export default {
       const user_id = this.$route.params.userId
 
       // Find the pet type from the selected option
-      const selectedPetType = this.pet_types_array.find(pet => pet.type === this.selectedOption);
+      const selectedPetType = this.pet_types_array.find(pet => pet.type === this.selectedOption)
 
       // Find the pet in the local storage list
       let petsLocalStorage = JSON.parse(localStorage.getItem(`pets_${user_id}`));

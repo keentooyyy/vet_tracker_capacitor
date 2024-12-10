@@ -1,14 +1,10 @@
 <template>
   <div class="lg:hidden">
-
-
     <div class="flex justify-center">
       <img alt="Vet Logo" class="w-3/6 mt-12" src="/images/Logo.png">
     </div>
 
-
     <h1 class="text-2xl text-center my-8 font-bold">Welcome to Vet Tracker</h1>
-
 
     <div class="flex flex-col gap-y-5 w-11/12 mx-auto">
       <input
@@ -29,8 +25,6 @@
         </router-link>
       </div>
     </div>
-
-
   </div>
 
   <div class="hidden lg:flex">
@@ -61,7 +55,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import { useApiStore } from '@/stores/apiStore'; // Import the Pinia store
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -70,44 +64,40 @@ export default {
     return {
       email: null,
       password: null,
-    }
+    };
   },
   methods: {
-    // async login() {
-    //   const url = process.env.VUE_APP_API_URL;
-    //   try {
-    //     const response = await axios.post(`${url}/api/user/login`, {
-    //       email: this.email,
-    //       password: this.password,
-    //     }, {
-    //       withCredentials: true
-    //     })
-    //
-    //     if (response.data.token && response.data.id) {
-    //       localStorage.setItem('bearer_token', response.data.token);
-    //       localStorage.setItem('user_id', response.data.id);
-    //
-    //       this.$router.push('/dashboard');
-    //     } else {
-    //       throw new Error('Invalid response data');
-    //     }
-    //   } catch (err) {
-    //     console.log('API request Failed', err)
-    //   }
-    // },
-    // loginUser() {
-    //   this.login()
-    // },
-    // handleEnter() {
-    //   this.loginUser();
-    // }
-  }
+    async loginUser() {
+      const apiStore = useApiStore(); // Access the Pinia store
+      try {
+        // Attempt to log the user in
+        const userData = await apiStore.loginUser({
+          email: this.email,
+          password: this.password,
+        });
 
+        // If login is successful, userData should contain the necessary info (e.g., token)
+        if (userData && userData.token) {
+          console.log('User logged in:', userData);
+          // Redirect to the dashboard
+          this.$router.push('/dashboard');
+        } else {
+          // Handle case where login is unsuccessful (e.g., invalid credentials)
+          alert('Login failed. Please check your credentials.');
+        }
+      } catch (error) {
+        console.error('Login failed:', error);
+        alert('Login failed. Please check your credentials.');
+      }
+    },
 
-}
+    handleEnter() {
+      this.loginUser(); // Call login when "Enter" is pressed
+    }
+  },
+};
 </script>
 
-
 <style scoped>
-
+/* Add any specific styles for your component */
 </style>

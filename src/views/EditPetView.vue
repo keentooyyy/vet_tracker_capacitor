@@ -111,7 +111,7 @@ export default {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem("bearer_token");
       const pet_id = this.$route.params.id;
-      const user_id = localStorage.getItem("user_id");
+      const user_id = this.$route.params.userId
 
       // Find the pet type from the selected option
       const selectedPetType = this.pet_types_array.find(pet => pet.type === this.selectedOption);

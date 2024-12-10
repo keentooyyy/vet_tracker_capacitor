@@ -91,7 +91,21 @@ export default {
       this.$emit('deleteEmit', this.pet.id)
     },
     viewRecords() {
-      this.$router.push(`/dashboard/pet_records/${this.pet.id}`);
+      const current_id = this.$route.params.userId; // Extract the "1" (or other dynamic value) from the current route
+      const pet_id = this.pet.id;
+      // console.log(this.$route.params)
+
+      if (localStorage.getItem('account_type') === 'vets'){
+        this.$router.push(`/dashboard/pets/${current_id}/pet_records/${pet_id}`)
+      }
+      else {
+
+        /*
+        * 'pets/:userId/pet_records/:id'
+        *
+        * */
+        this.$router.push(`/dashboard/pets/${current_id}/pet_records/${pet_id}`)
+      }
     }
 
 

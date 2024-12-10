@@ -16,6 +16,7 @@
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Vaccine Type</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date Administered</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date of Next Administration</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
         </tr>
         </thead>
         <tbody>
@@ -23,11 +24,15 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.id)}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
+          <td><button c>Delete</button></td>
         </tr>
         </tbody>
       </table>
 
 <!--      Show only on vets side but on vet side it is a -->
+      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet">
+        Add Medical Record
+      </button>
       <p class="mt-5">Fully Vaccinated?</p>
       <p class="font-bold">Yes</p>
     </div>
@@ -58,17 +63,25 @@ export default {
       pet_breed: '',
       pet_type: '',
 
-
+      isVet: false,
 
     }
   },
-  created() {
-    // this.getPetTypes()
-    // this.getVaccineTypes()
+  mounted() {
+    this.getPetTypes()
+    this.getVaccineTypes()
+    this.populateData()
 
 
-    this.getPetDetails()
+    // this.getPetDetails()
     this.getMedicalRecords()
+
+    if (localStorage.getItem('account_type') === 'vets'){
+      this.isVet = true
+    }
+    else {
+      this.isVet = false
+    }
 
 
   },
@@ -81,48 +94,43 @@ export default {
     }
   },
   methods: {
-    async getPetDetails() {
-      const url = process.env.VUE_APP_API_URL
-      const bearer = localStorage.getItem('bearer_token')
-      const pet_id = this.$route.params.id
+    populateData() {
+      const user_id = this.$route.params.userId
+      this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
+      console.log(this.pets)
+      this.pet_types_array = JSON.parse(localStorage.getItem("pet_types"));
+      this.getPetDetails();
+    },
+    getPetDetails() {
+      const pet_id = this.$route.params.id;
+      const pet = this.pets.find(p => p.id === parseInt(pet_id));
 
-      try {
-        const response = await axios.get(`${url}/api/user/get_pet/${pet_id}`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
+      if (pet) {
+        // Populate pet details
+        this.pet_name = pet.name;
+        this.pet_breed = pet.breed;
+        this.pet_birthdate = pet.birthdate;
+        this.pet_type = pet.pet_type_id;
+
+        // Find matching pet type based on pet_type_id
+        for (let i = 0; i < this.pet_types_array.length; i++) {
+          if (this.pet_types_array[i].id === pet.pet_type_id) {
+            this.selectedOption = this.pet_types_array[i].type; // Set default value in dropdown
+            break;
           }
-        })
-
-        this.pet_name = response.data.current_pet.name
-        this.pet_breed = response.data.current_pet.breed
-        this.pet_birthdate = response.data.current_pet.birthdate
-        this.pet_type = response.data.current_pet.pet_type_id
-
-
-      } catch (err) {
-        console.log('API Request Error', err)
+        }
+      } else {
+        console.error("Pet not found");
       }
     },
     goBack(){
       this.$router.back()
     },
     async getPetTypes() {
-
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-
-      try {
-        const response = await axios.get(`${url}/api/get_pet_type`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-
-        this.pet_types_array = response.data.types
-
-      } catch (err) {
-        console.log('API Request Error', err)
-      }
+      this.pet_types_array = JSON.parse(localStorage.getItem('pet_types'))
+    },
+    async getVaccineTypes() {
+      this.vaccine_types_array = JSON.parse(localStorage.getItem('vaccine_types'))
     },
 
     async getMedicalRecords() {

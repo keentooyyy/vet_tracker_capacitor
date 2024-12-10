@@ -78,6 +78,11 @@ const routes = [
                 name: 'EditPetView',
                 component: EditPetView,
             },
+            {
+                path: 'pets/:userId/pet_records/:id',
+                name: 'PetMedicalRecordsView',
+                component: PetMedicalRecordsView,
+            },
 
 
         ],

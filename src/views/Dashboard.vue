@@ -46,7 +46,7 @@
 
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
 
 import MobileFooterBar from "@/components/MobileFooterBar.vue";
@@ -60,7 +60,8 @@ export default {
 
 
   created() {
-    // this.getUserData()
+    this.getUserData()
+    this.getPetTypes()
   },
   data() {
     return {
@@ -71,35 +72,85 @@ export default {
     }
   },
   methods: {
-    // async getUserData() {
-    //   const url = process.env.VUE_APP_API_URL;
-    //   const id = localStorage.getItem('user_id')
-    //   const bearer = localStorage.getItem('bearer_token')
-    //
-    //
-    //   try {
-    //     const response = await axios.get(`${url}/api/user/${id}`, {
-    //       headers: {
-    //         'Authorization': `Bearer ${bearer}`,
-    //       }
-    //     });
-    //     this.first_name = response.data.user.first_name.charAt(0).toUpperCase() + response.data.user.first_name.slice(1);
-    //
-    //     if (response.data.user.account_type === 'vets'){
-    //       this.$router.push('/dashboard/vet')
-    //       localStorage.setItem('account_type', response.data.user.account_type);
-    //     }
-    //     else {
-    //       this.$router.push('/dashboard/pets')
-    //       localStorage.setItem('account_type', response.data.user.account_type);
-    //     }
-    //   } catch (err) {
-    //     this.error = err;
-    //     console.log('API request Failed', err)
-    //     localStorage.clear()
-    //     this.$router.push('/')
-    //   }
-    // },
+    async getUserData() {
+      // Check if user data exists in localStorage
+      const storedUserData = localStorage.getItem('user');
+
+      if (storedUserData) {
+        // If user data exists in localStorage, parse and use it
+        const userData = JSON.parse(storedUserData);
+        this.first_name = userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1);
+
+        // Redirect based on account type
+        if (userData.account_type === 'vets') {
+          this.$router.push('/dashboard/vet');
+        } else {
+          this.$router.push('/dashboard/pets');
+        }
+      } else {
+        // If no user data in localStorage, fetch from API
+        const url = process.env.VUE_APP_API_URL;
+        const id = localStorage.getItem('user_id');
+        const bearer = localStorage.getItem('bearer_token');
+
+        try {
+          const response = await axios.get(`${url}/api/user/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${bearer}`,
+            },
+          });
+
+          const userData = response.data.user;
+          this.first_name = userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1);
+
+          // Save the user data to localStorage
+          localStorage.setItem('user', JSON.stringify(userData));  // Store full user data
+          localStorage.setItem('first_name', userData.first_name); // Store first name (or any other data you need)
+          localStorage.setItem('account_type', userData.account_type); // Store account type (vets or other)
+
+          // Redirect based on account type
+          if (userData.account_type === 'vets') {
+            this.$router.push('/dashboard/vet');
+          } else {
+            this.$router.push('/dashboard/pets');
+          }
+        } catch (err) {
+          this.error = err;
+          console.log('API request Failed', err);
+          localStorage.clear();  // Clear localStorage if the API call fails
+          this.$router.push('/');
+        }
+      }
+    },
+    async getPetTypes() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      // Check if pet types are already stored in localStorage
+      const storedPetTypes = localStorage.getItem('pet_types');
+
+      if (storedPetTypes) {
+        // If pet types are available in localStorage, use them directly
+        this.pet_types_array = JSON.parse(storedPetTypes);
+        console.log('Pet types loaded from localStorage');
+      } else {
+        // If not found in localStorage, make the API request
+        try {
+          await axios.get(`${url}/api/get_pet_type`, {
+            headers: {
+              'Authorization': `Bearer ${bearer}`,
+            }
+          });
+          // Store the fetched pet types in localStorage for future use
+          localStorage.setItem('pet_types', JSON.stringify(this.pet_types_array));
+          console.log('Pet types loaded from API and saved to localStorage');
+
+        } catch (err) {
+          console.log('API Request Error', err);
+        }
+      }
+    },
+
 
 
   },

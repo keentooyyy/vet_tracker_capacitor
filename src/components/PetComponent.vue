@@ -76,7 +76,16 @@ export default {
   emits: ['deleteEmit'],
   methods: {
     editButton() {
-      this.$router.push(`/dashboard/pets/edit/${this.pet.id}`)
+      const current_id = this.$route.params.userId; // Extract the "1" (or other dynamic value) from the current route
+      const pet_id = this.pet.id;
+      // console.log(this.$route.params.userId);
+      if (localStorage.getItem('account_type') === 'vets'){
+        this.$router.push(`/dashboard/pets/${current_id}/edit/${pet_id}`)
+      }
+      else {
+        this.$router.push(`/dashboard/pets/edit/${this.pet.id}`)
+      }
+
     },
     deleteEmit() {
       this.$emit('deleteEmit', this.pet.id)

@@ -42,7 +42,7 @@
 </template>
 <script>
 import Modal from "@/components/Modal.vue";
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   name: "MobileFooterBar",

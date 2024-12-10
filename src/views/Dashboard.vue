@@ -32,7 +32,7 @@
         </div>
 
         <div class="bg-white w-4/12 h-full overflow-y-auto">
-          <p>Appointments</p>
+          <AppointmentView></AppointmentView>
         </div>
 
       </div>
@@ -48,13 +48,14 @@ import axios from 'axios';
 import MobileHeader from "@/components/MobileHeader.vue";
 
 import MobileFooterBar from "@/components/MobileFooterBar.vue";
+import AppointmentView from "@/views/AppointmentView.vue";
 
 
 export default {
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
-  components: {MobileFooterBar, MobileHeader},
+  components: {AppointmentView, MobileFooterBar, MobileHeader},
 
 
   created() {

@@ -24,7 +24,7 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.id)}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
-          <td><button c>Delete</button></td>
+          <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
         </tr>
         </tbody>
       </table>
@@ -95,9 +95,15 @@ export default {
   },
   methods: {
     populateData() {
-      const user_id = this.$route.params.userId
+      let user_id;
+      if (this.$route.params.userId){
+        user_id = this.$route.params.userId
+      }
+      else {
+        user_id = localStorage.getItem('user_id')
+      }
       this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
-      console.log(this.pets)
+      // console.log(this.pets)
       this.pet_types_array = JSON.parse(localStorage.getItem("pet_types"));
       this.getPetDetails();
     },

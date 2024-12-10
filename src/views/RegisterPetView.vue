@@ -54,7 +54,7 @@ export default {
   name: "EditPetView",
 
   created() {
-    this.getPetTypes()
+    // this.getPetTypes()
 
   },
   updated(){
@@ -72,7 +72,7 @@ export default {
 
 
       selectedOption: '',
-      pet_types_array: '',
+      pet_types_array: localStorage.getItem(''),
 
 
       pet_name: '',

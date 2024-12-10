@@ -63,8 +63,8 @@ export default {
     }
   },
   created() {
-    this.getPetTypes()
-    this.getVaccineTypes()
+    // this.getPetTypes()
+    // this.getVaccineTypes()
 
 
     this.getPetDetails()
@@ -124,24 +124,7 @@ export default {
         console.log('API Request Error', err)
       }
     },
-    async getVaccineTypes() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
 
-      try {
-        const response = await axios.get(`${url}/api/get_vaccines`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-
-        this.vaccine_types_array = response.data.vaccines
-        // console.log('Vaccine Type', this.vaccine_types_array)
-
-      } catch (err) {
-        console.log('API Request Error', err)
-      }
-    },
     async getMedicalRecords() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token')

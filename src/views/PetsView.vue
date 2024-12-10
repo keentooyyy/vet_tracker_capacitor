@@ -76,10 +76,6 @@ export default {
       }
     },
     async handleDeleteEmit(payload) {
-      /*
-      * api/user/{user_id}/pet/delete_pet/{pet_id}
-      *
-      * */
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
       const id = localStorage.getItem('user_id');
@@ -92,9 +88,19 @@ export default {
         });
         console.log(response);
 
-        // Check if the pet exists in localStorage and remove it
-        const storedPets = JSON.parse(localStorage.getItem('pets_1')) || [];
-        const updatedPets = storedPets.filter(pet => pet.id !== payload); // Remove the pet with the matching id
+        // Get pets from localStorage, ensuring it's a valid string before parsing
+        const storedPets = localStorage.getItem('pets_1');
+        let pets = [];
+        if (storedPets) {
+          try {
+            pets = JSON.parse(storedPets);  // Only parse if the value exists
+          } catch (error) {
+            console.error('Error parsing pets data from localStorage', error);
+          }
+        }
+
+        // Filter out the pet with the matching id
+        const updatedPets = pets.filter(pet => pet.id !== payload); // Remove the pet with the matching id
 
         // Update localStorage with the new pets array
         localStorage.setItem('pets_1', JSON.stringify(updatedPets));
@@ -107,6 +113,7 @@ export default {
         console.log('API request Failed', err);
       }
     }
+
 
 
   },

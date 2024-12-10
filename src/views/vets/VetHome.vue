@@ -1,6 +1,15 @@
 <template>
   <div>
     <h1 class="text-2xl font-bold my-5"> All Users Pets with its registered pets</h1>
+    <!-- SEARCH BOX -->
+    <div class="my-4">
+      <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search by First Name, Last Name, or Email"
+          class="w-full p-2 border border-gray-300 rounded"
+      />
+    </div>
     <div class="overflow-x-auto">
       <table>
         <thead>
@@ -12,7 +21,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="user in users" :key="user.id" class="text-center">
+        <tr v-for="user in filteredUsers" :key="user.id" class="text-center">
           <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
             {{ user.first_name }}
           </td>
@@ -47,9 +56,25 @@ export default {
       pets: [],
       vaccine_types_array: [],
       pet_types_array: [],
-      isTreatmentModalOpen: false,
-      isSpeciesModalOpen: false,
+
+
+      searchQuery: "",
+
     };
+  },
+  computed: {
+    filteredUsers() {
+      if (!this.searchQuery.trim()) {
+        return this.users;
+      }
+      const query = this.searchQuery.toLowerCase();
+      return this.users.filter(
+          (user) =>
+              user.first_name.toLowerCase().includes(query) ||
+              user.last_name.toLowerCase().includes(query) ||
+              user.email.toLowerCase().includes(query)
+      );
+    },
   },
   mounted() {
     this.getAllPetsAndUsers();
@@ -87,7 +112,7 @@ export default {
     //   this.vets = JSON.parse(localStorage.getItem('pet_types'))
     // },
     userClicked(userId) {
-      this.$router.push({name: "PetsView", params: {userId}});
+      this.$router.push(`/dashboard/pets/${userId}`);
     },
 
 

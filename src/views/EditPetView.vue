@@ -79,7 +79,14 @@ export default {
       this.$router.back();
     },
     populateData() {
-      const user_id = this.$route.params.userId
+      let user_id;
+      if (this.$route.params.userId){
+        user_id = this.$route.params.userId
+      }
+      else {
+        user_id = localStorage.getItem('user_id')
+      }
+
       this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
       console.log(this.pets)
       this.pet_types_array = JSON.parse(localStorage.getItem("pet_types"));

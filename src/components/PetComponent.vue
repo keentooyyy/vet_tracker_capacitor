@@ -104,7 +104,7 @@ export default {
         * 'pets/:userId/pet_records/:id'
         *
         * */
-        this.$router.push(`/dashboard/pets/${current_id}/pet_records/${pet_id}`)
+        this.$router.push(`/dashboard/pet_records/${this.pet.id}`)
       }
     }
 

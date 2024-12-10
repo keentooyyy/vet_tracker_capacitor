@@ -26,19 +26,20 @@ export default {
   components: {
     PetComponent,
   },
+  created(){
+  },
 
   props: ['userId'],
 
   data() {
     return {
       pets: [],
-      currentUserId: localStorage.getItem('user_id')
 
     };
   },
   mounted() {
     this.getPets();
-    const user_id = this.userId || this.currentUserId;
+    const user_id = this.userId || localStorage.getItem('user_id');
     this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
     // console.log(this.pets);
   },
@@ -47,7 +48,7 @@ export default {
 
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
-      const user_id = this.currentUserId
+      const user_id = this.userId || localStorage.getItem('user_id');
 
       try {
         const response = await axios.get(`${url}/api/user/${user_id}/pets`, {
@@ -57,8 +58,14 @@ export default {
         });
 
 
-        const pets_name = `pets_${user_id}`
-        localStorage.setItem(pets_name, JSON.stringify(response.data.pets))
+        const pets_name = `pets_${user_id}`;
+        const petsData = response.data.pets;
+
+        // Update localStorage
+        localStorage.setItem(pets_name, JSON.stringify(petsData));
+
+        // Update the reactive pets array
+        this.pets = petsData;
 
 
       } catch (err) {

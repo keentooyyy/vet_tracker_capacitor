@@ -48,32 +48,41 @@ export default {
       const bearer = localStorage.getItem('bearer_token');
 
       const userId = this.userId || this.currentUserId;
-      try {
-        const response = await axios.get(`${url}/api/user/${userId}/pets`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
 
+      // Check if the pets data is already in localStorage
+      const storedPets = localStorage.getItem(`pets_${userId}`);
 
-        // console.log(usePetStore.getPets)
+      if (storedPets) {
+        // If the pets data exists in localStorage, parse and use it
+        this.pets = JSON.parse(storedPets);
+      } else {
+        try {
+          const response = await axios.get(`${url}/api/user/${userId}/pets`, {
+            headers: {
+              'Authorization': `Bearer ${bearer}`,
+            },
+          });
 
-        this.pets = response.data.pets; // Save the pets data in the `pets` array
-      } catch (err) {
-        console.log('API request Failed', err);
+          // Save the fetched pets data to localStorage
+          localStorage.setItem(`pets_${userId}`, JSON.stringify(response.data.pets));
+
+          // Update the pets data in the component
+          this.pets = response.data.pets;
+
+          console.log('Fetched pets data from API:', this.pets);
+        } catch (err) {
+          console.log('API request Failed', err);
+        }
       }
     },
     async handleDeleteEmit(payload) {
-
       /*
       * api/user/{user_id}/pet/delete_pet/{pet_id}
-      *
       *
       * */
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
       const id = localStorage.getItem('user_id');
-
 
       try {
         const response = await axios.delete(`${url}/api/user/${id}/pet/delete_pet/${payload}`, {
@@ -81,15 +90,24 @@ export default {
             'Authorization': `Bearer ${bearer}`,
           },
         });
-        console.log(response)
+        console.log(response);
+
+        // Check if the pet exists in localStorage and remove it
+        const storedPets = JSON.parse(localStorage.getItem('pets_1')) || [];
+        const updatedPets = storedPets.filter(pet => pet.id !== payload); // Remove the pet with the matching id
+
+        // Update localStorage with the new pets array
+        localStorage.setItem('pets_1', JSON.stringify(updatedPets));
+
+        // Refresh the route to reflect changes
         this.$router.push('/refresh').then(() => {
-          this.$router.push('/dashboard'); // Navigate back to the same route
+          this.$router.push('/dashboard'); // Navigate back to the dashboard
         });
       } catch (err) {
         console.log('API request Failed', err);
       }
+    }
 
-    },
 
   },
 

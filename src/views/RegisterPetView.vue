@@ -85,22 +85,6 @@ export default {
     goBack() {
       this.$router.back()
     },
-    async getPetTypes() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-
-      try{
-        const response = await axios.get(`${url}/api/get_pet_type`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          }
-        })
-        this.pet_types_array = response.data.types
-
-      }catch (err){
-        console.log('API Request Error', err)
-      }
-    },
     async createPet() {
       const url = process.env.VUE_APP_API_URL;
 

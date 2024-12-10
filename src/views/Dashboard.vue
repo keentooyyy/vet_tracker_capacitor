@@ -62,10 +62,12 @@ export default {
   created() {
     this.getUserData()
     this.getPetTypes()
+    this.getVaccineTypes()
   },
   data() {
     return {
       token: '',
+      pet_types_array: '',
       first_name: null,
       isSearch: false,
       searchQuery: ''
@@ -136,11 +138,15 @@ export default {
       } else {
         // If not found in localStorage, make the API request
         try {
-          await axios.get(`${url}/api/get_pet_type`, {
+          const response = await axios.get(`${url}/api/get_pet_type`, {
             headers: {
               'Authorization': `Bearer ${bearer}`,
-            }
+            },
           });
+
+          // Ensure pet_types_array is populated with the API response
+          this.pet_types_array = response.data.types; // Assuming the API returns { types: [...] }
+
           // Store the fetched pet types in localStorage for future use
           localStorage.setItem('pet_types', JSON.stringify(this.pet_types_array));
           console.log('Pet types loaded from API and saved to localStorage');
@@ -150,6 +156,37 @@ export default {
         }
       }
     },
+    async getVaccineTypes() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      // Check if vaccine types are already stored in localStorage
+      const storedVaccineTypes = localStorage.getItem('vaccine_types');
+
+      if (storedVaccineTypes) {
+        // If vaccine types are available in localStorage, use them directly
+        this.vaccine_types_array = JSON.parse(storedVaccineTypes);
+        console.log('Vaccine types loaded from localStorage');
+      } else {
+        // If not found in localStorage, make the API request
+        try {
+          const response = await axios.get(`${url}/api/get_vaccines`, {
+            headers: {
+              'Authorization': `Bearer ${bearer}`,
+            }
+          });
+
+          // Store the fetched vaccine types in localStorage for future use
+          this.vaccine_types_array = response.data.vaccines;
+          localStorage.setItem('vaccine_types', JSON.stringify(this.vaccine_types_array));
+          console.log('Vaccine types loaded from API and saved to localStorage');
+
+        } catch (err) {
+          console.log('API Request Error', err);
+        }
+      }
+    }
+
 
 
 

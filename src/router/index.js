@@ -73,6 +73,12 @@ const routes = [
                 name: 'VetHome',
                 component: VetHome,
             },
+            {
+                path: 'pets/:userId/edit/:id',  // Remove the leading `/`, making this a relative path
+                name: 'EditPetView',
+                component: EditPetView,
+            },
+
 
         ],
     },

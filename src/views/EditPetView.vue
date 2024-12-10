@@ -79,8 +79,9 @@ export default {
       this.$router.back();
     },
     populateData() {
-      const user_id = localStorage.getItem("user_id");
+      const user_id = this.$route.params.userId
       this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
+      console.log(this.pets)
       this.pet_types_array = JSON.parse(localStorage.getItem("pet_types"));
       this.getPetDetails();
     },
@@ -112,33 +113,87 @@ export default {
       const pet_id = this.$route.params.id;
       const user_id = localStorage.getItem("user_id");
 
-      const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption);
+      // Find the pet type from the selected option
+      const selectedPetType = this.pet_types_array.find(pet => pet.type === this.selectedOption);
 
-      try {
-        const response = await axios.patch(
-            `${url}/api/user/${user_id}/edit_pet/${pet_id}`,
-            {
-              pet_type_id: selectedPet.id,
-              user_id: user_id,
-              name: this.pet_name,
-              breed: this.pet_breed,
-              birthdate: this.pet_birthdate,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${bearer}`,
+      // Find the pet in the local storage list
+      let petsLocalStorage = JSON.parse(localStorage.getItem(`pets_${user_id}`));
+      const petIndex = petsLocalStorage.findIndex(pet => pet.id === parseInt(pet_id));
+
+      if (petIndex !== -1) {
+        // Update pet data locally
+        petsLocalStorage[petIndex].name = this.pet_name;
+        petsLocalStorage[petIndex].breed = this.pet_breed;
+        petsLocalStorage[petIndex].birthdate = this.pet_birthdate;
+        petsLocalStorage[petIndex].pet_type_id = selectedPetType.id;
+
+        // Update local storage with the modified pet
+        localStorage.setItem(`pets_${user_id}`, JSON.stringify(petsLocalStorage));
+
+        try {
+          // Now make the API request to save the changes
+          const response = await axios.patch(
+              `${url}/api/user/${user_id}/edit_pet/${pet_id}`,
+              {
+                pet_type_id: selectedPetType.id,
+                user_id: user_id,
+                name: this.pet_name,
+                breed: this.pet_breed,
+                birthdate: this.pet_birthdate,
               },
-            }
-        );
-        if (response){
-          this.$router.push('/refresh').then(() => {
-            this.$router.push('/dashboard'); // Navigate back to the same route
-          });
+              {
+                headers: {
+                  Authorization: `Bearer ${bearer}`,
+                },
+              }
+          );
+
+          if (response) {
+            // Redirect to dashboard after successful update
+            this.$router.push('/refresh').then(() => {
+              this.$router.push('/dashboard');
+            });
+          }
+        } catch (err) {
+          console.log("API Request Error", err);
         }
-      } catch (err) {
-        console.log("API Request Error", err);
+      } else {
+        console.log("Pet not found in local storage.");
       }
-    },
+    }
+    // async editPet() {
+    //   const url = process.env.VUE_APP_API_URL;
+    //   const bearer = localStorage.getItem("bearer_token");
+    //   const pet_id = this.$route.params.id;
+    //   const user_id = localStorage.getItem("user_id");
+    //
+    //   const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption);
+    //
+    //   try {
+    //     const response = await axios.patch(
+    //         `${url}/api/user/${user_id}/edit_pet/${pet_id}`,
+    //         {
+    //           pet_type_id: selectedPet.id,
+    //           user_id: user_id,
+    //           name: this.pet_name,
+    //           breed: this.pet_breed,
+    //           birthdate: this.pet_birthdate,
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${bearer}`,
+    //           },
+    //         }
+    //     );
+    //     if (response){
+    //       this.$router.push('/refresh').then(() => {
+    //         this.$router.push('/dashboard'); // Navigate back to the same route
+    //       });
+    //     }
+    //   } catch (err) {
+    //     console.log("API Request Error", err);
+    //   }
+    // },
   },
 };
 </script>

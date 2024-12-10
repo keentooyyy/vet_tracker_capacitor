@@ -27,6 +27,7 @@ export default {
     PetComponent,
   },
 
+  props: ['userId'],
 
   data() {
     return {
@@ -37,7 +38,7 @@ export default {
   },
   mounted() {
     this.getPets();
-    const user_id = this.currentUserId
+    const user_id = this.userId || this.currentUserId;
     this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
     // console.log(this.pets);
   },

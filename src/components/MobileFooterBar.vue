@@ -11,19 +11,19 @@
 
   </div>
 
-  <div class="hidden lg:flex flex-col">
+  <div class="hidden lg:flex flex-col cursor-pointer">
     <div class="flex gap-5 items-center mt-10" @click="toHome">
-      <img class="cursor-pointer w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-home.svg" >
+      <img class=" w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-home.svg" >
       <div class="text-white">Home</div>
     </div>
 
-    <div class="flex gap-5 items-center mt-10" @click="toProfile">
-      <img class="cursor-pointer w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-profile.svg" >
+    <div class="flex gap-5 items-center mt-10 cursor-pointer" @click="toProfile">
+      <img class=" w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-profile.svg" >
       <div class="text-white">Profile</div>
     </div>
 
     <div class="flex gap-5 items-center mt-10" @click="logout">
-      <img class="cursor-pointer w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-logout.svg" >
+      <img class=" w-10"  alt="Home Icon" src="/images/svgs/white-versions/white-logout.svg" >
       <div class="text-white">Logout</div>
     </div>
 

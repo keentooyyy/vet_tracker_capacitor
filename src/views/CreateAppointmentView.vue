@@ -87,26 +87,6 @@ export default {
       this.$router.back()
     },
     async getUserPets() {
-      const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token');
-      const id = localStorage.getItem('user_id');
-      try {
-        const response = await axios.get(`${url}/api/user/${id}/pets`, {
-          headers: {
-            'Authorization': `Bearer ${bearer}`,
-          },
-        });
-
-        if (response.data.pets && response.data.pets.length > 0) {
-          this.pets = response.data.pets;
-          this.selectedOption = this.pets[0].name; // Set default option
-        } else {
-          this.pets = [];
-          this.selectedOption = 'No Pets'; // Handle no pets scenario
-        }
-      } catch (err) {
-        console.log('API request Failed', err);
-      }
     },
     async setAppointment(){
 

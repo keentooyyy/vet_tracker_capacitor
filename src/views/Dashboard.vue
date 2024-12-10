@@ -32,7 +32,7 @@
         </div>
 
         <div class="bg-white w-4/12 h-full overflow-y-auto">
-          <AppointmentView></AppointmentView>
+          <AppointmentView/>
         </div>
 
       </div>
@@ -64,6 +64,7 @@ export default {
     this.getUserData()
     this.getPetTypes()
     this.getVaccineTypes()
+    this.getAllAppointments()
   },
   data() {
     return {
@@ -71,6 +72,7 @@ export default {
       first_name: null,
       pet_types_array: '',
       vaccine_types_array: '',
+      appointments: '',
       isMobile: false,
 
     }
@@ -149,6 +151,30 @@ export default {
         // Store the fetched vaccine types in localStorage for future use
         this.vaccine_types_array = response.data.vaccines;
         localStorage.setItem('vaccine_types', JSON.stringify(this.vaccine_types_array));
+
+      } catch (err) {
+        console.log('API Request Error', err);
+      }
+    },
+    async getAllAppointments(){
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      /*
+      * api/vets/show_all_appointments
+      *
+      *
+      * */
+      try {
+        const response = await axios.get(`${url}/api/vets/show_all_appointments`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        // Store the fetched vaccine types in localStorage for future use
+        this.appointments = response.data.appointments;
+        localStorage.setItem('appointments', JSON.stringify(this.appointments));
 
       } catch (err) {
         console.log('API Request Error', err);

@@ -163,7 +163,7 @@ export default {
         }
       }
 
-      const startTime = `${this.date} ${this.time}`;
+
 
       // const selectedPetId = this.pets.find(pet => pet.type === this.selectedOption)
 

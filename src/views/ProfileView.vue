@@ -72,48 +72,16 @@ export default {
     window.removeEventListener("resize", this.handleResize); // Clean up event listener
   },
   methods: {
-    async getUserData() {
+    getUserData() {
       // Check if user data exists in localStorage
       const storedUserData = localStorage.getItem('user');
 
-      if (storedUserData) {
-        // If user data exists in localStorage, parse and use it
-        const userData = JSON.parse(storedUserData);
 
-        this.first_name = userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1);
-        this.last_name = userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1);
-        this.email = userData.email;
+      const userData = JSON.parse(storedUserData);
 
-      } else {
-        // If no user data in localStorage, fetch from API
-        const url = process.env.VUE_APP_API_URL;
-        const id = localStorage.getItem('user_id');
-        const bearer = localStorage.getItem('bearer_token');
-
-        try {
-          const response = await axios.get(`${url}/api/user/${id}`, {
-            headers: {
-              'Authorization': `Bearer ${bearer}`,
-            },
-          });
-
-          const userData = response.data.user;
-
-          // Save the user data to localStorage
-          localStorage.setItem('user', JSON.stringify(userData));  // Store full user data
-
-          // Capitalize first and last name, store email
-          this.first_name = userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1);
-          this.last_name = userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1);
-          this.email = userData.email;
-
-        } catch (err) {
-          this.error = err;
-          console.log('API request Failed', err);
-          localStorage.clear();  // Clear localStorage if the API call fails
-          this.$router.push('/'); // Redirect to login or home page
-        }
-      }
+      this.first_name = userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1);
+      this.last_name = userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1);
+      this.email = userData.email
     },
 
     async logout() {

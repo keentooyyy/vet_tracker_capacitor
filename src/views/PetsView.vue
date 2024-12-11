@@ -1,30 +1,25 @@
 <template>
   <div v-if="isMobile">
-    <h1 class="text-2xl font-bold my-5">Your Pets</h1>
-
-
-    <div class="flex flex-col gap-5" >
+    <h1 class="text-2xl font-bold my-5">{{ headingText }}</h1>
+    <div class="flex flex-col gap-5">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
-
-
   </div>
 
   <div class="w-11/12 mx-auto" v-if="!isMobile">
-    <h1 class="text-2xl font-bold my-5">Your Pets</h1>
-    <div class="gap-5 grid grid-cols-2 w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold my-5">{{ headingText }}</h1>
+    <div class="gap-5 grid grid-cols-2">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
   </div>
-
-
 </template>
+
+
 
 <script>
 import PetComponent from "@/components/PetComponent.vue";
 import axios from "axios";
-import {updateLayout} from "@/helpers/layoutHelper";
-
+import { updateLayout } from "@/helpers/layoutHelper";
 
 export default {
   name: "PetsView",
@@ -44,18 +39,25 @@ export default {
     return {
       isMobile: updateLayout(),
       pets: [],
-
+      accountType: localStorage.getItem('account_type') || '',  // Get account type from localStorage
     };
   },
+
+  computed: {
+    // Compute the heading text based on account type
+    headingText() {
+      return this.accountType === 'vets' ? 'User Registered Pets' : 'Your Pets';
+    }
+  },
+
   mounted() {
     this.getPets();
     const user_id = this.userId || localStorage.getItem('user_id');
     this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
-    // console.log(this.pets);
   },
+
   methods: {
     async getPets() {
-
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
       const user_id = this.userId || localStorage.getItem('user_id');
@@ -67,7 +69,6 @@ export default {
           },
         });
 
-
         const pets_name = `pets_${user_id}`;
         const petsData = response.data.pets;
 
@@ -77,12 +78,11 @@ export default {
         // Update the reactive pets array
         this.pets = petsData;
 
-
       } catch (err) {
         console.log('API Request Error', err);
       }
-
     },
+
     async handleDeleteEmit(payload) {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
@@ -115,7 +115,7 @@ export default {
           },
         });
 
-        if (response.data){
+        if (response.data) {
           this.$router.push('/refresh').then(() => {
             this.$router.push('/dashboard'); // Navigate back to the same route
           });
@@ -124,14 +124,6 @@ export default {
         console.error(`Error deleting pet with ID ${payload} from the API:`, error);
       }
     }
-
-
-
-
   },
-
 };
 </script>
-<style scoped>
-
-</style>

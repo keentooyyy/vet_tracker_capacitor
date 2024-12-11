@@ -29,6 +29,7 @@
 
         <div class="mx-auto flex-1 overflow-y-auto">
           <router-view/>
+          <div class="mb-24"></div>
         </div>
 
         <div class="bg-gray-400 w-4/12 h-full overflow-y-auto">

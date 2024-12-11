@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isMobile">
     <h1 class="text-2xl font-bold my-5">Create an Appointment</h1>
 
     <div class="flex flex-col gap-y-4">
@@ -33,15 +33,58 @@
 
 
   </div>
+  <div v-if="!isMobile" class="w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold my-5">Create an Appointment</h1>
+
+    <div class="flex flex-col gap-y-4">
+
+      <div class="flex gap-x-3">
+        <input v-model="date" class="w-3/6 p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" type="date"/>
+        <input class="w-3/6 p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" type="time" v-model="time"
+               :min="minTime"
+               :max="maxTime"
+               step="3600"/>
+      </div>
+
+      <select v-model="selectedOption"
+              class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
+        <option v-for="pet in pets" :key="pet.id" :value="pet.name">{{ pet.name }}</option>
+      </select>
+
+<!--      {{ selectedPetId }}-->
+
+
+      <input
+          v-model="purpose"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Purpose" type="text"/>
+
+
+      <div class="flex just-center gap-12">
+        <button class="bg-[var(--main-color)] py-3 rounded-md text-white text-xl cursor-pointer w-full" @click="setAppointment">Submit</button>
+        <button class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-3 rounded-md cursor-pointer w-full"
+                @click="goBack">
+          Back
+        </button>
+      </div>
+
+    </div>
+
+
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 export default {
   name: "CreateAppointmentView",
   data() {
     return {
+      isMobile: updateLayout(),
+
+
       isPetAlreadyUpdated: false,
       // hasNoPets: false,
 
@@ -80,7 +123,13 @@ export default {
   },
   created() {
     this.getUserPets();
+    window.addEventListener("resize", this.handleResize);
   },
+
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
+  },
+
 
   methods: {
     goBack() {

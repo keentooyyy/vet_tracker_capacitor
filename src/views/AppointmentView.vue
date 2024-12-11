@@ -1,13 +1,44 @@
 <template>
-  <div v-for="appointment in appointments" :key="appointment.id" class="text-black">
+
+  <h1 class="text-2xl font-bold my-5 text-center">Appointments for Today</h1>
+  <div v-for="appointment in appointments" :key="appointment.id" class="bg-white rounded-md w-11/12 mx-auto p-5 text-black">
     <div v-if="appointment.user && appointment.pet">
-      <h3 class="text-xl font-bold">
-        Appointment for {{ appointment.user.fullName }}'s Pet: {{ appointment.pet.name }}
+      <h3 class="text-xl font-bold uppercase">
+        Appointment for {{ appointment.user.fullName }}
       </h3>
-      <p><strong>Purpose:</strong> {{ appointment.purpose }}</p>
-      <p><strong>Status:</strong> {{ appointment.appointment_status }}</p>
-      <p><strong>Start Time:</strong> {{ appointment.start_time }}</p>
+
+      <div class="mt-3">
+        <span class="font-bold">Pet: </span>
+        <span class="uppercase">{{ appointment.pet.name }}</span>
+      </div>
+
+      <div>
+        <span class="font-bold">Purpose: </span>
+        <span class="uppercase">{{ appointment.purpose }}</span>
+      </div>
+
+
+      <div>
+        <span class="font-bold">Start Time: </span>
+        <span class="bg-[var(--main-color)] px-5 text-white uppercase">{{ appointment.start_time }}</span>
+      </div>
+
       <p v-if="appointment.end_time"><strong>End Time:</strong> {{ appointment.end_time }}</p>
+      <div class="flex mt-3 justify-end gap-5 w-full uppercase">
+
+
+        <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-md cursor-pointer"
+        >Complete
+        </button>
+
+        <button class="bg-red-800 px-4 rounded-full text-white text-md cursor-pointer"
+        >Cancel
+        </button>
+
+
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -31,33 +62,36 @@ export default {
       this.matchUsersAndPets();
     },
     matchUsersAndPets() {
-
       this.appointments = this.appointments.map(appointment => {
-
         const user = this.users.find(user => user.id === appointment.user_id);
-
-
         const pet = user ? user.pets.find(pet => pet.id === appointment.pet_id) : null;
 
         if (user && pet) {
-          appointment.user = {
-            fullName: `${user.first_name}`,
-            email: user.email
-          };
-          appointment.pet = {
-            name: pet.name,
-            breed: pet.breed
+          return {
+            ...appointment,
+            user: {
+              fullName: `${user.first_name}`,
+              email: user.email
+            },
+            pet: {
+              name: pet.name,
+              breed: pet.breed
+            }
           };
         } else {
           console.log(`No matching user or pet found for appointment ID: ${appointment.id}`);
+          return appointment;
         }
-
-        return appointment;
       });
-    }
 
+      // Reassign the array to force Vue's reactivity system to detect changes
+      this.appointments = [...this.appointments];
+    },
+    async cancelAppointment(){
+
+    }
   }
-};
+}
 </script>
 
 <style scoped>

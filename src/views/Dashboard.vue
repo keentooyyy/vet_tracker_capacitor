@@ -27,11 +27,11 @@
 
       <div class="flex flex-1 justify-between overflow-hidden">
 
-        <div class="pl-8 flex-1 overflow-y-auto">
+        <div class="mx-auto flex-1 overflow-y-auto">
           <router-view/>
         </div>
 
-        <div class="bg-white w-4/12 h-full overflow-y-auto">
+        <div class="bg-gray-400 w-4/12 h-full overflow-y-auto">
           <AppointmentView/>
         </div>
 

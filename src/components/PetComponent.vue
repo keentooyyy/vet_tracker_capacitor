@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-md p-5 flex w-full flex-wrap relative lg:hidden">
+  <div class="bg-white rounded-md p-5 flex w-full flex-wrap relative" v-if="isMobile">
     <img alt="Pet Icon" class="w-1/4 mr-5 md:mr-10" src="/images/svgs/pet-icon.svg">
     <div>
       <h1 class="font-bold text-2xl uppercase">{{ pet.name }}</h1>
@@ -24,7 +24,7 @@
   </div>
 
 
-  <div class="bg-white w-full p-5 rounded-md relative hidden lg:flex gap-7">
+  <div class="bg-white p-5 rounded-md relative flex gap-5 w-96" v-if="!isMobile">
     <img alt="Pet Icon" class="w-4/12" src="/images/svgs/pet-icon.svg">
     <div>
       <h1 class="font-bold uppercase">{{ pet.name }}</h1>
@@ -52,6 +52,8 @@
 
 <script>
 
+import {updateLayout} from "@/helpers/layoutHelper";
+
 export default {
   name: "PetComponent",
   props: {
@@ -62,9 +64,17 @@ export default {
   },
   data() {
     return {
+      isMobile: updateLayout(),
+
       pet_types_array: '',
       pet_type: ''
     }
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
   },
   beforeMount() {
 

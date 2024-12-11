@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="isMobile">
+
     <h1 class="text-2xl font-bold my-5">Pet Medical Record Details</h1>
 
     <p>Name: <span class="font-bold uppercase">{{ pet_name }}</span></p>
@@ -44,6 +45,51 @@
   </div>
 
 
+  <div v-if="!isMobile" class=" w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold my-5">Pet Medical Record Details</h1>
+
+    <p>Name: <span class="font-bold uppercase">{{ pet_name }}</span></p>
+    <p>Breed: <span class="font-bold uppercase">{{ pet_breed }}</span></p>
+    <p>Pet Type: <span class="font-bold uppercase">{{ pet_type }}</span></p>
+    <br>
+
+    <h1 class="text-2xl font-bold my-5">Medical Records</h1>
+
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+        <tr>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Vaccine Type</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date Administered</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date of Next Administration</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.id)}}</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
+          <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+
+<!--      Show only on vets side but on vet side it is a -->
+      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
+        Add Medical Record
+      </button>
+      <p class="mt-5">Fully Vaccinated?</p>
+      <p class="font-bold">Yes</p>
+    </div>
+
+    <button
+        class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-3 px-10 rounded-md cursor-pointer  mt-8"
+        @click="goBack">Back
+    </button>
+  </div>
+
+
 
 
 
@@ -64,7 +110,7 @@
                 :key="vaccine_types.id"
                 :value="vaccine_types.name"
             >
-              {{ pet_type.name }}
+              {{ vaccine_types.name }}
             </option>
           </select>
         </div>
@@ -73,7 +119,7 @@
               class="text-sm outline outline-2 outline-[var(--main-color)] text-[var(--main-color)] rounded-full py-2 px-3 w-3/6"
               @click="handleSubmit">Submit
           </button>
-          <button class="text-sm text-white bg-[var(--main-color)] rounded-full py-2 px-3 w-3/6" @click="closeModal">
+          <button class="text-sm text-white bg-[var(--main-color)] rounded-full py-2 px-3 w-3/6" @click="openModal">
             Cancel
           </button>
         </div>
@@ -86,11 +132,14 @@
 
 <script>
 import axios from "axios";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 export default {
   name: "PetMedicalRecordsView",
   data() {
     return {
+
+      isMobile: updateLayout(),
 
       pet_types_array: [],
       vaccine_types_array: [],
@@ -125,6 +174,12 @@ export default {
     }
 
 
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
   },
   updated() {
 

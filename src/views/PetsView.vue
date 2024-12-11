@@ -1,24 +1,29 @@
 <template>
-  <div>
+  <div v-if="isMobile">
     <h1 class="text-2xl font-bold my-5">Your Pets</h1>
 
 
-    <div class="flex flex-col gap-5 lg:hidden">
+    <div class="flex flex-col gap-5" >
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
 
 
   </div>
 
-  <div class="gap-5 hidden lg:grid grid-cols-2 w-11/12 mx-auto">
-    <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
+  <div class="w-11/12 mx-auto" v-if="!isMobile">
+    <h1 class="text-2xl font-bold my-5">Your Pets</h1>
+    <div class="gap-5 grid grid-cols-2 w-11/12 mx-auto">
+      <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
+    </div>
   </div>
+
 
 </template>
 
 <script>
 import PetComponent from "@/components/PetComponent.vue";
 import axios from "axios";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 
 export default {
@@ -26,13 +31,18 @@ export default {
   components: {
     PetComponent,
   },
-  created(){
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
   },
 
   props: ['userId'],
 
   data() {
     return {
+      isMobile: updateLayout(),
       pets: [],
 
     };

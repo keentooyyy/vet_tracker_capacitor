@@ -49,6 +49,7 @@ import MobileHeader from "@/components/MobileHeader.vue";
 
 import MobileFooterBar from "@/components/MobileFooterBar.vue";
 import AppointmentView from "@/views/AppointmentView.vue";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 
 export default {
@@ -59,12 +60,14 @@ export default {
 
 
   created() {
-    this.updateLayout();
-    window.addEventListener("resize", this.updateLayout);
+    window.addEventListener("resize", this.handleResize);
     this.getUserData()
     this.getPetTypes()
     this.getVaccineTypes()
     this.getAllAppointments()
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
   },
   data() {
     return {
@@ -73,14 +76,15 @@ export default {
       pet_types_array: '',
       vaccine_types_array: '',
       appointments: '',
-      isMobile: false,
+      isMobile: updateLayout(),
 
     }
   },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.updateLayout); // Clean up event listener
-  },
+
   methods: {
+    handleResize() {
+      this.isMobile = updateLayout();
+    },
 
     async getUserData() {
       const url = process.env.VUE_APP_API_URL;
@@ -179,9 +183,6 @@ export default {
       } catch (err) {
         console.log('API Request Error', err);
       }
-    },
-    updateLayout() {
-      this.isMobile = window.innerWidth < 1024; // Adjust breakpoint as needed
     },
   },
 

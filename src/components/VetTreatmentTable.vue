@@ -65,8 +65,16 @@ export default {
     return {
       isModalOpen: false, // Tracks modal visibility
       modalInputValue: "", // Input value for the vaccine name
-      vaccineTypes: JSON.parse(localStorage.getItem('vaccine_types')) || [], // Initial vaccine types data
+      vaccineTypes: [], // Initial vaccine types data
     };
+  },
+  mounted() {
+    const vaccineTypesFromStorage = localStorage.getItem('vaccine_types');
+    this.vaccineTypes = vaccineTypesFromStorage ? JSON.parse(vaccineTypesFromStorage) : [];
+
+    this.$nextTick(() => {
+      // You can add any additional logic here if necessary
+    });
   },
   methods: {
     // Opens the modal when the "Add New Vaccine" button is clicked
@@ -96,7 +104,7 @@ export default {
             }
         );
         console.log(response);
-        alert("Vaccine added successfully! Please close this alert to continue.");
+        alert("Vaccine added successfully!");
 
         // Update the vaccine_types in localStorage or state to reflect the change
         const currentVaccineTypes = JSON.parse(localStorage.getItem('vaccine_types')) || [];

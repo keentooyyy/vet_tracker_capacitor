@@ -87,6 +87,8 @@ export default {
       this.$router.back()
     },
     async getUserPets() {
+      const user_id = localStorage.getItem('user_id');
+      this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`))
     },
     async setAppointment(){
 

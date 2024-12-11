@@ -30,7 +30,7 @@
       </table>
 
 <!--      Show only on vets side but on vet side it is a -->
-      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet">
+      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
@@ -52,7 +52,7 @@
          class="bg-gray-500 bg-opacity-60 absolute top-0 h-screen w-full flex flex-col justify-center items-center">
       <div class="w-10/12 md:max-w-screen-sm">
         <div class="bg-gray-300 rounded-tl-md rounded-tr-md p-3">
-          <div class="cursor-pointer text-[var(--main-color)] text-end" @click="closeModal">X</div>
+          <div class="cursor-pointer text-[var(--main-color)] text-end" @click="openModal">X</div>
         </div>
         <div class="bg-white py-5 px-3">
           <select
@@ -204,6 +204,12 @@ export default {
         }
       }
       return 'Unknown Vaccine'; // Return default if no match is found
+    },
+
+
+
+    openModal(){
+      this.isOpen = !this.isOpen;
     }
   }
 }

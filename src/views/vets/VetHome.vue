@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-11/12 mx-auto">
     <h1 class="text-2xl font-bold my-5"> All Users Pets with its registered pets</h1>
     <!-- SEARCH BOX -->
     <div class="my-4">
@@ -39,17 +39,22 @@
       </table>
 
     </div>
+
+    <VetTreatmentTable/>
+    <VetSpeciesTable/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import ReusableModal from "@/components/ReusableModal.vue";
+import VetTreatmentTable from "@/components/VetTreatmentTable.vue";
+import VetSpeciesTable from "@/components/VetSpeciesTable.vue";
 
 export default {
   name: "VetHome",
   // eslint-disable-next-line vue/no-unused-components
-  components: {ReusableModal},
+  components: {VetSpeciesTable, VetTreatmentTable, ReusableModal},
   data() {
     return {
       users: [],

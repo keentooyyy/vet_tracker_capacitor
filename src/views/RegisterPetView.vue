@@ -9,16 +9,21 @@
           placeholder="Enter Your Pet Name" type="text"/>
       <div class="flex gap-x-3">
 
-        <select v-model="selectedOption"
-                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
-          <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">{{
-              pet_type.type
-            }}
-          </option>
-        </select>
+        <!-- Conditionally render the dropdown or message if no pet types are available -->
+        <template v-if="pet_types_array.length > 0">
+          <select v-model="selectedOption"
+                  class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
+            <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">
+              {{ pet_type.type }}
+            </option>
+          </select>
+        </template>
+        <template v-else>
+          <p class="text-lg text-red-500">No species registered.</p>
+        </template>
 
         <input
-            v-model="pet_birthdate "
+            v-model="pet_birthdate"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
             placeholder="Enter Your Pet Birthdate" type="date"/>
 
@@ -41,68 +46,59 @@
 
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
 import axios from "axios";
 
-
 export default {
   name: "EditPetView",
 
   mounted() {
-    // this.getPetTypes()
-
-// console.log(this.pet_types_array)
-    this.populatePetTypes()
-
-
+    this.populatePetTypes();
   },
-  updated(){
 
-
-    if (!this.isGetPetUpdated){
-
-      this.selectedOption = this.pet_types_array[0].type
-
-      this.isGetPetUpdated = true
-
+  updated() {
+    if (this.pet_types_array.length > 0 && !this.isGetPetUpdated) {
+      this.selectedOption = this.pet_types_array[0].type; // Set default selection to the first type
+      this.isGetPetUpdated = true;
     }
   },
+
   data() {
     return {
       isGetPetUpdated: false,
 
-
       selectedOption: '',
       pet_types_array: [],
-
 
       pet_name: '',
       pet_breed: '',
       pet_birthdate: '',
       pet_type: ''
-    }
+    };
   },
+
   methods: {
     goBack() {
-      this.$router.back()
+      this.$router.back();
     },
 
-    populatePetTypes(){
-      this.pet_types_array = JSON.parse(localStorage.getItem('pet_types'))
+    populatePetTypes() {
+      const petTypesFromStorage = localStorage.getItem('pet_types');
+      if (petTypesFromStorage) {
+        this.pet_types_array = JSON.parse(petTypesFromStorage);
+      } else {
+        this.pet_types_array = [];
+      }
     },
-
-
 
     async createPet() {
       const url = process.env.VUE_APP_API_URL;
-      const id = localStorage.getItem('user_id')
-      const bearer = localStorage.getItem('bearer_token')
-      const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption)
+      const id = localStorage.getItem('user_id');
+      const bearer = localStorage.getItem('bearer_token');
+      const selectedPet = this.pet_types_array.find(pet => pet.type === this.selectedOption);
 
       try {
         const response = await axios.post(`${url}/api/user/create_pet`, {
@@ -110,27 +106,26 @@ export default {
           name: this.pet_name,
           breed: this.pet_breed,
           birthdate: this.pet_birthdate,
-          pet_type_id: selectedPet.id,
+          pet_type_id: selectedPet ? selectedPet.id : null, // Handle the case where no pet type is selected
         }, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
         });
-        if (response){
+
+        if (response) {
           this.$router.push('/refresh').then(() => {
-            this.$router.push('/dashboard'); // Navigate back to the same route
+            this.$router.push('/dashboard');
           });
         }
       } catch (err) {
         this.error = err;
         console.log('API request Failed', err);
       }
-
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

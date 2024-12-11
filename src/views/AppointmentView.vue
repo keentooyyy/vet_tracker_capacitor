@@ -23,14 +23,14 @@
         </div>
 
         <div>
-          <span class="font-bold">Date and Time: </span>
-          <span class="bg-[var(--main-color)] px-5 text-white uppercase">
-            {{ formatDate(appointment.date) }}, {{ formatTime(appointment.start_time) }}
+          <span class="font-bold">Start Time: </span>
+          <span class="bg-[var(--main-color)] px-5 text-white ">
+            {{ formatDate(appointment.start_time) }}
           </span>
         </div>
 
         <p v-if="appointment.end_time">
-          <strong>End Time:</strong> {{ formatTime(appointment.end_time) }}
+          <strong>End Time:</strong> {{ formatDate(appointment.end_time)  }}
         </p>
 
         <div class="flex mt-3 justify-end gap-5 w-full uppercase">
@@ -51,12 +51,17 @@
   </div>
 
   <!-- Show this message if appointments are empty or null -->
-  <div v-else class="text-center text-gray-500 text-lg font-semibold">
+  <div
+      v-else
+      class="text-center text-gray-500 text-lg font-semibold"
+  >
     Empty appointments
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'; // Import dayjs
+
 export default {
   name: "AppointmentView",
   data() {
@@ -70,20 +75,16 @@ export default {
   },
   methods: {
     getAppointmentandUsers() {
-      try {
-        // Fetch data from API or use localStorage as fallback
-        const usersData = localStorage.getItem("user_accounts");
-        const appointmentsData = localStorage.getItem("appointments");
+      // Retrieve and parse data from localStorage
+      const usersData = localStorage.getItem("user_accounts");
+      const appointmentsData = localStorage.getItem("appointments");
 
-        // Parse fetched data
-        this.users = JSON.parse(usersData);
-        this.appointments = JSON.parse(appointmentsData);
+      // Handle null or invalid data
+      this.users = usersData ? JSON.parse(usersData) : [];
+      this.appointments = appointmentsData ? JSON.parse(appointmentsData) : [];
 
-        // Process and update the UI
-        this.matchUsersAndPets();
-      } catch (error) {
-        console.error("Error fetching appointment data:", error);
-      }
+      // Process the appointments and match users/pets
+      this.matchUsersAndPets();
     },
 
     matchUsersAndPets() {
@@ -92,8 +93,7 @@ export default {
         this.appointments = [];
       }
 
-      // Match users and pets
-      const updatedAppointments = this.appointments.map((appointment) => {
+      this.appointments = this.appointments.map((appointment) => {
         const user = this.users.find((user) => user.id === appointment.user_id);
         const pet = user ? user.pets.find((pet) => pet.id === appointment.pet_id) : null;
 
@@ -101,7 +101,7 @@ export default {
           return {
             ...appointment,
             user: {
-              fullName: `${user.first_name} ${user.last_name}`,
+              fullName: `${user.first_name}`,
               email: user.email,
             },
             pet: {
@@ -116,29 +116,17 @@ export default {
       });
 
       // Reassign to force Vue reactivity
-      this.appointments = [...updatedAppointments];
+      this.appointments = [...this.appointments];
     },
 
-    // Method to format 24-hour time to 12-hour format with AM/PM
-    formatTime(timeString) {
-      const [hours, minutes] = timeString.split(':').map(Number);
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const hour12 = hours % 12 || 12; // Convert hour to 12-hour format
-      const minuteFormatted = minutes < 10 ? `0${minutes}` : minutes;
-
-      return `${hour12}:${minuteFormatted} ${ampm}`;
+    // Method to format the start_time
+    formatDate(startTime) {
+      return dayjs(startTime).format('MMM D, h A'); // Format as Dec. 12, 10 AM
     },
-
-    // Method to format the date to "Dec, 12"
-    formatDate(dateString) {
-      const date = new Date(dateString); // Assuming the dateString is a valid date format
-      const options = {month: 'short', day: 'numeric'};
-      return date.toLocaleDateString('en-US', options); // Formats like "Dec, 12"
-    }
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
-/* Add your styles here */
+/* Add custom styles for the appointment view */
 </style>

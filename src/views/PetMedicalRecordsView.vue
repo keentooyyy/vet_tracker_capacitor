@@ -69,7 +69,7 @@
         </thead>
         <tbody>
         <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.id)}}</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.vaccine_id)}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
           <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
@@ -90,7 +90,7 @@
           <option :value="isFullyVaccinated">No</option>
         </select>
       </div>
-      
+
       <div v-else>
         <p class="font-bold" v-if="isFullyVaccinated === 1">Yes</p>
         <p class="font-bold" v-else>No</p>
@@ -124,7 +124,7 @@
               <option
                   v-for="vaccine_types in vaccine_types_array"
                   :key="vaccine_types.id"
-                  :value="vaccine_types.name"
+                  :value="vaccine_types.id"
               >
                 {{ vaccine_types.name }}
               </option>
@@ -133,6 +133,7 @@
           </div>
           <div class="w-full">
             <input
+                v-model="date"
                 class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-full"
                 placeholder="Enter Date Administered"
                 type="date">
@@ -142,13 +143,14 @@
             <p class="text-sm mb-2 text-red-900">Leave empty if this is a one time administration or there is no need for next administration</p>
             <div class="flex gap-5">
               <input
+                  v-model="number"
                   class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md "
                   placeholder="Enter a number"
-                  type="text">
-              <select class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
+                  type="number">
+              <select v-model="selectedUnit" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
                 <option value="Days">Days</option>
-                <option value="Days">Months</option>
-                <option value="Days">Years</option>
+                <option value="Months">Months</option>
+                <option value="Years">Years</option>
               </select>
             </div>
             <p class="opacity-50 mt-2">Date of next Administration</p>
@@ -159,7 +161,7 @@
         <div class="bg-gray-300 rounded-bl-md rounded-br-md p-3 flex gap-x-5">
           <button
               class="text-sm outline outline-2 outline-[var(--main-color)] text-[var(--main-color)] rounded-full py-2 px-3 w-3/6"
-              @click="handleSubmit">Submit
+              @click="createMedicalRecord">Submit
           </button>
           <button class="text-sm text-white bg-[var(--main-color)] rounded-full py-2 px-3 w-3/6" @click="openModal">
             Cancel
@@ -187,6 +189,10 @@ export default {
       vaccine_types_array: [],
       medical_records_array: [],
       selectedOption: '',
+
+      date: '',
+      number: '',
+      selectedUnit: '',
 
 
       pet_name: '',
@@ -302,6 +308,58 @@ export default {
         }
       }
       return 'Unknown Vaccine'; // Return default if no match is found
+    },
+
+    async createMedicalRecord() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const pet_id = this.$route.params.id;
+
+      let date_of_next_administration = null;
+
+      // Only calculate next administration date if a valid number is provided
+      if (this.number && this.number > 0) {
+        const dateAdministered = this.date ? new Date(this.date) : new Date(); // Use the provided date or default to current date
+        const unit = this.selectedUnit;  // "Days", "Months", or "Years"
+
+        switch (unit) {
+          case 'Days':
+            dateAdministered.setDate(dateAdministered.getDate() + parseInt(this.number));
+            break;
+          case 'Months':
+            dateAdministered.setMonth(dateAdministered.getMonth() + parseInt(this.number));
+            break;
+          case 'Years':
+            dateAdministered.setFullYear(dateAdministered.getFullYear() + parseInt(this.number));
+            break;
+          default:
+            break;
+        }
+
+        // Format the date to Y-m-d
+        date_of_next_administration = dateAdministered.toISOString().split('T')[0]; // This gives us "YYYY-MM-DD"
+      }
+
+      try {
+        const response = await axios.post(`${url}/api/vets/create_medical_record`, {
+          pet_id: pet_id,
+          vaccine_id: this.selectedOption,
+          date_of_administration: this.date,
+          date_of_next_administration: date_of_next_administration || null // If no next date, send null
+        }, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        console.log('Medical Record Created', response);
+
+        // Re-fetch medical records after submitting
+        this.getMedicalRecords();  // This will update the list of records
+        this.openModal();  // Close the modal after submission
+      } catch (err) {
+        console.log('API error', err);
+      }
     },
 
 

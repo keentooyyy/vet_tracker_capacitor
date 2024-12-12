@@ -4,6 +4,7 @@
     <div class="flex flex-col gap-5">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
+    <div class="mb-48"></div>
   </div>
 
   <div class="w-11/12 mx-auto" v-if="!isMobile">
@@ -11,6 +12,7 @@
     <div class="gap-5 grid grid-cols-2">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
+    <div class="mb-48"></div>
   </div>
 </template>
 

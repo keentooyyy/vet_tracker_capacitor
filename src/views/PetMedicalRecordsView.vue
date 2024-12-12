@@ -27,10 +27,12 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
           <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
         </tr>
+        <tr v-if="!medical_records_array.length">
+          <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
+        </tr>
         </tbody>
       </table>
 
-<!--      Show only on vets side but on vet side it is a -->
       <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
         Add Medical Record
       </button>
@@ -72,10 +74,12 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
           <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
         </tr>
+        <tr v-if="!medical_records_array.length">
+          <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
+        </tr>
         </tbody>
       </table>
 
-<!--      Show only on vets side but on vet side it is a -->
       <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
         Add Medical Record
       </button>
@@ -100,19 +104,45 @@
         <div class="bg-gray-300 rounded-tl-md rounded-tr-md p-3">
           <div class="cursor-pointer text-[var(--main-color)] text-end" @click="openModal">X</div>
         </div>
-        <div class="bg-white py-5 px-3">
-          <select
-              v-model="selectedOption"
-              class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6"
-          >
-            <option
-                v-for="vaccine_types in vaccine_types_array"
-                :key="vaccine_types.id"
-                :value="vaccine_types.name"
+        <div class="bg-white py-5 px-3 flex gap-6 flex-wrap">
+          <div class="w-full">
+            <select
+                v-model="selectedOption"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-full"
             >
-              {{ vaccine_types.name }}
-            </option>
-          </select>
+              <option
+                  v-for="vaccine_types in vaccine_types_array"
+                  :key="vaccine_types.id"
+                  :value="vaccine_types.name"
+              >
+                {{ vaccine_types.name }}
+              </option>
+            </select>
+            <p class="opacity-50 mt-2">Vaccine Administered</p>
+          </div>
+          <div class="w-full">
+            <input
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-full"
+                placeholder="Enter Date Administered"
+                type="date">
+            <p class="opacity-50 mt-2">Date Administered</p>
+          </div>
+          <div class="w-full">
+
+            <div class="flex gap-5">
+              <input
+                  class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md "
+                  placeholder="Enter a number"
+                  type="text">
+              <select class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
+                <option value="Days">None</option>
+                <option value="Days">Days</option>
+                <option value="Days">Months</option>
+              </select>
+            </div>
+            <p class="opacity-50 mt-2">Date of next Administration</p>
+          </div>
+
         </div>
         <div class="bg-gray-300 rounded-bl-md rounded-br-md p-3 flex gap-x-5">
           <button
@@ -192,10 +222,9 @@ export default {
   methods: {
     populateData() {
       let user_id;
-      if (this.$route.params.userId){
+      if (this.$route.params.userId) {
         user_id = this.$route.params.userId
-      }
-      else {
+      } else {
         user_id = localStorage.getItem('user_id')
       }
       this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));
@@ -225,7 +254,7 @@ export default {
         console.error("Pet not found");
       }
     },
-    goBack(){
+    goBack() {
       this.$router.back()
     },
     async getPetTypes() {
@@ -262,8 +291,7 @@ export default {
     },
 
 
-
-    openModal(){
+    openModal() {
       this.isOpen = !this.isOpen;
     }
   }

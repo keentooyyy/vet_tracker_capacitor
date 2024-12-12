@@ -128,19 +128,20 @@
             <p class="opacity-50 mt-2">Date Administered</p>
           </div>
           <div class="w-full">
-
+            <p class="text-sm mb-2 text-red-900">Leave empty if this is a one time administration or there is no need for next administration</p>
             <div class="flex gap-5">
               <input
                   class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md "
                   placeholder="Enter a number"
                   type="text">
               <select class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
-                <option value="Days">None</option>
                 <option value="Days">Days</option>
                 <option value="Days">Months</option>
+                <option value="Days">Years</option>
               </select>
             </div>
             <p class="opacity-50 mt-2">Date of next Administration</p>
+
           </div>
 
         </div>

@@ -16,7 +16,7 @@
         <tr>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">First Name</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Last Name</td>
-          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Email</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Address</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">No. Registered Pets</td>
         </tr>
         </thead>
@@ -29,7 +29,7 @@
             {{ user.last_name }}
           </td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
-            {{ user.email }}
+            {{ user.street }} st., brgy. {{user.brgy}}, {{user.city}} City
           </td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
             {{ user.pets ? user.pets.length : 0  }}

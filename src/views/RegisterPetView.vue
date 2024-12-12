@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isMobile">
     <h1 class="text-2xl font-bold my-5">Register Pet</h1>
 
     <div class="flex flex-col gap-y-4">
@@ -47,16 +47,71 @@
       </div>
     </div>
   </div>
+  <div v-if="!isMobile" class="w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold my-5">Register Pet</h1>
+
+    <div class="flex flex-col gap-y-4">
+      <input
+          v-model="pet_name"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Name" type="text"/>
+      <div class="flex gap-x-3">
+
+        <!-- Conditionally render the dropdown or message if no pet types are available -->
+        <template v-if="pet_types_array.length > 0">
+          <select v-model="selectedOption"
+                  class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
+            <option v-for="pet_type in pet_types_array" :key="pet_type.id" :value="pet_type.type">
+              {{ pet_type.type }}
+            </option>
+          </select>
+        </template>
+        <template v-else>
+          <p class="text-lg text-red-500">No species registered.</p>
+        </template>
+
+        <input
+            v-model="pet_birthdate"
+            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
+            placeholder="Enter Your Pet Birthdate" type="date"/>
+
+      </div>
+
+      <input
+          v-model="pet_breed"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl"
+          placeholder="Enter Your Pet Breed" type="text"/>
+
+      <div class="w-full flex  gap-5 mt-5">
+        <button class="bg-[var(--main-color)] py-3 rounded-md text-white text-xl cursor-pointer w-full" @click="createPet">
+          Submit
+        </button>
+
+        <button
+            class="text-[var(--main-color)] text-xl outline outline-2 outline-[var(--main-color)] py-3 rounded-md cursor-pointer w-full"
+            @click="goBack">Back
+        </button>
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 export default {
   name: "EditPetView",
 
   mounted() {
     this.populatePetTypes();
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize); // Clean up event listener
   },
 
   updated() {
@@ -68,6 +123,7 @@ export default {
 
   data() {
     return {
+      isMobile: updateLayout(),
       isGetPetUpdated: false,
 
       selectedOption: '',

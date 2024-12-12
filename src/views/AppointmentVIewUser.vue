@@ -28,7 +28,7 @@
         </p>
 
         <div class="flex mt-3 justify-end gap-5 w-full uppercase">
-          <button
+          <button @click="cancelAppointment(appointment.id)"
               class="bg-red-800 px-4 rounded-full text-white text-md cursor-pointer"
           >
             Cancel
@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'; // Import dayjs
+import dayjs from 'dayjs';
+import axios from "axios"; // Import dayjs
 
 export default {
   name: "AppointmentViewUser",
@@ -121,6 +122,35 @@ export default {
 
       // Reassign to force Vue reactivity
       this.appointments = [...this.appointments];
+    },
+
+    async cancelAppointment(appointmentID){
+
+      /*
+      * api/vets/update_appointment/{appointmentId}
+      *
+      *
+      *
+      *
+      * */
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        await axios.patch(`${url}/api/user/update_appointment/${appointmentID}`, {
+          appointment_status: 'canceled'
+        },{
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        alert('Appointment canceled')
+        this.getAllAppointments()
+      } catch (err) {
+        console.log('API error', err);
+      }
     },
 
     // Method to format the start_time

@@ -7,8 +7,27 @@
     <div class="mb-48"></div>
   </div>
 
-  <div class="w-11/12 mx-auto" v-if="!isMobile">
-    <h1 class="text-2xl font-bold my-5">{{ headingText }}</h1>
+  <div v-if="!isMobile" class="w-11/12 mx-auto">
+    <div class="flex gap-x-3 items-center justify-between">
+      <h1 class="text-2xl font-bold my-5">{{ headingText }}</h1>
+      <div class="flex gap-5">
+
+        <button @click="toAppointment"
+            class="text-[var(--main-color)] text-md outline outline-2 outline-[var(--main-color)] py-3 px-5 rounded-md cursor-pointer "
+        >
+          Create Appointment
+        </button>
+        <button @click="toRegister"
+            class="bg-[var(--main-color)] py-3 px-5 rounded-md text-white text-md cursor-pointer "
+
+        >
+          Register New Pet
+        </button>
+
+
+      </div>
+    </div>
+
     <div class="gap-5 grid grid-cols-2">
       <PetComponent v-for="pet in pets" :key="pet.id" :pet="pet" @deleteEmit="handleDeleteEmit"/>
     </div>
@@ -17,11 +36,10 @@
 </template>
 
 
-
 <script>
 import PetComponent from "@/components/PetComponent.vue";
 import axios from "axios";
-import { updateLayout } from "@/helpers/layoutHelper";
+import {updateLayout} from "@/helpers/layoutHelper";
 
 export default {
   name: "PetsView",
@@ -59,6 +77,13 @@ export default {
   },
 
   methods: {
+    toAppointment(){
+      this.$router.push('/dashboard/create_appointment')
+    },
+    toRegister(){
+      this.$router.push('/dashboard/pets/register')
+    },
+
     async getPets() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');

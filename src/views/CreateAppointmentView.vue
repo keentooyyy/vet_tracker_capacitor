@@ -173,7 +173,9 @@ export default {
         });
 
         if (response.data.appointment) {
-          this.$router.push('/dashboard/pets');
+          this.$router.push('/refresh').then(() => {
+            this.$router.push('/dashboard');
+          });
         }
       } catch (err) {
         console.error('API request failed', err);

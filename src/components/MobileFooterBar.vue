@@ -91,7 +91,7 @@ export default {
       this.$router.push('/dashboard/search')
     },
     toNotifications() {
-      // this.$router.push('/dashboard/pets')
+      this.$router.push('/dashboard/notifications')
     },
     plusClick() {
       this.message = 'Create an appointment or register new pet ?'

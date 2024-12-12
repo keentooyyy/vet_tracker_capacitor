@@ -10,6 +10,7 @@ import PetMedicalRecordsView from "@/views/PetMedicalRecordsView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import SearchView from "@/views/SearchView.vue";
 import VetHome from "@/views/vets/VetHome.vue";
+import NotificationVIew from "@/views/NotificationVIew.vue";
 
 const routes = [
     {
@@ -82,6 +83,11 @@ const routes = [
                 path: 'pets/:userId/pet_records/:id',
                 name: 'PetMedicalRecordsViewVets',
                 component: PetMedicalRecordsView,
+            },
+            {
+                path: 'notifications',  // Remove the leading `/`, making this a relative path
+                name: 'NotificationVIew',
+                component: NotificationVIew,
             },
 
 

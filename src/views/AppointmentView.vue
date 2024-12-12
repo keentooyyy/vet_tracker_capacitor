@@ -147,6 +147,7 @@ export default {
         });
         alert('Appointment completed')
         this.getAllAppointments()
+        this.getAppointmentandUsers()
 
       } catch (err) {
         console.log('API error', err);

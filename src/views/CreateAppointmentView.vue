@@ -131,17 +131,22 @@ export default {
       }
     },
     formatHour(hour) {
+      // Ensure two-digit formatting
+      const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
+
       if (hour === 12) {
         return "12 PM";
       } else if (hour > 12) {
         return `${hour - 12} PM`;
       } else {
-        return `${hour} AM`;
+        return `${formattedHour} AM`;
       }
     },
+
     async setAppointment() {
       // Combine the date and time to create the full appointment datetime.
-      const appointmentDateTime = `${this.date} ${this.time}:00`; // Hour with '00' minutes
+      const formattedTime = this.time.padStart(2, '0');
+      const appointmentDateTime = `${this.date} ${formattedTime}:00`; // Hour with '00' minutes
       console.log('Appointment Date and Time:', appointmentDateTime);
 
       // Find the selected pet ID

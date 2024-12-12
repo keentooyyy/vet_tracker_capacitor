@@ -17,31 +17,45 @@
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Vaccine Type</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date Administered</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date of Next Administration</td>
-          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
+          <td v-if="isVet" class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
         </tr>
         </thead>
         <tbody>
         <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.vaccine_id)}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]"><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ getVaccineName(medical_record.vaccine_id) }}
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ medical_record.date_of_administration }}
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ medical_record.date_of_next_administration || None }}
+          </td>
+          <td v-if="isVet" class="text-center uppercase px-2 border border-[var(--main-color)]">
+            <button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button>
+          </td>
         </tr>
         <tr v-if="!medical_records_array.length">
-          <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
+          <td class="text-center text-gray-500 font-bold" colspan="4">No past medical records found.</td>
         </tr>
         </tbody>
       </table>
 
-      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
+      <button v-if="isVet" class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer"
+              @click="openModal">
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
       <div v-if="isVet">
-        <select :value="isFullyVaccinated" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
+        <select :value="isFullyVaccinated"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
           <option :value="!isFullyVaccinated">Yes</option>
           <option :value="isFullyVaccinated">No</option>
         </select>
+      </div>
+      <div v-else>
+        <p v-if="isFullyVaccinated === 1" class="font-bold">Yes</p>
+        <p v-else class="font-bold">No</p>
       </div>
     </div>
 
@@ -50,11 +64,6 @@
         @click="goBack">Back
     </button>
   </div>
-
-
-
-
-
 
 
   <div v-if="!isMobile" class=" w-11/12 mx-auto">
@@ -74,36 +83,48 @@
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Vaccine Type</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date Administered</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Date of Next Administration</td>
-          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
+          <td v-if="isVet" class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
         </tr>
         </thead>
         <tbody>
         <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.vaccine_id)}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || 'none'}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]"><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ getVaccineName(medical_record.vaccine_id) }}
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ medical_record.date_of_administration }}
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{ medical_record.date_of_next_administration || 'none' }}
+          </td>
+          <td v-if="isVet" class="text-center uppercase px-2 border border-[var(--main-color)]">
+            <button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full"
+                    @click="deleteMedicalRecord(medical_record.id)">Delete
+            </button>
+          </td>
         </tr>
         <tr v-if="!medical_records_array.length">
-          <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
+          <td class="text-center text-gray-500 font-bold" colspan="4">No past medical records found.</td>
         </tr>
         </tbody>
       </table>
 
-      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer" v-if="isVet" @click="openModal">
+      <button v-if="isVet" class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-md mt-3 cursor-pointer"
+              @click="openModal">
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
       <div v-if="isVet">
-        <select :value="isFullyVaccinated" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
+        <select :value="isFullyVaccinated"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
           <option :value="!isFullyVaccinated">Yes</option>
           <option :value="isFullyVaccinated">No</option>
         </select>
       </div>
 
       <div v-else>
-        <p class="font-bold" v-if="isFullyVaccinated === 1">Yes</p>
-        <p class="font-bold" v-else>No</p>
+        <p v-if="isFullyVaccinated === 1" class="font-bold">Yes</p>
+        <p v-else class="font-bold">No</p>
       </div>
 
     </div>
@@ -113,9 +134,6 @@
         @click="goBack">Back
     </button>
   </div>
-
-
-
 
 
   <teleport to="body">
@@ -150,14 +168,16 @@
             <p class="opacity-50 mt-2">Date Administered</p>
           </div>
           <div class="w-full">
-            <p class="text-sm mb-2 text-red-900">Leave empty if this is a one time administration or there is no need for next administration</p>
+            <p class="text-sm mb-2 text-red-900">Leave empty if this is a one time administration or there is no need
+              for next administration</p>
             <div class="flex gap-5">
               <input
                   v-model="number"
                   class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md "
                   placeholder="Enter a number"
                   type="number">
-              <select v-model="selectedUnit" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
+              <select v-model="selectedUnit"
+                      class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md ">
                 <option value="Days">Days</option>
                 <option value="Months">Months</option>
                 <option value="Years">Years</option>
@@ -226,10 +246,9 @@ export default {
     // this.getPetDetails()
     this.getMedicalRecords()
 
-    if (localStorage.getItem('account_type') === 'vets'){
+    if (localStorage.getItem('account_type') === 'vets') {
       this.isVet = true
-    }
-    else {
+    } else {
       this.isVet = false
     }
 
@@ -380,6 +399,34 @@ export default {
         // Re-fetch medical records after submitting
         this.getMedicalRecords();  // This will update the list of records
         this.openModal();  // Close the modal after submission
+      } catch (err) {
+        console.log('API error', err);
+      }
+    },
+    async deleteMedicalRecord(medicalId) {
+      /*
+      *
+      * api/vets/delete_medical_record/{medical_record_id}
+      *
+      *
+      *
+      * */
+
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        const response = await axios.delete(`${url}/api/vets/delete_medical_record/${medicalId}`, {
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        console.log('Medical Record Created', response);
+
+        // Re-fetch medical records after submitting
+        this.getMedicalRecords();  // This will update the list of records
       } catch (err) {
         console.log('API error', err);
       }

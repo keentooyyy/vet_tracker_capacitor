@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <div v-if="~isMobile" class="mx-auto w-11/12">
+  <div v-if="!isMobile" class="mx-auto w-11/12">
     <h1 class="text-2xl font-bold my-5">Edit the Details of your Pet</h1>
 
     <div class="flex flex-col gap-y-4">

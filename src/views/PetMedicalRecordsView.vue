@@ -22,10 +22,10 @@
         </thead>
         <tbody>
         <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.id)}}</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.vaccine_id)}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
-          <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]"><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
         </tr>
         <tr v-if="!medical_records_array.length">
           <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
@@ -37,7 +37,12 @@
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
-      <p class="font-bold">Yes</p>
+      <div v-if="isVet">
+        <select :value="isFullyVaccinated" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
+          <option :value="!isFullyVaccinated">Yes</option>
+          <option :value="isFullyVaccinated">No</option>
+        </select>
+      </div>
     </div>
 
     <button
@@ -45,6 +50,11 @@
         @click="goBack">Back
     </button>
   </div>
+
+
+
+
+
 
 
   <div v-if="!isMobile" class=" w-11/12 mx-auto">
@@ -71,8 +81,8 @@
         <tr v-for="medical_record in medical_records_array" :key="medical_record.id">
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{getVaccineName(medical_record.vaccine_id)}}</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_administration}}</td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || None}}</td>
-          <td><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{medical_record.date_of_next_administration || 'none'}}</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]"><button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">Delete</button></td>
         </tr>
         <tr v-if="!medical_records_array.length">
           <td colspan="4" class="text-center text-gray-500 font-bold">No past medical records found.</td>
@@ -177,6 +187,7 @@
 <script>
 import axios from "axios";
 import {updateLayout} from "@/helpers/layoutHelper";
+import dayjs from "dayjs";
 
 export default {
   name: "PetMedicalRecordsView",
@@ -286,19 +297,31 @@ export default {
 
     async getMedicalRecords() {
       const url = process.env.VUE_APP_API_URL;
-      const bearer = localStorage.getItem('bearer_token')
-      const pet_id = this.$route.params.id
+      const bearer = localStorage.getItem('bearer_token');
+      const pet_id = this.$route.params.id;
 
       try {
         const response = await axios.get(`${url}/api/user/pet/get_records/${pet_id}`, {
           headers: {
             'Authorization': `Bearer ${bearer}`,
           }
-        })
-        this.medical_records_array = response.data.records
-        // console.log('Medical Records', this.medical_records_array)
+        });
+
+        // Format date_of_administration and date_of_next_administration before assigning to medical_records_array
+        this.medical_records_array = response.data.records.map(record => {
+          const formattedDateOfAdministration = dayjs(record.date_of_administration);
+          const formattedDateOfNextAdmin = dayjs(record.date_of_next_administration);
+
+          return {
+            ...record,
+            date_of_administration: formattedDateOfAdministration.isValid() ? formattedDateOfAdministration.format('MMM D, YYYY') : 'Invalid Date',
+            date_of_next_administration: formattedDateOfNextAdmin.isValid() ? formattedDateOfNextAdmin.format('MMM D, YYYY') : 'None', // Show 'None' if the date is invalid
+          };
+        });
+
+        console.log('Formatted Medical Records', this.medical_records_array);
       } catch (err) {
-        console.log('API error', err)
+        console.log('API error', err);
       }
     },
     getVaccineName(vaccineId) {

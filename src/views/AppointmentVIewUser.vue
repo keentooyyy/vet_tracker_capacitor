@@ -153,6 +153,32 @@ export default {
       }
     },
 
+    async getAllAppointments() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        if (localStorage.getItem('account_type') === 'vets') {
+          const response = await axios.get(`${url}/api/vets/show_all_appointments`, {
+            headers: {'Authorization': `Bearer ${bearer}`},
+          });
+
+          this.appointments = response.data.appointments;
+        } else {
+          const user_id = localStorage.getItem('user_id');
+          const response = await axios.get(`${url}/api/user/show_user_appointments/${user_id}`, {
+            headers: {'Authorization': `Bearer ${bearer}`},
+          });
+
+          this.appointments = response.data.appointments;
+        }
+
+        localStorage.setItem('appointments', JSON.stringify(this.appointments));
+      } catch (err) {
+        console.log('API Request Error', err);
+      }
+    },
+
     // Method to format the start_time
     formatDate(startTime) {
       return dayjs(startTime).format('MMM D, h A'); // Format as Dec. 12, 10 AM

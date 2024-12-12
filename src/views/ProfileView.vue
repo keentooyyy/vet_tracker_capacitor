@@ -18,6 +18,9 @@
     </div>
 
         <button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full mt-6" @click="logoutUser"> Logout</button>
+
+    <h1 class="my-10 text-3xl font-bold">Awareness Section</h1>
+    <AwarenessView/>
   </div>
 
 
@@ -30,6 +33,7 @@
       </div>
 
     </div>
+
 
 
     <div class="grid grid-cols-2 gap-10 mt-10 w-max">
@@ -45,6 +49,8 @@
       <button class="bg-red-800 py-3 px-4 rounded-md text-white text-sm cursor-pointer col-span-2" @click="logoutUser"> Logout</button>
     </div>
 
+    <h1 class="my-10 text-3xl font-bold">Awareness Section</h1>
+    <AwarenessView/>
 
   </div>
 </template>
@@ -52,9 +58,11 @@
 <script>
 import axios from "axios";
 import {updateLayout} from "@/helpers/layoutHelper";
+import AwarenessView from "@/views/AwarenessView.vue";
 
 export default {
   name: "ProfileView",
+  components: {AwarenessView},
   created() {
     this.getUserData()
     window.addEventListener("resize", this.handleResize);

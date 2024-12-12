@@ -78,9 +78,6 @@ export default {
   data() {
     return {
       first_name: null,
-      pet_types_array: '',
-      vaccine_types_array: '',
-      appointments: '',
       isMobile: updateLayout(),
       isLoading: false, // Loading state for the overlay
       accountType: localStorage.getItem('account_type') || '', // Store the account type
@@ -149,8 +146,7 @@ export default {
           headers: {'Authorization': `Bearer ${bearer}`},
         });
 
-        this.pet_types_array = response.data.types;
-        localStorage.setItem('pet_types', JSON.stringify(this.pet_types_array));
+        localStorage.setItem('pet_types', JSON.stringify(response.data.types));
       } catch (err) {
         console.log('API Request Error', err);
       }
@@ -165,8 +161,7 @@ export default {
           headers: {'Authorization': `Bearer ${bearer}`},
         });
 
-        this.vaccine_types_array = response.data.vaccines;
-        localStorage.setItem('vaccine_types', JSON.stringify(this.vaccine_types_array));
+        localStorage.setItem('vaccine_types', JSON.stringify(response.data.vaccines));
       } catch (err) {
         console.log('API Request Error', err);
       }
@@ -176,23 +171,24 @@ export default {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
 
+      let appointments
       try {
         if (localStorage.getItem('account_type') === 'vets') {
           const response = await axios.get(`${url}/api/vets/show_all_appointments`, {
             headers: {'Authorization': `Bearer ${bearer}`},
           });
 
-          this.appointments = response.data.appointments;
+          appointments = response.data.appointments;
         } else {
           const user_id = localStorage.getItem('user_id');
           const response = await axios.get(`${url}/api/user/show_user_appointments/${user_id}`, {
             headers: {'Authorization': `Bearer ${bearer}`},
           });
 
-          this.appointments = response.data.appointments;
+          appointments = response.data.appointments;
         }
 
-        localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        localStorage.setItem('appointments', JSON.stringify(appointments));
       } catch (err) {
         console.log('API Request Error', err);
       }

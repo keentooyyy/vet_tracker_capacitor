@@ -30,18 +30,18 @@
         </div>
 
         <p v-if="appointment.end_time">
-          <strong>End Time:</strong> {{ formatDate(appointment.end_time)  }}
+          <strong>End Time:</strong> {{ formatDate(appointment.end_time) }}
         </p>
 
         <div class="flex mt-3 justify-end gap-5 w-full uppercase">
-          <button
-              class="bg-[var(--main-color)] text-white px-4 rounded-full text-md cursor-pointer"
+          <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-md cursor-pointer"
+                  @click="completeAppointment(appointment.id)"
           >
             Complete
           </button>
 
           <button
-              class="bg-red-800 px-4 rounded-full text-white text-md cursor-pointer"
+              class="bg-red-800 px-4 rounded-full text-white text-md cursor-pointer" @click="cancelAppointment(appointment.id)"
           >
             Cancel
           </button>
@@ -60,7 +60,8 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'; // Import dayjs
+import dayjs from 'dayjs';
+import axios from "axios"; // Import dayjs
 
 export default {
   name: "AppointmentView",
@@ -86,7 +87,6 @@ export default {
       // Process the appointments and match users/pets
       this.matchUsersAndPets();
     },
-
     matchUsersAndPets() {
       // Ensure appointments array is valid before mapping
       if (!Array.isArray(this.appointments)) {
@@ -118,10 +118,94 @@ export default {
       // Reassign to force Vue reactivity
       this.appointments = [...this.appointments];
     },
-
     // Method to format the start_time
     formatDate(startTime) {
       return dayjs(startTime).format('MMM D, h A'); // Format as Dec. 12, 10 AM
+    },
+
+    async completeAppointment(appointmentID){
+
+
+      /*
+      * api/vets/update_appointment/{appointmentId}
+      *
+      *
+      *
+      *
+      * */
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        await axios.patch(`${url}/api/vets/update_appointment/${appointmentID}`, {
+          appointment_status: 'completed'
+        },{
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+        alert('Appointment completed')
+        this.getAllAppointments()
+
+      } catch (err) {
+        console.log('API error', err);
+      }
+    },
+    async cancelAppointment(appointmentID){
+
+      /*
+      * api/vets/update_appointment/{appointmentId}
+      *
+      *
+      *
+      *
+      * */
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        await axios.patch(`${url}/api/vets/update_appointment/${appointmentID}`, {
+          appointment_status: 'canceled'
+        },{
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        alert('Appointment canceled')
+        this.getAllAppointments()
+      } catch (err) {
+        console.log('API error', err);
+      }
+    },
+
+
+    async getAllAppointments() {
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+
+      try {
+        if (localStorage.getItem('account_type') === 'vets') {
+          const response = await axios.get(`${url}/api/vets/show_all_appointments`, {
+            headers: {'Authorization': `Bearer ${bearer}`},
+          });
+
+          this.appointments = response.data.appointments;
+        } else {
+          const user_id = localStorage.getItem('user_id');
+          const response = await axios.get(`${url}/api/user/show_user_appointments/${user_id}`, {
+            headers: {'Authorization': `Bearer ${bearer}`},
+          });
+
+          this.appointments = response.data.appointments;
+        }
+
+        localStorage.setItem('appointments', JSON.stringify(this.appointments));
+      } catch (err) {
+        console.log('API Request Error', err);
+      }
     },
   },
 }

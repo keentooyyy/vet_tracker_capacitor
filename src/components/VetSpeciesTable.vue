@@ -33,7 +33,7 @@
         <td class="text-center uppercase px-2 border border-[var(--main-color)]">
           <button
               class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full"
-              @click="deleteVaccine(pet_type.id)"
+              @click="deleteSpecies(pet_type.id)"
           >
             Delete
           </button>
@@ -70,11 +70,13 @@ export default {
   },
   mounted() {
 
-    const petTypefromStorage = localStorage.getItem('pet_types');
-    this.pet_types = petTypefromStorage ? JSON.parse(petTypefromStorage) : [];
+    const currentPetTypes = localStorage.getItem('pet_types');
+    this.pet_types = currentPetTypes ? JSON.parse(currentPetTypes) : [];
+
     this.$nextTick(() => {
       // You can add any additional logic here if necessary
     });
+
 
   },
   methods: {
@@ -103,23 +105,59 @@ export default {
           headers: {
             Authorization: `Bearer ${bearer}`,
           },
-        })
-        console.log(response)
-        const currentPetTypes = JSON.parse(localStorage.getItem('pet_types')) || [];
-        currentPetTypes.push(response.data.type);
+        });
+        alert('Created Species Successfully')
 
+
+        let currentPetTypes = JSON.parse(localStorage.getItem('pet_types')) || [];
+        currentPetTypes.push(response.data.type); // Assuming the response contains the newly added vaccine
 
         localStorage.setItem('pet_types', JSON.stringify(currentPetTypes));
 
-
+        // Re-render or refresh the vaccine list by updating the state
         this.pet_types = currentPetTypes;
+
+
 
       }catch (err) {
         console.log("API Request Error", err);
         alert("Failed to add Species.");
       }
-    }
+    },
+    async deleteSpecies(speciesName){
+      // console.log(speciesName)
+      const url = process.env.VUE_APP_API_URL
+      const bearer = localStorage.getItem('bearer_token')
 
+      try{
+
+        /*
+        *  api/vets/create_species
+        *
+        * */
+        const response = await axios.delete(`${url}/api/vets/delete_species/${speciesName}`, {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        });
+        alert('Deleted Species Successfully')
+        // this.getPetTypes()
+        console.log(response);
+
+
+        let currentPetTypes = JSON.parse(localStorage.getItem('pet_types')) || [];
+        currentPetTypes = currentPetTypes.filter(species => species.id !== speciesName);
+
+        localStorage.setItem('pet_types', JSON.stringify(currentPetTypes));
+
+        // Re-render or refresh the vaccine list by updating the state
+        this.pet_types = currentPetTypes;
+
+      }catch (err) {
+        console.log("API Request Error", err);
+        alert("Failed to delete Species.");
+      }
+    },
 
   },
 };

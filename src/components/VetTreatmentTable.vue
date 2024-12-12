@@ -107,7 +107,7 @@ export default {
         alert("Vaccine added successfully!");
 
         // Update the vaccine_types in localStorage or state to reflect the change
-        const currentVaccineTypes = JSON.parse(localStorage.getItem('vaccine_types')) || [];
+        let currentVaccineTypes = JSON.parse(localStorage.getItem('vaccine_types')) || [];
         currentVaccineTypes.push(response.data.vaccine); // Assuming the response contains the newly added vaccine
 
         localStorage.setItem('vaccine_types', JSON.stringify(currentVaccineTypes));

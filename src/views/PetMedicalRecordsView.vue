@@ -114,12 +114,13 @@
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
-      <div v-if="isVet">
-        <select :value="isFullyVaccinated"
+      <div v-if="isVet" class="flex gap-5">
+        <select v-model="isFullyVaccinated"
                 class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
-          <option :value="!isFullyVaccinated">Yes</option>
-          <option :value="isFullyVaccinated">No</option>
+          <option :value='1'>Yes</option>
+          <option :value="0">No</option>
         </select>
+        <button class="underline uppercase text-[var(--main-color)]" @click="updateVaccination">update</button>
       </div>
 
       <div v-else>
@@ -229,7 +230,7 @@ export default {
       pet_name: '',
       pet_breed: '',
       pet_type: '',
-      isFullyVaccinated: false,
+      isFullyVaccinated: 0,
 
       isOpen: false,
 
@@ -307,11 +308,21 @@ export default {
     goBack() {
       this.$router.back()
     },
-    async getPetTypes() {
+    getPetTypes() {
       this.pet_types_array = JSON.parse(localStorage.getItem('pet_types'))
     },
-    async getVaccineTypes() {
+    getVaccineTypes() {
       this.vaccine_types_array = JSON.parse(localStorage.getItem('vaccine_types'))
+    },
+
+
+    getVaccineName(vaccineId) {
+      for (let i = 0; i < this.vaccine_types_array.length; i++) {
+        if (this.vaccine_types_array[i].id === vaccineId) {
+          return this.vaccine_types_array[i].name; // Return the name if a match is found
+        }
+      }
+      return 'Unknown Vaccine'; // Return default if no match is found
     },
 
     async getMedicalRecords() {
@@ -343,15 +354,6 @@ export default {
         console.log('API error', err);
       }
     },
-    getVaccineName(vaccineId) {
-      for (let i = 0; i < this.vaccine_types_array.length; i++) {
-        if (this.vaccine_types_array[i].id === vaccineId) {
-          return this.vaccine_types_array[i].name; // Return the name if a match is found
-        }
-      }
-      return 'Unknown Vaccine'; // Return default if no match is found
-    },
-
     async createMedicalRecord() {
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
@@ -427,6 +429,32 @@ export default {
 
         // Re-fetch medical records after submitting
         this.getMedicalRecords();  // This will update the list of records
+      } catch (err) {
+        console.log('API error', err);
+      }
+    },
+    async updateVaccination(){
+      /*
+      * api/vets/update_vaccination/{pet_id}
+      *
+      *
+      * */
+
+      const url = process.env.VUE_APP_API_URL;
+      const bearer = localStorage.getItem('bearer_token');
+      const pet_id = this.$route.params.id;
+
+      try {
+        const response = await axios.patch(`${url}/api/vets/update_vaccination/${pet_id}`, {
+          is_fully_vaccinated: this.isFullyVaccinated
+        },{
+          headers: {
+            'Authorization': `Bearer ${bearer}`,
+          }
+        });
+
+        console.log('Medical Record Created', response);
+
       } catch (err) {
         console.log('API error', err);
       }

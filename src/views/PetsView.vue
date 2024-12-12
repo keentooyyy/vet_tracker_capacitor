@@ -10,7 +10,7 @@
   <div v-if="!isMobile" class="w-11/12 mx-auto">
     <div class="flex gap-x-3 items-center justify-between">
       <h1 class="text-2xl font-bold my-5">{{ headingText }}</h1>
-      <div class="flex gap-5">
+      <div class="flex gap-5" v-if="!isVet">
 
         <button @click="toAppointment"
             class="text-[var(--main-color)] text-md outline outline-2 outline-[var(--main-color)] py-3 px-5 rounded-md cursor-pointer "
@@ -57,6 +57,7 @@ export default {
 
   data() {
     return {
+      isVet: false,
       isMobile: updateLayout(),
       pets: [],
       accountType: localStorage.getItem('account_type') || '',  // Get account type from localStorage
@@ -71,6 +72,12 @@ export default {
   },
 
   mounted() {
+    if(localStorage.getItem('account_type') === 'vets') {
+      this.isVet = true;
+    }
+    else{
+      this.isVet = false
+    }
     this.getPets();
     const user_id = this.userId || localStorage.getItem('user_id');
     this.pets = JSON.parse(localStorage.getItem(`pets_${user_id}`));

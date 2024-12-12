@@ -1,6 +1,6 @@
 <template>
   <div class="flex mt-10 w-full gap-10">
-    <h1 class="text-2xl font-bold"> Types of Species</h1>
+    <h1 class="text-2xl font-bold"> Registered of Species</h1>
 
     <button
         class="bg-[var(--main-color)] px-3 rounded-md text-white text-sm cursor-pointer"
@@ -19,7 +19,7 @@
       <thead>
       <tr>
         <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">
-          Treatment Type
+         Types of Species
         </td>
         <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">
           Action

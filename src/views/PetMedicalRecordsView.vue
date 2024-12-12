@@ -84,7 +84,18 @@
         Add Medical Record
       </button>
       <p class="mt-5">Fully Vaccinated?</p>
-      <p class="font-bold">Yes</p>
+      <div v-if="isVet">
+        <select :value="isFullyVaccinated" class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-1/4">
+          <option :value="!isFullyVaccinated">Yes</option>
+          <option :value="isFullyVaccinated">No</option>
+        </select>
+      </div>
+      
+      <div v-else>
+        <p class="font-bold" v-if="isFullyVaccinated === 1">Yes</p>
+        <p class="font-bold" v-else>No</p>
+      </div>
+
     </div>
 
     <button
@@ -181,6 +192,7 @@ export default {
       pet_name: '',
       pet_breed: '',
       pet_type: '',
+      isFullyVaccinated: false,
 
       isOpen: false,
 
@@ -243,6 +255,7 @@ export default {
         this.pet_breed = pet.breed;
         this.pet_birthdate = pet.birthdate;
         this.pet_type = pet.pet_type_id;
+        this.isFullyVaccinated = pet.is_fully_vaccinated
 
         // Find matching pet type based on pet_type_id
         for (let i = 0; i < this.pet_types_array.length; i++) {

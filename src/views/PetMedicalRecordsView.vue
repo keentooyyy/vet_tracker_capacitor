@@ -349,7 +349,7 @@ export default {
           };
         });
 
-        console.log('Formatted Medical Records', this.medical_records_array);
+        // console.log('Formatted Medical Records', this.medical_records_array);
       } catch (err) {
         console.log('API error', err);
       }
@@ -434,11 +434,7 @@ export default {
       }
     },
     async updateVaccination(){
-      /*
-      * api/vets/update_vaccination/{pet_id}
-      *
-      *
-      * */
+
 
       const url = process.env.VUE_APP_API_URL;
       const bearer = localStorage.getItem('bearer_token');
@@ -454,6 +450,7 @@ export default {
         });
 
         console.log('Medical Record Created', response);
+        alert('Vaccination Status Updated')
 
       } catch (err) {
         console.log('API error', err);

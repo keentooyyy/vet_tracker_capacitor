@@ -177,6 +177,7 @@ export default {
 
         alert('Appointment canceled')
         this.getAllAppointments()
+        this.getAppointmentandUsers()
       } catch (err) {
         console.log('API error', err);
       }
@@ -201,9 +202,11 @@ export default {
           });
 
           this.appointments = response.data.appointments;
+
         }
 
         localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        this.getAppointmentandUsers()
       } catch (err) {
         console.log('API Request Error', err);
       }

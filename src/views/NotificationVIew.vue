@@ -7,9 +7,9 @@
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">
       <img alt="appointment-icon" class="w-12" src="/images/svgs/appointment-icon.svg"/>
-      <div class="font-black">
-        <h1 class="font-bold text-2xl">{{ notification.title }}</h1>
-        <p class="w-96 opacity-50">{{ notification.message }}</p>
+      <div class="">
+        <h1 class="font-bold text-sm">{{ notification.title }}</h1>
+        <p class="opacity-50 text-xs">{{ notification.message }}</p>
       </div>
     </div>
   </div>
@@ -23,9 +23,9 @@
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">
       <img alt="appointment-icon" class="w-12" src="/images/svgs/appointment-icon.svg"/>
-      <div class="font-black">
-        <h1 class="font-bold text-2xl">{{ notification.title }}</h1>
-        <p class="w-96 opacity-50">{{ notification.message }}</p>
+      <div class="">
+        <h1 class="font-bold text-2xl w-full">{{ notification.title }}</h1>
+        <p class="opacity-50">{{ notification.message }}</p>
       </div>
     </div>
   </div>

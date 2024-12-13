@@ -1,15 +1,15 @@
 <template>
   <div class="flex flex-col gap-6" v-if="isMobile">
     <div class="flex justify-between">
-      <h1 class="text-2xl font-bold my-5">Your Notifications</h1>
+      <h1 class="text-2xl my-5">Your Notifications</h1>
       <button class="underline text-[var(--main-color)]" @click="markAllAsRead">Mark all as read</button>
     </div>
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">
       <img alt="appointment-icon" class="w-12" src="/images/svgs/appointment-icon.svg"/>
       <div class="font-black">
-        <h1 class="font-bold text-2xl">{{ notification.title }}</h1>
-        <p class="w-96 opacity-50">{{ notification.message }}</p>
+        <h1 class="font-bold text-sm">{{ notification.title }}</h1>
+        <p class="opacity-50 text-xs">{{ notification.message }}</p>
       </div>
     </div>
   </div>
@@ -17,15 +17,15 @@
 
   <div class="flex flex-col gap-6 w-11/12 mx-auto" v-if="!isMobile">
     <div class="flex justify-between">
-      <h1 class="text-2xl font-bold my-5">Your Notifications</h1>
+      <h1 class="text-2xl my-5">Your Notifications</h1>
       <button class="underline text-[var(--main-color)]" @click="markAllAsRead">Mark all as read</button>
     </div>
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">
       <img alt="appointment-icon" class="w-12" src="/images/svgs/appointment-icon.svg"/>
       <div class="font-black">
-        <h1 class="font-bold text-2xl">{{ notification.title }}</h1>
-        <p class="w-96 opacity-50">{{ notification.message }}</p>
+        <h1 class="font-bold text-2xl w-full">{{ notification.title }}</h1>
+        <p class="opacity-50">{{ notification.message }}</p>
       </div>
     </div>
   </div>

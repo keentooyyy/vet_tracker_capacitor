@@ -11,34 +11,43 @@
       />
     </div>
     <div class="overflow-x-auto">
-      <table>
+      <table class="w-full">
         <thead>
         <tr>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">First Name</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Last Name</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Address</td>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">No. Registered Pets</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Action</td>
         </tr>
         </thead>
         <tbody>
         <tr v-for="user in filteredUsers" :key="user.id" class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             {{ user.first_name }}
           </td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             {{ user.last_name }}
           </td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             {{ user.street }} st., brgy. {{user.brgy}}, {{user.city}} City
           </td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]" @click="userClicked(user.id)">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             {{ user.pets ? user.pets.length : 0  }}
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]" >
+            <button @click="userClicked(user.id)"
+                class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full"
+            >
+              View
+            </button>
           </td>
         </tr>
         </tbody>
       </table>
 
     </div>
+    <VetStatisticsView/>
 
     <VetTreatmentTable/>
     <VetSpeciesTable/>
@@ -50,11 +59,12 @@ import axios from "axios";
 import ReusableModal from "@/components/ReusableModal.vue";
 import VetTreatmentTable from "@/components/VetTreatmentTable.vue";
 import VetSpeciesTable from "@/components/VetSpeciesTable.vue";
+import VetStatisticsView from "@/views/VetStatisticsView.vue";
 
 export default {
   name: "VetHome",
   // eslint-disable-next-line vue/no-unused-components
-  components: {VetSpeciesTable, VetTreatmentTable, ReusableModal},
+  components: {VetStatisticsView, VetSpeciesTable, VetTreatmentTable, ReusableModal},
   data() {
     return {
       users: [],

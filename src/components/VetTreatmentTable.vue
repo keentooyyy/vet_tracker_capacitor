@@ -15,7 +15,7 @@
     <div v-if="vaccineTypes.length === 0" class="text-center py-5">
       <p class="text-lg text-gray-500">Treatment is currently empty</p>
     </div>
-    <table v-else class="mt-5">
+    <table v-else class="mt-5 w-full">
       <thead>
       <tr>
         <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">
@@ -32,7 +32,7 @@
         <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ vaccine.name }}</td>
         <td class="text-center uppercase px-2 border border-[var(--main-color)]">
           <button
-              class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full"
+              class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer"
               @click="deleteVaccine(vaccine.id)"
           >
             Delete

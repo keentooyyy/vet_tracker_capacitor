@@ -65,6 +65,9 @@
             v-model="email"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Email" type="email"/>
         <input
+            v-model="contact_number"
+            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Contact Number" type="email"/>
+        <input
             v-model="password"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Password" type="password"/>
         <input
@@ -107,6 +110,7 @@ export default {
       first_name: null,
       last_name: null,
       email: null,
+      contact_number: null,
       password: null,
       confirm_password: null,
       street: null,

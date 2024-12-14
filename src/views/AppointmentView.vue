@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-2xl font-bold my-5 text-center">Appointments for Today</h1>
+  <h1 class="text-2xl font-bold my-5 text-center">Appointments</h1>
 
   <div v-if="appointments && appointments.length > 0">
     <div

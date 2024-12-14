@@ -57,9 +57,9 @@
 <script>
 import axios from "axios";
 import ReusableModal from "@/components/ReusableModal.vue";
-import VetTreatmentTable from "@/components/VetTreatmentTable.vue";
-import VetSpeciesTable from "@/components/VetSpeciesTable.vue";
-import VetStatisticsView from "@/views/VetStatisticsView.vue";
+import VetTreatmentTable from "@/views/vets/VetTreatmentTable.vue";
+import VetSpeciesTable from "@/views/vets/VetSpeciesTable.vue";
+import VetStatisticsView from "@/views/vets/VetStatisticsView.vue";
 
 export default {
   name: "VetHome",

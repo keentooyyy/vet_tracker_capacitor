@@ -7,7 +7,7 @@
         <thead>
         <tr>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Description</td>
-          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Total Count</td>
+          <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">Total</td>
         </tr>
         </thead>
         <tbody>

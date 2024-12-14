@@ -48,6 +48,7 @@
 
     </div>
     <VetStatisticsView/>
+    <VetVaccinationReports/>
 
     <VetTreatmentTable/>
     <VetSpeciesTable/>
@@ -60,11 +61,12 @@ import ReusableModal from "@/components/ReusableModal.vue";
 import VetTreatmentTable from "@/views/vets/VetTreatmentTable.vue";
 import VetSpeciesTable from "@/views/vets/VetSpeciesTable.vue";
 import VetStatisticsView from "@/views/vets/VetStatisticsView.vue";
+import VetVaccinationReports from "@/views/vets/VetVaccinationReports.vue";
 
 export default {
   name: "VetHome",
   // eslint-disable-next-line vue/no-unused-components
-  components: {VetStatisticsView, VetSpeciesTable, VetTreatmentTable, ReusableModal},
+  components: {VetVaccinationReports, VetStatisticsView, VetSpeciesTable, VetTreatmentTable, ReusableModal},
   data() {
     return {
       users: [],

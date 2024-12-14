@@ -23,6 +23,12 @@
           </option>
         </select>
 
+        <select v-model="gender"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
         <input
             v-model="pet_birthdate"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"
@@ -129,6 +135,8 @@ export default {
       isMobile: updateLayout(),
 
 
+
+      gender: '',
       selectedOption: "",
       pet_types_array: [],
       pets: [],
@@ -166,6 +174,7 @@ export default {
         this.pet_breed = pet.breed;
         this.pet_birthdate = pet.birthdate;
         this.pet_type = pet.pet_type_id;
+        this.gender = pet.gender
 
         // Find matching pet type based on pet_type_id
         for (let i = 0; i < this.pet_types_array.length; i++) {
@@ -202,6 +211,7 @@ export default {
         petsLocalStorage[petIndex].name = this.pet_name;
         petsLocalStorage[petIndex].breed = this.pet_breed;
         petsLocalStorage[petIndex].birthdate = this.pet_birthdate;
+        petsLocalStorage[petIndex].gender = this.gender;
         petsLocalStorage[petIndex].pet_type_id = selectedPetType.id;
 
         // Update local storage with the modified pet
@@ -217,6 +227,7 @@ export default {
                 name: this.pet_name,
                 breed: this.pet_breed,
                 birthdate: this.pet_birthdate,
+                gender: this.gender
               },
               {
                 headers: {

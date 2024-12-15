@@ -11,7 +11,7 @@
       />
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full">
+      <table class="w-full min-w-max">
         <thead>
         <tr>
           <td class="bg-[var(--main-color)] text-white text-center font-bold px-2">First Name</td>

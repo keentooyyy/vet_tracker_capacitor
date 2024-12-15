@@ -46,12 +46,24 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ general_check_up }}</td>
         </tr>
         <tr class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Anti Rabies Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Anti-Rabies Shots</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ anti_rabies }}</td>
         </tr>
         <tr class="text-center">
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total De-worm Shots</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ de_worm }}</td>
+        </tr>
+        <tr class="text-center">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Anti-Biotic Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ anti_biotic }}</td>
+        </tr>
+        <tr class="text-center">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Spaying Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ spaying }}</td>
+        </tr>
+        <tr class="text-center">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Castration Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ castration }}</td>
         </tr>
         </tbody>
       </table>
@@ -72,6 +84,10 @@ export default {
       anti_rabies: 0,
       general_check_up: 0,
       five_in_one: 0,
+      anti_biotic: 0,
+      spaying: 0,
+      castration: 0,
+
     };
   },
   computed: {
@@ -102,9 +118,12 @@ export default {
         *
         *
       * 'total_5_in_1_shots' => $fiveInOneCount,
-        'total_general_checkups' => $generalCheckupCount,
-        'total_anti_rabies_shots' => $antiRabiesCount,
-        'total_de_worm_shots' => $deWormCount,
+            'total_general_checkups' => $generalCheckupCount,
+            'total_anti_rabies_shots' => $antiRabiesCount,
+            'total_de_worm_shots' => $deWormCount,
+            'total_anti_biotic_shots' => $anitBioticCount,
+            'total_castration' => $castrationCount,
+            'total_spaying' => $spayingCount,
       *
       * */
 
@@ -125,6 +144,9 @@ export default {
         this.general_check_up = response.data.total_general_checkups
         this.anti_rabies = response.data.total_anti_rabies_shots
         this.de_worm = response.data.total_de_worm_shots
+        this.anti_biotic = response.data.total_anti_biotic_shots
+        this.castration = response.data.total_castration
+        this.spaying = response.data.total_spaying
       } catch (err) {
         console.log("API request Failed", err);
         // localStorage.clear();

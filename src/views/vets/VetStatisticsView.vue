@@ -45,6 +45,14 @@
         </tr>
         <tr  class="text-center">
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            Total Other Species
+          </td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
+            {{others}}
+          </td>
+        </tr>
+        <tr  class="text-center">
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             Total of male Pets
           </td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">
@@ -57,14 +65,6 @@
           </td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">
             {{female}}
-          </td>
-        </tr>
-        <tr  class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
-            Total Other Species
-          </td>
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">
-            {{others}}
           </td>
         </tr>
         </tbody>

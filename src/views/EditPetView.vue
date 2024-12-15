@@ -83,6 +83,12 @@
           </option>
         </select>
 
+        <select v-model="gender"
+                class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md w-3/6">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
         <input
             v-model="pet_birthdate"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-sm w-3/6"

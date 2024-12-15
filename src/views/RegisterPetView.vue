@@ -139,7 +139,6 @@ export default {
       pet_breed: '',
       pet_birthdate: '',
       pet_type: '',
-      pet_gender: ''
     };
   },
 
@@ -170,7 +169,7 @@ export default {
           breed: this.pet_breed,
           birthdate: this.pet_birthdate,
           pet_type_id: selectedPet ? selectedPet.id : null,
-          gender: this.pet_gender
+          gender: this.gender
         }, {
           headers: {
             'Authorization': `Bearer ${bearer}`,

@@ -22,6 +22,9 @@
           v-model="email"
           class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Email" type="email"/>
       <input
+          v-model="contact_number"
+          class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Contact Number" type="text"/>
+      <input
           v-model="password"
           class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-xl" placeholder="Password" type="password"/>
       <input
@@ -66,7 +69,7 @@
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Email" type="email"/>
         <input
             v-model="contact_number"
-            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Contact Number" type="email"/>
+            class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Contact Number" type="text"/>
         <input
             v-model="password"
             class="p-4 rounded-md outline outline-2 outline-[var(--secondary-color)] focus:outline-[var(--main-color)] text-md" placeholder="Password" type="password"/>

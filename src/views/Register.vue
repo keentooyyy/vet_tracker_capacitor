@@ -137,6 +137,7 @@ export default {
           street: this.street,
           brgy: this.brgy,
           city: this.city,
+          contact_number: this.contact_number
 
 
         }, {

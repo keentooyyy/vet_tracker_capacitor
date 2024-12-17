@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-6" v-if="isMobile">
     <div class="flex justify-between">
       <h1 class="text-2xl font-bold my-5">Your Notifications</h1>
-      <button class="underline text-[var(--main-color)]" @click="markAllAsRead">Mark all as read</button>
+<!--      <button class="underline text-[var(&#45;&#45;main-color)]" @click="markAllAsRead">Mark all as read</button>-->
     </div>
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">
@@ -18,7 +18,7 @@
   <div class="flex flex-col gap-6 w-11/12 mx-auto" v-if="!isMobile">
     <div class="flex justify-between">
       <h1 class="text-2xl font-bold my-5">Your Notifications</h1>
-      <button class="underline text-[var(--main-color)]" @click="markAllAsRead">Mark all as read</button>
+<!--      <button class="underline text-[var(&#45;&#45;main-color)]" @click="markAllAsRead">Mark all as read</button>-->
     </div>
 
     <div class="bg-white p-6 rounded-md flex gap-5 cursor-pointer" v-for="notification in notifications.slice(0, displayedNotifications)" :key="notification.id">

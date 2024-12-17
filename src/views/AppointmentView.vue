@@ -37,7 +37,7 @@
           <button class="bg-[var(--main-color)] text-white px-4 rounded-full text-md cursor-pointer"
                   @click="completeAppointment(appointment.id)"
           >
-            Complete
+            Approve
           </button>
 
           <button

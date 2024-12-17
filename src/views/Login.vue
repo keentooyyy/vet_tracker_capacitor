@@ -7,7 +7,7 @@
     </div>
 
 
-    <h1 class="text-2xl text-center my-8 font-bold">Welcome to Vet Tracker</h1>
+    <h1 class="text-2xl text-center my-8 font-bold">Welcome to Vet Vac</h1>
 
 
     <div class="flex flex-col gap-y-5 w-11/12 mx-auto">

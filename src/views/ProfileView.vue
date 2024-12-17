@@ -6,16 +6,16 @@
     <span class="mt-8 font-bold text-2xl">{{first_name}} {{last_name}}</span>
     <p class="mt-2">{{email}}</p>
 
-    <div class="flex justify-between mt-10 w-full gap-5">
+<!--    <div class="flex justify-between mt-10 w-full gap-5">
 
       <button
-          class="text-[var(--main-color)] text-sm outline outline-2 outline-[var(--main-color)] py-3 px-2 rounded-md cursor-pointer w-full"
+          class="text-[var(&#45;&#45;main-color)] text-sm outline outline-2 outline-[var(&#45;&#45;main-color)] py-3 px-2 rounded-md cursor-pointer w-full"
           >Edit Profile
       </button>
-      <button class="bg-[var(--main-color)] py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">
+      <button class="bg-[var(&#45;&#45;main-color)] py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full">
         Change Password
       </button>
-    </div>
+    </div>-->
 
         <button class="bg-red-800 py-3 px-2 rounded-md text-white text-sm cursor-pointer w-full mt-6" @click="logoutUser"> Logout</button>
 
@@ -37,14 +37,14 @@
 
 
     <div class="grid grid-cols-2 gap-10 mt-10 w-max">
-
+<!--
       <button
-          class="text-[var(--main-color)] text-sm outline outline-2 outline-[var(--main-color)] py-3 px-4  rounded-md cursor-pointer "
+          class="text-[var(&#45;&#45;main-color)] text-sm outline outline-2 outline-[var(&#45;&#45;main-color)] py-3 px-4  rounded-md cursor-pointer "
       >Edit Profile
       </button>
-      <button class="bg-[var(--main-color)] py-3 px-4 rounded-md text-white  text-sm cursor-pointer ">
+      <button class="bg-[var(&#45;&#45;main-color)] py-3 px-4 rounded-md text-white  text-sm cursor-pointer ">
         Change Password
-      </button>
+      </button>-->
 
       <button class="bg-red-800 py-3 px-4 rounded-md text-white text-sm cursor-pointer col-span-2" @click="logoutUser"> Logout</button>
     </div>

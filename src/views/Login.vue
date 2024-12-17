@@ -38,7 +38,7 @@
       <img alt="Vet Logo" class="w-2/4" src="/images/Logo.png">
     </div>
     <div class="bg-white flex flex-col w-2/5 items-center justify-center">
-      <h1 class="text-2xl text-center font-bold">Welcome to Vet Tracker</h1>
+      <h1 class="text-2xl text-center font-bold">Welcome to Vet Vac</h1>
       <div class="flex flex-col gap-y-5 w-4/5 mx-auto mt-10">
         <input
             v-model="email"

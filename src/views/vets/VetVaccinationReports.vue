@@ -58,11 +58,11 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ anti_biotic }}</td>
         </tr>
         <tr class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Spaying Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Spaying</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ spaying }}</td>
         </tr>
         <tr class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Castration Shots</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total Castration</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ castration }}</td>
         </tr>
         </tbody>

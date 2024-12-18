@@ -42,7 +42,7 @@
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ five_in_one }}</td>
         </tr>
         <tr class="text-center">
-          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total General Checkups</td>
+          <td class="text-center uppercase px-2 border border-[var(--main-color)]">Total General Check-ups</td>
           <td class="text-center uppercase px-2 border border-[var(--main-color)]">{{ general_check_up }}</td>
         </tr>
         <tr class="text-center">
